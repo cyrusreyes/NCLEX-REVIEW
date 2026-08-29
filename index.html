@@ -1,449 +1,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comprehensive NCLEX Review</title>
-    <style>
-        :root {
-            --primary: #2c3e50;    /* Dark Blue */
-            --secondary: #3498db;  /* Bright Blue */
-            --accent: #9b59b6;     /* Purple for Psych */
-            --success: #27ae60;
-            --error: #c0392b;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #dfe6e9;
-            color: var(--dark);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .app-container {
-            background: white;
-            width: 100%;
-            max-width: 850px;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 600px;
-        }
-
-        /* --- HEADER --- */
-        header {
-            background: var(--primary);
-            color: white;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        h1 { margin: 0; font-size: 1.4rem; font-weight: 600; }
-        .badge { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; }
-
-        /* --- VIEWS --- */
-        .view { padding: 40px; flex-grow: 1; display: none; animation: fadeIn 0.4s ease; }
-        .view.active { display: block; }
-
-        /* --- MENU VIEW --- */
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
-        
-        .menu-card {
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .menu-card:hover { transform: translateY(-5px); border-color: var(--secondary); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .menu-card h3 { margin-top: 0; color: var(--primary); }
-        .menu-card p { color: #7f8c8d; font-size: 0.9rem; }
-        .icon { font-size: 3rem; margin-bottom: 15px; display: block; }
-
-        /* --- QUIZ VIEW --- */
-        .progress-bar { height: 6px; background: #eee; width: 100%; }
-        .progress-fill { height: 100%; background: var(--secondary); width: 0%; transition: width 0.3s; }
-        
-        .question-text { font-size: 1.25rem; font-weight: 600; margin-bottom: 25px; line-height: 1.6; }
-        
-        .options-list { display: flex; flex-direction: column; gap: 12px; }
-        
-        .option-btn {
-            background: white;
-            border: 2px solid #dfe6e9;
-            padding: 18px;
-            border-radius: 10px;
-            text-align: left;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-        }
-
-        .option-btn:hover:not(:disabled) { border-color: var(--secondary); background: #f7f9fa; }
-        
-        .option-btn.correct { background: #d4edda !important; border-color: var(--success) !important; color: #155724; }
-        .option-btn.wrong { background: #f8d7da !important; border-color: var(--error) !important; color: #721c24; }
-
-        .rationale {
-            margin-top: 25px;
-            background: #eaf2f8;
-            border-left: 5px solid var(--secondary);
-            padding: 20px;
-            border-radius: 4px;
-            display: none;
-        }
-
-        .btn-next {
-            background: var(--primary); color: white; border: none; padding: 12px 30px;
-            border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 20px; float: right; display: none;
-        }
-        .btn-next:hover { background: var(--secondary); }
-
-        /* --- RESULTS VIEW --- */
-        .results-content { text-align: center; padding-top: 40px; }
-        .score-circle {
-            width: 150px; height: 150px; border-radius: 50%;
-            background: var(--primary); color: white;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 3rem; font-weight: bold; margin: 0 auto 30px;
-            border: 8px solid var(--light);
-        }
-        .btn-home {
-            background: var(--secondary); color: white; border: none; padding: 15px 40px;
-            border-radius: 30px; cursor: pointer; font-size: 1.1rem; margin-top: 20px;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NLE 2024 Practice Examination</title>
+<style>
+  body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background-color: #f4f7f6; 
+    color: #333; 
+    margin: 0; 
+    padding: 20px; 
+  }
+  .container { 
+    max-width: 800px; 
+    margin: 0 auto; 
+    background: #fff; 
+    padding: 30px; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+  }
+  h1, h2 { color: #2c3e50; }
+  .hidden { display: none; }
+  .btn { 
+    padding: 10px 20px; 
+    margin: 5px 0; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    background-color: #3498db; 
+    color: #fff; 
+    font-size: 16px; 
+  }
+  .btn:hover { background-color: #2980b9; }
+  .btn-back { background-color: #95a5a6; }
+  .btn-back:hover { background-color: #7f8c8d; }
+  .options label { 
+    display: block; 
+    padding: 12px; 
+    margin: 8px 0; 
+    background: #ecf0f1; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    transition: background 0.2s;
+  }
+  .options label:hover { background: #d0d3d4; }
+  input[type="radio"] { margin-right: 10px; transform: scale(1.2); }
+  .header-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+  }
+  .progress-tracker { font-weight: bold; color: #7f8c8d; font-size: 18px; }
+  .timer { font-size: 18px; font-weight: bold; color: #e74c3c; }
+  .result-item { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 6px; }
+  .correct-text { color: #27ae60; font-weight: bold; margin-top: 8px; }
+  .incorrect-text { color: #c0392b; font-weight: bold; margin-top: 8px; }
+  .rationale-box {
+    margin-top: 10px;
+    padding: 12px;
+    background-color: #fdfae6;
+    border-left: 4px solid #f1c40f;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .category-group { margin: 20px 0; }
+  select { padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; }
+</style>
 </head>
 <body>
 
-<div class="app-container">
-    <header>
-        <h1>EXAM REVIEW</h1>
-        <div class="badge" id="topic-badge">Select Topic</div>
-    </header>
+<!-- Home Screen -->
+<div class="container" id="home-screen">
+  <h1>NLE Practice Examination</h1>
+  <p>Select a specific topic category to begin testing your knowledge. Questions and options will be randomized upon starting.</p>
+  
+  <div class="category-group">
+    <label for="category-select"><strong>Select Subject Category:</strong></label><br><br>
+    <select id="category-select">
+      <option value="Foundation of Professional Nursing Practice">Foundation of Professional Nursing Practice</option>
+      <option value="Medical and Surgical Nursing">Medical and Surgical Nursing</option>
+      <option value="Psychiatric Nursing">Psychiatric Nursing</option>
+    </select>
+  </div>
+  
+  <div style="margin: 25px 0; padding: 15px; background: #e8f4f8; border-radius: 6px;">
+    <label style="cursor: pointer; font-size: 16px;">
+      <input type="checkbox" id="timer-toggle"> <strong>Enable 1-minute timer per question</strong>
+    </label>
+    <p style="margin: 5px 0 0 25px; font-size: 14px; color: #555;">If time runs out, the examination will automatically advance to the next item.</p>
+  </div>
+  
+  <button class="btn" style="width: 100%; padding: 15px; font-size: 18px;" onclick="startQuiz()">Begin Examination</button>
+</div>
 
-    <div id="view-menu" class="view active">
-        <h2 style="text-align:center; color:var(--primary);">Choose Your Review Deck</h2>
-        <div class="menu-grid">
-            <div class="menu-card" onclick="startQuiz('gi')">
-                <span class="icon">🩺</span>
-                <h3>GI Disorders</h3>
-                <p>100 Questions</p>
-                <p style="font-size:0.8rem; color:#b2bec3;">GERD, IBD, Liver, Pancreas</p>
-            </div>
-            <div class="menu-card" onclick="startQuiz('psych')">
-                <span class="icon">🧠</span>
-                <h3>Psychiatric Nursing</h3>
-                <p>30 Questions</p>
-                <p style="font-size:0.8rem; color:#b2bec3;">Meds, Communication, Legal</p>
-            </div>
-        </div>
-    </div>
+<!-- Quiz Screen -->
+<div class="container hidden" id="quiz-screen">
+  <div class="header-info">
+    <div class="progress-tracker" id="progress-tracker">Question 1 of X</div>
+    <div class="timer" id="timer-display"></div>
+  </div>
+  
+  <h2 id="question-text" style="font-size: 20px; line-height: 1.5;">Question goes here?</h2>
+  <div class="options" id="options-container">
+    <!-- Options generated dynamically -->
+  </div>
+  
+  <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+    <button class="btn btn-back" id="back-btn" onclick="prevQuestion()">Back</button>
+    <button class="btn" id="next-btn" onclick="nextQuestion()">Next</button>
+  </div>
+</div>
 
-    <div id="view-quiz" class="view">
-        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-        <div style="margin-top:10px; color:#7f8c8d; font-size:0.9rem;">
-            Question <span id="q-current">1</span> of <span id="q-total">10</span>
-        </div>
-        
-        <div id="quiz-content">
-            <div class="question-text" id="question-text"></div>
-            <div class="options-list" id="options-container"></div>
-            <div class="rationale" id="rationale-display">
-                <strong>Rationale:</strong> <span id="rationale-text"></span>
-            </div>
-            <button class="btn-next" id="btn-next" onclick="nextQuestion()">Next Question ➜</button>
-        </div>
-    </div>
-
-    <div id="view-results" class="view">
-        <div class="results-content">
-            <h2>Exam Completed</h2>
-            <div class="score-circle">
-                <span id="final-score">0</span>%
-            </div>
-            <p id="score-msg" style="font-size:1.2rem; margin-bottom:30px;"></p>
-            <button class="btn-home" onclick="showMenu()">Return to Menu</button>
-        </div>
-    </div>
+<!-- Result Screen -->
+<div class="container hidden" id="result-screen">
+  <h1>Examination Results</h1>
+  <h2 id="score-display" style="color: #2980b9;">Your Score: 0/0</h2>
+  <div id="review-container" style="margin-top: 20px;"></div>
+  <button class="btn" style="width: 100%; margin-top: 20px;" onclick="restartQuiz()">Return to Category Selection</button>
 </div>
 
 <script>
-    // ================= DATA STORE =================
+  // Questions and rationales extracted directly from the provided reviewer document.
+  const allQuestions = [
+    {
+      category: "Foundation of Professional Nursing Practice",
+      question: "1. The nurse In-charge in labor and delivery unit administered a dose of terbutaline to a client without checking the client's pulse. The standard that would be used to determine if the nurse was negligent is:",
+      options: [
+        "A. The physician's orders.",
+        "B. The action of a clinical nurse specialist who is recognized expert in the field.",
+        "C. The statement in the drug literature about administration of terbutaline.",
+        "D. The actions of a reasonably prudent nurse with similar education and experience."
+      ],
+      correctAnswer: 3,
+      rationale: "The standard of care is determined by the average degree of skill, care, and diligence by nurses in similar circumstances." //[cite: 1]
+    },
+    {
+      category: "Foundation of Professional Nursing Practice",
+      question: "2. Nurse Trish is caring for a female client with a history of GI bleeding, sickle cell disease, and a platelet count of 22,000/μ. The female client is dehydrated and receiving dextrose 5% in half-normal saline solution at 150 ml/hr. The client complains of severe bone pain and is scheduled to receive a dose of morphine sulfate. In administering the medication, Nurse Trish should avoid which route?",
+      options: [
+        "A. I.V",
+        "B. I.M",
+        "C. Oral",
+        "D. S.C"
+      ],
+      correctAnswer: 1,
+      rationale: "With a platelet count of 22,000/μ, the clients tends to bleed easily. Therefore, the nurse should avoid using the I.M. route because the area is highly vascular and can bleed readily when penetrated by a needle. The bleeding can be difficult to stop." //[cite: 1]
+    },
+    {
+      category: "Foundation of Professional Nursing Practice",
+      question: "8. The doctor orders hourly urine output measurement for a postoperative male client. The nurse Trish records the following amounts of output for 2 consecutive hours: 8 a.m.: 50 ml; 9 a.m.: 60 ml. Based on these amounts, which action should the nurse take?",
+      options: [
+        "A. Increase the I.V. fluid infusion rate",
+        "B. Irrigate the indwelling urinary catheter",
+        "C. Notify the physician",
+        "D. Continue to monitor and record hourly urine output"
+      ],
+      correctAnswer: 3,
+      rationale: "Normal urine output for an adult is approximately 1 ml/minute (60 ml/hour). Therefore, this client's output is normal. Beyond continued evaluation, no nursing action is warranted." //[cite: 1]
+    },
+    {
+      category: "Medical and Surgical Nursing",
+      question: "16. Nurse John is caring for a male client receiving lidocaine I.V. Which factor is the most relevant to administration of this medication?",
+      options: [
+        "A. Decrease in arterial oxygen saturation (Sa02) when measured with a pulse oximeter.",
+        "B. Increase in systemic blood pressure.",
+        "C. Presence of premature ventricular contractions (PVCs) on a cardiac monitor.",
+        "D. Increase in intracranial pressure (ICP)."
+      ],
+      correctAnswer: 2,
+      rationale: "Lidocaine drips are commonly used to treat clients whose arrhythmias haven't been controlled with oral medication and who are having PVCs that are visible on the cardiac monitor. Sa02, blood pressure, and ICP are important factors but aren't as significant as PVCs in the situation." //[cite: 1]
+    },
+    {
+      category: "Psychiatric Nursing",
+      question: "89. Nurse Ron enters a client's room, the client says, \"They're crawling on my sheets! Get them off my bed!\" Which of the following assessment is the most accurate?",
+      options: [
+        "A. The client is experiencing aphasia",
+        "B. The client is experiencing dysarthria",
+        "C. The client is experiencing a flight of ideas",
+        "D. The client is experiencing visual hallucination"
+      ],
+      correctAnswer: 3,
+      rationale: "The presence of a sensory stimulus correlates with the definition of a hallucination, which is a false sensory perception. Aphasia refers to a communication problem. Dysarthria is difficulty in speech production. Flight of ideas is rapid shifting from one topic to another." //[cite: 1]
+    }
+  ];
+
+  let currentQuestions = [];
+  let currentIndex = 0;
+  let userAnswers = [];
+  let timerInterval;
+  let timeLeft = 60;
+  let timerEnabled = false;
+
+  // Question randomizer engine
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  function startQuiz() {
+    const selectedCategory = document.getElementById('category-select').value;
+    timerEnabled = document.getElementById('timer-toggle').checked;
     
-    // *** PSYCH DATA (30 QUESTIONS) ***
-    const psychQuestions = [
-        { q: "A client diagnosed with Schizophrenia has been taking Haloperidol (Haldol) for 3 days. The nurse assesses high fever (39.5°C), severe muscle rigidity, tachycardia, and diaphoresis. What is the priority action?", options: ["Administer PRN Benztropine (Cogentin).", "Hold the medication and notify the healthcare provider immediately.", "Document the findings and continue to monitor.", "Administer acetaminophen for the fever."], answer: 1, rationale: "These are classic signs of Neuroleptic Malignant Syndrome (NMS), a potentially fatal reaction. Priority is to stop the offending agent and seek immediate help. Benztropine is for EPS, not NMS." },
-        { q: "A client prescribed Phenelzine (Nardil) selects pepperoni pizza for lunch. What is the nurse's concern?", options: ["High sodium content causes lithium toxicity.", "High fat content causes diarrhea.", "High Tyramine content risks Hypertensive Crisis.", "The client needs a gluten-free diet."], answer: 2, rationale: "MAOIs require a Tyramine-restricted diet. Cured meats (pepperoni) and aged cheeses are high in Tyramine, leading to Hypertensive Crisis." },
-        { q: "A client on Lithium Carbonate has diarrhea, vomiting, tremors, and a serum level of 1.6 mEq/L. How is this interpreted?", options: ["Sub-therapeutic level.", "Therapeutic range (0.6–1.2 mEq/L).", "Mild to moderate toxicity.", "Expected side effects."], answer: 2, rationale: "Therapeutic range is 0.6–1.2 mEq/L. A level >1.5 mEq/L with GI symptoms indicates toxicity." },
-        { q: "A client on Clozapine (Clozaril) requires which weekly lab monitoring due to fatal side effects?", options: ["Liver Function Tests (AST/ALT)", "WBC and Absolute Neutrophil Count (ANC)", "BUN and Creatinine", "Serum Glucose and HbA1c"], answer: 1, rationale: "Clozapine is associated with Agranulocytosis (severe drop in WBCs), causing vulnerability to fatal infections." },
-        { q: "A client taking Lithium asks about starting a low-sodium diet. What is the best response?", options: ["Yes, lowering sodium is good for the heart.", "No, low sodium causes lithium toxicity.", "Increase sodium to prevent side effects.", "Diet has no effect on lithium."], answer: 1, rationale: "Lithium is a salt. If sodium intake decreases, the kidneys retain lithium, leading to toxicity." },
-        { q: "The nurse is assessing a client on Chlorpromazine. Which of the following is NOT a symptom of Extrapyramidal Symptoms (EPS)?", options: ["Severe restlessness (Akathisia)", "Muscle spasms of neck/jaw (Dystonia)", "Shuffling gait (Pseudoparkinsonism)", "High fever and severe autonomic instability"], answer: 3, rationale: "High fever and autonomic instability indicate Neuroleptic Malignant Syndrome (NMS), not EPS. Options A, B, and C are classic EPS signs." },
-        { q: "A client prescribed Alprazolam (Xanax) for panic attacks needs which discharge instruction?", options: ["You may take this with a glass of wine.", "Stop immediately if you feel sleepy.", "Do not drive until you know how this drug affects you.", "It takes 2-4 weeks to work."], answer: 2, rationale: "Benzodiazepines cause sedation. Alcohol potentiates CNS depression. They work immediately, not in weeks." },
-        { q: "A client on Fluoxetine (Prozac) for two weeks reports feeling 'jittery'. What is the best explanation?", options: ["These are common transient side effects.", "You are allergic to the medication.", "Stop the medication immediately.", "Take the medication at night."], answer: 0, rationale: "Common side effects of SSRIs include insomnia and agitation (jitteriness). These usually subside in a few weeks." },
-        { q: "A client scheduled for Electroconvulsive Therapy (ECT) makes a statement requiring further teaching:", options: ["I will be given anesthesia.", "I might have short-term memory loss.", "This treatment will cure my depression forever.", "I need to sign an informed consent."], answer: 2, rationale: "ECT is an effective treatment, not a permanent cure. Maintenance therapy is often needed." },
-        { q: "A client says, 'I'm a terrible person. I don't deserve to live.' What is the most therapeutic response?", options: ["Why do you feel that way?", "You are not a terrible person.", "It sounds like you are feeling very hopeless right now.", "Let's play cards to distract you."], answer: 2, rationale: "This uses Restating/Reflecting, acknowledging feelings without judgment. 'Why' questions are non-therapeutic." },
-        { q: "What is the primary goal during the Orientation Phase of the nurse-client relationship?", options: ["Promoting insight.", "Establishing trust and formulating a contract.", "Overcoming resistance.", "Evaluating goal attainment."], answer: 1, rationale: "The Orientation Phase is about building rapport, trust, and setting the boundaries/contract." },
-        { q: "A client with severe depression says, 'My family would be better off without me.' Priority intervention?", options: ["One-to-one observation and suicide precautions.", "Encourage journaling.", "List three things to be grateful for.", "Administer antidepressants immediately."], answer: 0, rationale: "Safety is priority. The client is expressing suicidal ideation." },
-        { q: "A client asks the nurse personal questions. Which response maintains boundaries?", options: ["I live in Quezon City.", "Why do you want to know?", "I prefer not to answer that. Let's focus on you.", "I have two kids."], answer: 2, rationale: "This sets a limit on social interaction and redirects focus back to the client." },
-        { q: "A client yells, 'You are just like my mother! You never listen!' This is an example of:", options: ["Countertransference", "Transference", "Resistance", "Boundary Violation"], answer: 1, rationale: "Transference is displacing feelings from a past person onto the nurse." },
-        { q: "A client asks, 'Should I divorce my husband?' Which response is NON-therapeutic?", options: ["What are the pros and cons?", "I think you should give it more time.", "This seems like a difficult decision.", "How does talking about this make you feel?"], answer: 1, rationale: "Giving Advice ('I think you should...') is non-therapeutic as it removes client autonomy." },
-        { q: "A nursing student fails an exam and yells at their sibling. Which defense mechanism is this?", options: ["Projection", "Displacement", "Reaction Formation", "Sublimation"], answer: 1, rationale: "Displacement is transferring feelings from a stressful situation to a less threatening target." },
-        { q: "Which of the following is NOT a criteria for Mental Health in the PRAISE acronym?", options: ["Reality Perception", "Autonomous Behavior", "Absence of all stress", "Environmental Mastery"], answer: 2, rationale: "PRAISE includes Positive attitude, Reality, Autonomy, Integrative capacity, Self-actualization, Environmental mastery. Total absence of stress is impossible." },
-        { q: "According to Maslow, which client need is the priority?", options: ["Spiritual comfort.", "Safety from anxiety.", "Food and sleep (physiological).", "Self-esteem."], answer: 2, rationale: "Physiological needs (food, sleep) are the base of the pyramid and must be met before safety." },
-        { q: "A 5-year-old starts wetting the bed after a new sibling is born. This is:", options: ["Repression", "Regression", "Reaction Formation", "Displacement"], answer: 1, rationale: "Regression is returning to an earlier developmental stage in response to stress." },
-        { q: "A community is devastated by a typhoon. Survivors are wandering aimlessly. What type of crisis is this?", options: ["Maturational", "Situational", "Adventitious", "Internal"], answer: 2, rationale: "Adventitious Crisis is a crisis of disaster (natural or man-made) affecting a community." },
-        { q: "According to Erikson, the task for a 75-year-old client is:", options: ["Intimacy vs. Isolation", "Generativity vs. Stagnation", "Ego Integrity vs. Despair", "Identity vs. Role Confusion"], answer: 2, rationale: "Late Adulthood (65+) involves Ego Integrity vs. Despair." },
-        { q: "According to Freud, which part of personality induces guilt when you want to do something wrong?", options: ["Id", "Ego", "Superego", "Conscious"], answer: 2, rationale: "The Superego represents the moral principle/conscience and induces guilt." },
-        { q: "A 9-year-old child organizes baseball cards by team. Piaget calls this stage:", options: ["Sensorimotor", "Preoperational", "Concrete Operational", "Formal Operational"], answer: 2, rationale: "Concrete Operational (7-11 yrs) involves logical thinking and classification." },
-        { q: "A group member consistently boasts and seeks attention. This role is:", options: ["Monopolizer", "Recognition Seeker", "Harmonizer", "Gatekeeper"], answer: 1, rationale: "The Recognition Seeker calls attention to self through boasting." },
-        { q: "Parents argue but focus on their son's grades to avoid their own conflict. This is:", options: ["Enmeshment", "Triangulation", "Scapegoating", "Double Bind"], answer: 1, rationale: "Triangulation is pulling a third person into a conflict to reduce tension between two others." },
-        { q: "Gradual exposure to a feared stimulus (like a spider) while relaxing is called:", options: ["Flooding", "Aversion Therapy", "Systemic Desensitization", "Modeling"], answer: 2, rationale: "Systemic Desensitization pairs relaxation with gradual exposure." },
-        { q: "Using a drug that causes nausea when alcohol is consumed is an example of:", options: ["Systemic Desensitization", "Flooding", "Aversion Therapy", "Operant Conditioning"], answer: 2, rationale: "Aversion Therapy pairs a negative stimulus (nausea) with an unwanted behavior." },
-        { q: "In family therapy, the 'identified patient' is viewed as:", options: ["The cause of problems.", "The healthiest member.", "The symptom bearer for the family dysfunction.", "The only one needing help."], answer: 2, rationale: "The identified patient expresses the symptoms of the larger family system issue." },
-        { q: "Which Philippine law is the Mental Health Act?", options: ["RA 9165", "RA 11036", "RA 7160", "RA 10354"], answer: 1, rationale: "Republic Act No. 11036 is the Mental Health Act." },
-        { q: "Conducting a stress management seminar for healthy students is which level of care?", options: ["Primary Level", "Secondary Level", "Tertiary Level", "Rehabilitative Level"], answer: 0, rationale: "Primary Level is health promotion and illness prevention before a condition occurs." }
-    ];
-
-    // *** GI DATA (FULL 100 QUESTIONS) ***
-    const giQuestions = [
-        { q: "A client with Peptic Ulcer Disease (PUD) arrives at the ED reporting sudden, severe, sharp upper abdominal pain that radiates to the shoulder. The nurse notes the abdomen is rigid and board-like. Which action is the priority?", options: ["Administer an antacid to neutralize stomach acid.", "Place the patient in a High-Fowler’s position.", "Notify the healthcare provider immediately.", "Ask the patient to describe their diet over the last 24 hours."], answer: 2, rationale: "A rigid, board-like abdomen and shoulder pain are classic signs of perforation and peritonitis, which is a surgical emergency." },
-        { q: "A nurse is providing discharge teaching to a client with GERD. Which statement by the client indicates a need for further teaching?", options: ["I will wait 2 hours after eating before I go to bed.", "I will try to eat smaller, more frequent meals.", "I will drink a glass of peppermint tea to settle my stomach after dinner.", "I will elevate the head of my bed on 6-inch blocks."], answer: 2, rationale: "Peppermint decreases Lower Esophageal Sphincter (LES) pressure, worsening reflux. It should be avoided." },
-        { q: "A client post-Billroth II surgery (gastrectomy) experiences dizziness, sweating, and palpitations 20 minutes after eating. Which intervention is most appropriate?", options: ["Encourage the client to drink more fluids with meals.", "Administer a fast-acting carbohydrate.", "Instruct the client to lie down for 30 minutes after eating.", "Increase the carbohydrate content of the next meal."], answer: 2, rationale: "This is Dumping Syndrome. Lying down slows gastric emptying. Fluids and high carbs worsen the symptoms." },
-        { q: "A client with a duodenal ulcer typically reports pain associated with which timing?", options: ["Immediately after eating.", "30-60 minutes after eating.", "2-3 hours after eating and during the night.", "Only when lying flat."], answer: 2, rationale: "Duodenal ulcer pain occurs when the stomach is empty (2-3 hrs post-meal) and is often relieved by food." },
-        { q: "Which medication regimen does the nurse anticipate for a patient diagnosed with H. pylori infection?", options: ["Omeprazole and Famotidine.", "Metronidazole, Clarithromycin, and Omeprazole.", "Sucralfate and Aluminum Hydroxide.", "Amoxicillin and Aspirin."], answer: 1, rationale: "Triple Therapy (2 antibiotics + 1 PPI) is the standard to eradicate H. pylori." },
-        { q: "A client is admitted with possible appendicitis. The client reports pain in the RLQ when the nurse palpates the LLQ. How should the nurse document this finding?", options: ["Positive Psoas Sign.", "Positive Rovsing’s Sign.", "Positive Obturator Sign.", "Rebound Tenderness."], answer: 1, rationale: "Rovsing’s sign is referred pain to the RLQ upon palpation of the LLQ." },
-        { q: "Which nursing intervention is contraindicated for a client with suspected appendicitis?", options: ["Maintaining NPO status.", "Applying an ice pack to the abdomen.", "Administering a Fleet enema for constipation.", "Administering IV fluids."], answer: 2, rationale: "Enemas and laxatives stimulate peristalsis and can cause the inflamed appendix to rupture. Heat is also contraindicated." },
-        { q: "A client with acute diverticulitis is admitted. Which diet order should the nurse anticipate during the acute phase?", options: ["High-fiber diet.", "NPO or clear liquid diet.", "Low-fat, high-carbohydrate diet.", "Full liquid diet with protein supplements."], answer: 1, rationale: "During the acute phase, the bowel needs rest (NPO/Clear liquids). High fiber is only for maintenance after recovery." },
-        { q: "A client with peritonitis develops a fever of 39.5°C, tachycardia, and hypotension. What is the nurse’s priority concern?", options: ["Dehydration.", "Septic Shock.", "Paralytic Ileus.", "Acute pain."], answer: 1, rationale: "Peritonitis can rapidly lead to sepsis and shock due to the massive infection in the abdominal cavity." },
-        { q: "Where is the pain typically located in a client with diverticulitis?", options: ["Right Upper Quadrant.", "Left Upper Quadrant.", "Right Lower Quadrant.", "Left Lower Quadrant."], answer: 3, rationale: "The sigmoid colon (LLQ) is the most common site for diverticula." },
-        { q: "Which assessment finding is most characteristic of Ulcerative Colitis?", options: ["Steatorrhea (fatty stools).", "10-20 liquid bloody stools per day.", "Cobblestone appearance of the bowel wall.", "Fistula formation between the bladder and bowel."], answer: 1, rationale: "UC affects the mucosa of the colon/rectum, causing severe bloody diarrhea. (Cobblestoning and fistulas are Crohn’s)." },
-        { q: "A client with Crohn’s disease has developed a fistula. Which dietary modification is typically recommended to promote healing?", options: ["Low-calorie, low-protein.", "High-fiber, low-fat.", "High-protein, high-calorie.", "Fluid restriction."], answer: 2, rationale: "Patients are often malnourished. High protein and calories are needed for tissue repair and healing fistulas." },
-        { q: "Which medication is commonly prescribed to reduce inflammation in IBD (Crohn’s/UC)?", options: ["Sulfasalazine.", "Omeprazole.", "Lactulose.", "Metoclopramide."], answer: 0, rationale: "Sulfasalazine (5-ASA) is a primary anti-inflammatory drug for IBD." },
-        { q: "A client with severe Ulcerative Colitis is at risk for Toxic Megacolon. Which assessment finding alerts the nurse to this complication?", options: ["Hyperactive bowel sounds.", "Bradycardia.", "Abdominal distension and absent bowel sounds.", "Increased rectal bleeding."], answer: 2, rationale: "Toxic Megacolon causes dilation and paralysis of the colon (absent sounds, distension), risking rupture." },
-        { q: "A nurse auscultates the abdomen of a client with a suspected early mechanical bowel obstruction. What sound is the nurse most likely to hear?", options: ["Absent bowel sounds.", "High-pitched, tinkling rushes.", "Low-pitched, dull thuds.", "Friction rub."], answer: 1, rationale: "In early obstruction, the bowel hyper-peristalses to push past the block, creating high-pitched sounds." },
-        { q: "A client with a small bowel obstruction has been vomiting for 24 hours. Which electrolyte imbalance is the priority concern?", options: ["Hyperkalemia.", "Hypokalemia.", "Hypercalcemia.", "Hypomagnesemia."], answer: 1, rationale: "Gastric contents are rich in Potassium. Vomiting leads to hypokalemia (and metabolic alkalosis)." },
-        { q: "Which intervention is the priority for a client diagnosed with a bowel obstruction?", options: ["Administering a laxative to clear the block.", "Encouraging a high-fiber meal.", "Inserting a nasogastric (NG) tube for decompression.", "Positioning the client flat on the back."], answer: 2, rationale: "Decompression removes gas/fluid, relieving pressure and preventing perforation." },
-        { q: "A client with liver cirrhosis has an elevated serum ammonia level. Which medication should the nurse anticipate administering?", options: ["Vitamin K.", "Lactulose.", "Furosemide.", "Propranolol."], answer: 1, rationale: "Lactulose traps ammonia in the gut and expels it via stool, treating hepatic encephalopathy." },
-        { q: "A client with cirrhosis presents with asterixis. How does the nurse assess for this?", options: ["Check for a Babinski reflex.", "Ask the client to extend their arms and wrists.", "Palpate the liver edge for tenderness.", "Assess the skin for spider angiomas."], answer: 1, rationale: "Asterixis is the 'flapping tremor' of the hands when wrists are extended, a sign of high ammonia." },
-        { q: "A client with esophageal varices is being treated with a Sengstaken-Blakemore tube. What is the most critical safety item to keep at the bedside?", options: ["An extra NG tube.", "A pair of scissors.", "A bag of saline irrigation.", "A clamp."], answer: 1, rationale: "If the tube migrates and blocks the airway, the nurse must immediately cut the balloon ports to deflate it and remove the tube." },
-        { q: "A client with ascites is scheduled for a paracentesis. Which instruction should the nurse give immediately prior to the procedure?", options: ["Drink 500mL of water to fill the bladder.", "Void and empty your bladder completely.", "Remain NPO for 12 hours.", "Lie flat on your left side."], answer: 1, rationale: "An empty bladder prevents accidental puncture during the needle insertion." },
-        { q: "Which lab value indicates that a client with cirrhosis is at risk for bleeding?", options: ["Decreased Ammonia.", "Elevated Albumin.", "Prolonged Prothrombin Time (PT/INR).", "Elevated ALT."], answer: 2, rationale: "The liver produces clotting factors. In cirrhosis, these decrease, prolonging PT/INR and increasing bleeding risk." },
-        { q: "A client reports pain in the Right Upper Quadrant that radiates to the right scapula after eating a fried chicken dinner. What condition does the nurse suspect?", options: ["Pancreatitis.", "Cholecystitis.", "Gastric Ulcer.", "Appendicitis."], answer: 1, rationale: "Classic presentation of gallbladder pain triggered by fatty foods." },
-        { q: "The nurse is performing an abdominal assessment and asks the client to inhale while palpating the RUQ. The client stops breathing due to pain. This is known as:", options: ["Cullen’s Sign.", "Murphy’s Sign.", "McBurney’s Sign.", "Turner’s Sign."], answer: 1, rationale: "Murphy’s Sign indicates cholecystitis." },
-        { q: "A client returns from a laparoscopic cholecystectomy complaining of shoulder pain. What is the nurse's best explanation?", options: ["You slept in a bad position during surgery.", "This is referred pain from the carbon dioxide gas used during surgery.", "This indicates you are having a heart attack.", "The surgeon likely nicked a nerve in your shoulder."], answer: 1, rationale: "CO2 gas used to inflate the abdomen irritates the phrenic nerve, causing referred shoulder pain." },
-        { q: "A client has a T-Tube following open cholecystectomy. Which nursing action is correct?", options: ["Keep the collection bag above the level of the waist.", "Expect 1000mL of drainage per day.", "Clamp the tube for 2 hours before meals.", "Keep the collection bag below the level of the insertion site."], answer: 3, rationale: "The T-tube drains by gravity. It should never be raised above the wound." },
-        { q: "Which laboratory value is the most specific indicator of acute pancreatitis?", options: ["Serum Amylase.", "Serum Lipase.", "Serum Bilirubin.", "White Blood Cell Count."], answer: 1, rationale: "While Amylase rises, Lipase is more specific to the pancreas and stays elevated longer." },
-        { q: "A client with acute pancreatitis has a positive Trousseau’s sign. What does this indicate?", options: ["Hyperkalemia.", "Hypocalcemia.", "Hyperglycemia.", "Hypernatremia."], answer: 1, rationale: "In pancreatitis, calcium binds to undigested fats (steatorrhea), leading to Hypocalcemia." },
-        { q: "What is the primary dietary intervention for a client in the early acute phase of pancreatitis?", options: ["Small, frequent high-fat meals.", "NPO (Nothing by Mouth).", "High-protein, low-carb diet.", "Clear liquids only."], answer: 1, rationale: "The goal is to rest the pancreas and stop enzyme secretion. Any oral intake stimulates the pancreas." },
-        { q: "The nurse observes bluish discoloration around the umbilicus of a client with pancreatitis. How is this documented?", options: ["Grey Turner’s Sign.", "Cullen’s Sign.", "Rovsing’s Sign.", "Homan’s Sign."], answer: 1, rationale: "Cullen’s Sign (periumbilical bruising) indicates retroperitoneal hemorrhage." },
-        { q: "A client is scheduled for a colonoscopy. Which instruction is essential for bowel preparation?", options: ["Eat a heavy meal the night before to prevent hunger.", "You may drink red Gatorade during the clear liquid phase.", "Take the prescribed polyethylene glycol (GoLYTELY) solution until stools are clear.", "Stop taking your blood pressure medication 3 days prior."], answer: 2, rationale: "The bowel must be completely clean for visualization. Red dyes mimic blood and must be avoided." },
-        { q: "Following a liver biopsy, the nurse places the client in which position?", options: ["Supine.", "Left side-lying.", "Right side-lying with a pillow under the site.", "High Fowler’s."], answer: 2, rationale: "Pressure is needed on the liver (RUQ) to prevent hemorrhage." },
-        { q: "A client is recovering from an EGD (Esophagogastroduodenoscopy). What must the nurse verify before giving the client water?", options: ["Ability to pass gas.", "Return of the gag reflex.", "Presence of bowel sounds.", "Alertness to time and place."], answer: 1, rationale: "The throat is anesthetized. Drinking before the gag reflex returns risks aspiration." },
-        { q: "A client needs a Fecal Occult Blood Test (FOBT). Which food should be avoided for 72 hours prior?", options: ["Chicken.", "Rice.", "Red Meat.", "Milk."], answer: 2, rationale: "Red meat can cause a false positive result." },
-        { q: "A client post-hemorrhoidectomy is hesitant to have their first bowel movement due to pain. What should the nurse administer?", options: ["An antidiarrheal.", "A stool softener (e.g., Docusate).", "A cleansing enema.", "A high-protein meal."], answer: 1, rationale: "Stool softeners prevent straining, which is critical post-op. Enemas are contraindicated due to trauma." },
-        { q: "Which instruction is appropriate for a client utilizing a Sitz bath?", options: ["Use boiling water to maximize sterilization.", "Use warm water and soak for 15-20 minutes to relieve pain.", "Add strong antiseptic soap to the water.", "Use ice water to numb the area."], answer: 1, rationale: "Warm water increases circulation and promotes healing/comfort." },
-        { q: "What is the mechanism of action of a Bulking Laxative like Psyllium (Metamucil)?", options: ["It chemically irritates the bowel lining.", "It draws water into the stool to soften it.", "It absorbs water to increase stool mass, stimulating peristalsis naturally.", "It lubricates the intestinal tract."], answer: 2, rationale: "Bulk-forming laxatives mimic dietary fiber." },
-        { q: "A client with liver cirrhosis is vomiting bright red blood. Which complication does the nurse suspect?", options: ["Bleeding Duodenal Ulcer.", "Ruptured Esophageal Varices.", "Hemorrhoidal bleeding.", "Gastritis."], answer: 1, rationale: "Ruptured varices are the most common life-threatening complication of portal hypertension in cirrhosis." },
-        { q: "Why is Vitamin B12 (Cobalamin) often prescribed for clients with Chronic Gastritis or post-gastrectomy?", options: ["To improve appetite.", "Because they lack Intrinsic Factor required for absorption.", "To prevent constipation.", "To treat H. pylori infection."], answer: 1, rationale: "Loss of parietal cells = No Intrinsic Factor = Pernicious Anemia." },
-        { q: "A client with severe diarrhea (e.g., UC) is at risk for which acid-base imbalance?", options: ["Respiratory Acidosis.", "Metabolic Alkalosis.", "Metabolic Acidosis.", "Respiratory Alkalosis."], answer: 2, rationale: "Stool is alkaline (rich in bicarb). Losing it leads to Acidosis. (Vomiting leads to Alkalosis)." },
-        { q: "What is the primary purpose of a Vagotomy in treating Peptic Ulcer Disease?", options: ["To remove the ulcerated tissue.", "To decrease gastric acid secretion by severing the vagus nerve.", "To increase gastric emptying.", "To repair the pyloric sphincter."], answer: 1, rationale: "Cutting the vagus nerve reduces the stimulation of acid production." },
-        { q: "Which assessment finding is a sign of perforation in a client with diverticulitis?", options: ["Constipation.", "Mild LLQ cramping.", "Rigid, board-like abdomen.", "Hyperactive bowel sounds."], answer: 2, rationale: "Perforation leads to Peritonitis, causing rigidity." },
-        { q: "A client with Hepatitis A asks how they contracted the disease. What is the nurse's best response?", options: ["It is usually transmitted through blood transfusions.", "It is transmitted through unprotected sex.", "It is transmitted by eating contaminated food or water.", "It is an autoimmune condition you were born with."], answer: 2, rationale: "Hep A is Fecal-Oral (contaminated food/water)." },
-        { q: "A client with pancreatitis has a glucose of 250 mg/dL. Why?", options: ["The client ate a candy bar.", "The pancreas is digesting itself, damaging the beta cells that make insulin.", "The liver is releasing too much glycogen.", "The kidneys are failing."], answer: 1, rationale: "Pancreatitis damages the Islets of Langerhans, reducing insulin production." },
-        { q: "Which of the following foods should a client with GERD avoid?", options: ["Oatmeal.", "Chocolate.", "Apples.", "Grilled Chicken."], answer: 1, rationale: "Chocolate relaxes the LES, worsening reflux." },
-        { q: "A client has clay-colored stools and dark amber urine. Which organ is malfunctioning?", options: ["Kidney.", "Stomach.", "Gallbladder/Liver (Biliary obstruction).", "Colon."], answer: 2, rationale: "Bile gives stool its brown color. If blocked (gallstone/tumor), stool is white/clay, and bilirubin backs up into urine." },
-        { q: "A client with a hiatal hernia reports heartburn. Which lifestyle modification should the nurse recommend?", options: ["Lie down immediately after eating.", "Wear an abdominal binder / tight girdle.", "Avoid heavy lifting and straining.", "Eat 3 large meals a day."], answer: 2, rationale: "Lifting/straining increases intra-abdominal pressure, pushing the stomach up." },
-        { q: "In a client with obstruction, what is the significance of a 'fecal odor' to the emesis (vomit)?", options: ["It indicates the obstruction is in the lower small intestine or colon.", "It indicates the client has poor oral hygiene.", "It is a sign of stomach cancer.", "It indicates a gastric ulcer."], answer: 0, rationale: "Vomiting fecal matter indicates a low obstruction where intestinal contents have backed up to the stomach." },
-        { q: "Why is a high-protein diet prescribed for IBD (during recovery) but restricted in advanced Liver Cirrhosis?", options: ["Protein causes constipation.", "IBD needs repair, but the failing liver cannot process protein waste (ammonia).", "Protein causes ulcers.", "Liver patients are allergic to protein."], answer: 1, rationale: "IBD = Needs healing. Cirrhosis = Cannot detoxify ammonia (protein byproduct)." },
-        { q: "A client with acute cholecystitis is NPO. Why?", options: ["To prevent aspiration.", "To prevent the gallbladder from contracting and causing pain.", "To prevent diarrhea.", "To prepare for a colonoscopy."], answer: 1, rationale: "Eating (especially fats) releases Cholecystokinin (CCK), which squeezes the gallbladder. NPO stops this pain." },
-        { q: "A client with chronic GERD is at risk for developing Barrett’s Esophagus. The nurse understands that this condition is:", options: ["A stricture causing difficulty swallowing.", "A precancerous change in the esophageal lining (metaplasia).", "An infectious abscess in the throat.", "A tear in the esophageal wall (Mallory-Weiss)."], answer: 1, rationale: "Chronic acid exposure changes the cells, increasing the risk of esophageal cancer." },
-        { q: "A client is prescribed Sucralfate (Carafate) for Peptic Ulcer Disease. When should the nurse instruct the client to take this medication?", options: ["With meals.", "1 hour before meals and at bedtime.", "Immediately after eating.", "Only when pain is present."], answer: 1, rationale: "Sucralfate coats the stomach lining; it must be taken on an empty stomach to form a protective barrier before food enters." },
-        { q: "A client with PUD is vomiting 'coffee-ground' emesis. The nurse documents this finding as:", options: ["Hematochezia.", "Melena.", "Hematemesis.", "Steatorrhea."], answer: 2, rationale: "Hematemesis is vomiting blood. 'Coffee-ground' appearance indicates the blood has been partially digested by stomach acid." },
-        { q: "A client with Dumping Syndrome is prescribed Octreotide. What is the mechanism of action for this drug?", options: ["It neutralizes gastric acid.", "It mimics insulin to lower blood sugar.", "It suppresses gastric hormones to slow gastric emptying.", "It coats the stomach lining."], answer: 2, rationale: "Octreotide is a somatostatin analog that slows gastric emptying and inhibits the release of insulin/gastrin." },
-        { q: "Which symptom distinguishes a Gastric Ulcer from a Duodenal Ulcer?", options: ["Weight gain.", "Pain relieved by eating.", "Pain that wakes the patient at night.", "Pain exacerbated by food intake (30-60 mins after meals)."], answer: 3, rationale: "Gastric ulcers hurt when you eat (acid secretion hits the ulcer), leading to weight loss." },
-        { q: "A client taking high-dose NSAIDs for arthritis asks why they are at risk for ulcers. The nurse explains:", options: ["NSAIDs increase H. pylori growth.", "NSAIDs inhibit prostaglandins, which protect the stomach lining.", "NSAIDs cause the stomach to produce too much acid.", "NSAIDs relax the esophageal sphincter."], answer: 1, rationale: "Prostaglandins are essential for the mucosal barrier. NSAIDs block their production." },
-        { q: "For a client with Dumping Syndrome, which food choice is most appropriate?", options: ["Pancakes with syrup.", "Grilled chicken breast with broccoli.", "Spaghetti with tomato sauce and garlic bread.", "Ice cream and fruit."], answer: 1, rationale: "High protein, moderate fat, low carb. (Pancakes, pasta, and ice cream are high carb/sugar)." },
-        { q: "A client suspected of appendicitis has a WBC count of 16,000/mm³. The nurse interprets this as:", options: ["Severe Sepsis.", "Mild to Moderate Leukocytosis.", "Within normal limits.", "Indicative of viral infection."], answer: 1, rationale: "Normal WBC is ~5,000-10,000. 16,000 indicates infection/inflammation consistent with appendicitis." },
-        { q: "The nurse is assessing for the Obturator Sign. Which movement causes pain in a client with appendicitis?", options: ["Extension of the right thigh.", "Internal rotation of the flexed right thigh.", "Palpation of the LLQ.", "Coughing or sneezing."], answer: 1, rationale: "This movement irritates the obturator muscle, which is inflamed due to the appendix." },
-        { q: "A client with Peritonitis is placed in a Semi-Fowler’s position. The primary rationale is:", options: ["To facilitate breathing and localize purulent drainage to the pelvis.", "To prevent pressure sores.", "To reduce abdominal pain.", "To increase cardiac output."], answer: 0, rationale: "Gravity keeps the infection lower in the abdomen (pelvis) rather than letting it spread up to the diaphragm/lungs." },
-        { q: "A client with diverticulosis asks how to prevent future flare-ups (diverticulitis). The nurse recommends:", options: ["A low-residue diet.", "A high-fiber diet with plenty of fluids.", "Taking daily antibiotics.", "Avoiding all physical activity."], answer: 1, rationale: "High fiber prevents constipation, which is the root cause of diverticula formation." },
-        { q: "Which medication is commonly used to treat the anaerobic bacteria in Diverticulitis?", options: ["Vancomycin.", "Metronidazole (Flagyl).", "Acyclovir.", "Prednisone."], answer: 1, rationale: "Metronidazole targets anaerobic bacteria common in the gut." },
-        { q: "A client with appendicitis asks why they cannot have a heating pad for the pain. The nurse explains:", options: ["Heat masks the symptoms of infection.", "Heat increases blood flow and could cause the appendix to rupture.", "Heat causes skin burns on the abdomen.", "Heat is only used for muscle spasms."], answer: 1, rationale: "Heat increases inflammation and pressure, risking perforation." },
-        { q: "Which IBD condition is described as 'transmural,' affecting the entire thickness of the bowel wall?", options: ["Ulcerative Colitis.", "Crohn’s Disease.", "Diverticulitis.", "Irritable Bowel Syndrome."], answer: 1, rationale: "This deep inflammation is why Crohn's patients are prone to fistulas." },
-        { q: "A client with Crohn’s disease has 'steatorrhea.' The nurse recognizes this is due to:", options: ["Bleeding in the colon.", "Malabsorption of fats in the small intestine.", "Excessive bile production.", "Rapid gastric emptying."], answer: 1, rationale: "Crohn's often affects the small intestine where nutrients are absorbed." },
-        { q: "What is the curative surgical procedure for Ulcerative Colitis?", options: ["Bowel resection.", "Total Proctocolectomy with permanent ileostomy.", "Appendectomy.", "Nissen Fundoplication."], answer: 1, rationale: "Since UC is limited to the colon/rectum, removing them cures the disease (unlike Crohn's)." },
-        { q: "A client with IBD is taking corticosteroids (Prednisone). Which side effect should the nurse monitor for?", options: ["Hypoglycemia.", "Weight loss.", "Increased risk of infection / masked infection.", "Hypotension."], answer: 2, rationale: "Steroids suppress the immune system. They also cause hyperglycemia and weight gain." },
-        { q: "Smoking has what effect on Crohn’s Disease?", options: ["It is protective and reduces symptoms.", "It has no effect.", "It worsens the disease and increases the risk of flare-ups.", "It only affects the lungs, not the gut."], answer: 2, rationale: "Smoking is a major risk factor for worsening Crohn's." },
-        { q: "What is a fistula?", options: ["A telescoping of the bowel.", "An abnormal tunnel/connection between two hollow organs.", "A blockage in the bowel.", "A swollen vein."], answer: 1, rationale: "Common in Crohn's (e.g., enterovesical fistula between bowel and bladder)." },
-        { q: "A client has a 'volvulus.' The nurse explains this to the family as:", options: ["The bowel twisting on itself.", "The bowel telescoping into itself.", "A tumor blocking the bowel.", "A lack of peristalsis."], answer: 0, rationale: "Volvulus is twisting; Intussusception is telescoping." },
-        { q: "A client with a bowel obstruction has an NG tube. The nurse notes the drainage has stopped. What is the first nursing action?", options: ["Remove the tube.", "Irrigate the tube with saline (per protocol) to check patency.", "Notify the provider.", "Increase the suction pressure."], answer: 1, rationale: "The tube is likely clogged. Verify patency before assuming the obstruction is resolved." },
-        { q: "Why does a high small bowel obstruction cause metabolic alkalosis?", options: ["Loss of bicarbonate in stool.", "Loss of gastric acid (HCl) through vomiting.", "Retention of CO2.", "Kidney failure."], answer: 1, rationale: "Stomach acid is acidic; losing it leaves the body alkaline." },
-        { q: "What is 'adhesiolysis'?", options: ["Surgery to remove a tumor.", "Surgery to cut scar tissue bands (adhesions) causing obstruction.", "Surgery to place a feeding tube.", "Surgery to remove the appendix."], answer: 1, rationale: "Adhesions from previous surgeries are a common cause of mechanical obstruction." },
-        { q: "Following a hemorrhoidectomy, a client reports feeling faint and needing to defecate, but produces no stool. The nurse suspects:", options: ["Constipation.", "Internal hemorrhage (blood pooling in the rectum).", "Gas pains.", "Reaction to anesthesia."], answer: 1, rationale: "Blood in the rectum mimics the sensation of stool pressure. Faintness suggests volume loss." },
-        { q: "What is the active ingredient in 'Tucks' pads often used for hemorrhoids?", options: ["Lidocaine.", "Witch Hazel.", "Hydrocortisone.", "Menthol."], answer: 1, rationale: "Witch Hazel provides cooling and astringent relief." },
-        { q: "Which lifestyle change is the most effective long-term treatment for hemorrhoids?", options: ["Daily enemas.", "Avoiding sitting for long periods.", "Low-residue diet.", "Limiting fluid intake."], answer: 1, rationale: "Prolonged sitting increases venous pressure in the anal canal." },
-        { q: "A client with cirrhosis has spider angiomas and palmar erythema (red palms). These are caused by:", options: ["High ammonia levels.", "Inability of the liver to metabolize estrogen.", "Portal hypertension.", "Vitamin K deficiency."], answer: 1, rationale: "The liver normally clears hormones. Excess estrogen causes vascular changes." },
-        { q: "Why is a client with cirrhosis at risk for drug toxicity?", options: ["The kidneys are failing.", "The liver cannot metabolize medications efficiently.", "The client is likely dehydrated.", "The client has low protein."], answer: 1, rationale: "Drug metabolism is a major liver function. Doses often need to be lowered." },
-        { q: "A client with ascites complains of difficulty breathing. What is the nurse's priority intervention?", options: ["Administer oxygen.", "Place the client in High Fowler’s position.", "Prepare for intubation.", "Turn the client to the left side."], answer: 1, rationale: "Ascites pushes up on the diaphragm. Sitting up allows the diaphragm to expand." },
-        { q: "What is the purpose of checking 'Clotting Factors' (PT/INR) before a liver biopsy?", options: ["To see if the patient is anemic.", "Because the liver produces these factors, and bleeding risk is high.", "To check for infection.", "To determine if the patient needs platelets."], answer: 1, rationale: "The liver makes fibrinogen and prothrombin. A damaged liver = high bleeding risk." },
-        { q: "A client with hepatic encephalopathy is agitated. Why should sedatives be avoided or used with extreme caution?", options: ["They cause hypertension.", "The liver cannot break them down, leading to prolonged effects and deeper coma.", "They increase ammonia production.", "They interfere with Lactulose."], answer: 1, rationale: "The failing liver cannot clear the sedative, worsening the mental status." },
-        { q: "A client is scheduled for an ERCP. Which assessment is essential post-procedure?", options: ["Urine output.", "Gag reflex.", "Peripheral pulses.", "Pupillary response."], answer: 1, rationale: "ERCP involves passing a scope down the throat. Gag reflex return is safety priority." },
-        { q: "In Acute Pancreatitis, the enzyme 'autodigestion' process means:", options: ["The stomach digests the pancreas.", "Pancreatic enzymes activate inside the pancreas instead of the intestine.", "The liver attacks the pancreas.", "Bacteria destroy the pancreas."], answer: 1, rationale: "Trypsin activates early, digesting the pancreatic tissue itself." },
-        { q: "Which sign indicates 'hypocalcemia' in a client with pancreatitis?", options: ["Chvostek’s Sign (facial twitch).", "Murphy’s Sign.", "McBurney’s Sign.", "Cullen’s Sign."], answer: 0, rationale: "Tapping the facial nerve causes a twitch due to low calcium neuromuscular excitability." },
-        { q: "Why is 'Morphine' now acceptable for pancreatitis pain (despite old teachings about the Sphincter of Oddi)?", options: ["It is not acceptable.", "It is the most effective pain reliever, and spasm evidence is rare/inconclusive.", "It lowers fever.", "It cures the inflammation."], answer: 1, rationale: "Your slides explicitly list Morphine, Fentanyl, and Hydromorphone as appropriate." },
-        { q: "A client with gallstones has clay-colored stools. This indicates:", options: ["The stones are in the gallbladder.", "The stones have obstructed the Common Bile Duct.", "The client is bleeding.", "The client is healing."], answer: 1, rationale: "Bile cannot reach the intestine to color the stool brown." },
-        { q: "What does 'F' stand for in the '5 Fs' risk factors for Cholelithiasis?", options: ["Forty, Female, Fat, Fertile, Fair.", "Fifty, Fit, Fasting, Fiber, Fish.", "Forty, Fit, Fiber, Female, Fasting.", "Fever, Fatigue, Fainting, Fear, Fracture."], answer: 0, rationale: "Classic mnemonic for gallstone risk." },
-        { q: "Why is a low-fat diet recommended for gallbladder disease?", options: ["Fat causes constipation.", "Fat stimulates cholecystokinin (CCK), causing the gallbladder to contract and pain.", "Fat increases stomach acid.", "Fat blocks the liver."], answer: 1, rationale: "Reducing fat prevents the painful contraction of the inflamed organ." },
-        { q: "A client has had a Barium Swallow. What instructions should the nurse provide regarding fluids?", options: ["Limit fluids to prevent nausea.", "Drink plenty of fluids to flush the barium and prevent impaction.", "Drink only hot liquids.", "Avoid dairy products."], answer: 1, rationale: "Barium hardens like cement if not flushed out." },
-        { q: "During a Colonoscopy, the scope reaches which part of the anatomy?", options: ["Only the rectum.", "The sigmoid colon.", "The cecum (start of large intestine).", "The duodenum."], answer: 2, rationale: "It views the entire colon. (Sigmoidoscopy only views the end)." },
-        { q: "What is the correct sequence of abdominal physical assessment?", options: ["Palpate, Inspect, Auscultate, Percuss.", "Inspect, Palpate, Percuss, Auscultate.", "Inspect, Auscultate, Percuss, Palpate.", "Auscultate, Inspect, Palpate, Percuss."], answer: 2, rationale: "Look, Listen, then Touch. Touching first alters bowel sounds." },
-        { q: "High-pitched, 'tinkling' bowel sounds indicate:", options: ["Normal bowel function.", "Paralytic ileus.", "Early intestinal obstruction.", "Peritonitis."], answer: 2, rationale: "Fluid and gas under pressure squirting through a narrow lumen." },
-        { q: "A client needs a stool sample for 'O&P' (Ova and Parasites). The nurse knows this checks for:", options: ["Occult blood.", "Worms and eggs.", "Fat content.", "Bacteria."], answer: 1, rationale: "Often ordered if parasitic infection (like Ascaris mentioned in slides) is suspected." },
-        { q: "What is 'Ascaris'?", options: ["A type of bacteria.", "A parasitic worm that can cause obstruction.", "A viral infection.", "A fungal infection."], answer: 1, rationale: "Your slides mention 'Anti-helminthic if caused by bolus of Ascaris' (worms)." },
-        { q: "A client with Hepatitis is in the 'Icteric' phase. What is the primary sign?", options: ["Flu-like symptoms.", "Jaundice (Yellow skin/sclera).", "Recovery.", "Ascites."], answer: 1, rationale: "Icterus = Jaundice." },
-        { q: "A client with liver failure has 'Fetor Hepaticus.' The nurse identifies this as:", options: ["A fruity/musty breath odor.", "A hand tremor.", "A skin rash.", "A mental state."], answer: 0, rationale: "Caused by accumulated digestive byproducts the liver can't clear." },
-        { q: "Why is 'Atropine' kept ready during an EGD or Barium enema?", options: ["To speed up the heart if vagal stimulation causes bradycardia.", "To sedate the patient.", "To stop vomiting.", "To treat an allergic reaction."], answer: 0, rationale: "Manipulation of the GI tract can trigger a vagal response, slowing the heart." },
-        { q: "A client has 'rebound tenderness' at McBurney’s Point. This suggests:", options: ["Cholecystitis.", "Appendicitis.", "Gastritis.", "Kidney Stones."], answer: 1, rationale: "RLQ pain specifically indicates Appendicitis." },
-        { q: "A client with Pancreatitis has elevated glucose (Hyperglycemia). The nurse treats this with:", options: ["Oral hypoglycemics.", "Insulin sliding scale.", "Glucagon.", "Glucose tabs."], answer: 1, rationale: "Needs insulin replacement because the pancreas is damaged." },
-        { q: "Which hepatitis viruses are prevented by vaccines?", options: ["Hep C and D.", "Hep A and B.", "Hep E and C.", "Only Hep B."], answer: 1, rationale: "Vaccines exist for A and B. There is no vaccine for C." }
-    ];
-
-    // ================= APP LOGIC =================
-    let currentDeck = [];
-    let currentIdx = 0;
-    let score = 0;
-    let answered = false;
-
-    const views = {
-        menu: document.getElementById('view-menu'),
-        quiz: document.getElementById('view-quiz'),
-        results: document.getElementById('view-results')
-    };
-
-    function showView(viewName) {
-        Object.values(views).forEach(v => v.classList.remove('active'));
-        views[viewName].classList.add('active');
+    // Filter by topic category
+    currentQuestions = allQuestions.filter(q => q.category === selectedCategory);
+    
+    if(currentQuestions.length === 0) {
+      alert("No questions available for this category yet. Please select another.");
+      return;
     }
 
-    function showMenu() {
-        showView('menu');
-        document.getElementById('topic-badge').innerText = "Select Topic";
-        document.querySelector('header').style.background = "var(--primary)";
+    shuffle(currentQuestions);
+    currentIndex = 0;
+    userAnswers = new Array(currentQuestions.length).fill(null);
+    
+    document.getElementById('home-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    const q = currentQuestions[currentIndex];
+    
+    document.getElementById('progress-tracker').innerText = `Question ${currentIndex + 1} of ${currentQuestions.length}`;
+    document.getElementById('question-text').innerText = q.question;
+    
+    const optionsContainer = document.getElementById('options-container');
+    optionsContainer.innerHTML = '';
+    
+    q.options.forEach((opt, index) => {
+      const label = document.createElement('label');
+      const radio = document.createElement('input');
+      radio.type = 'radio';
+      radio.name = 'option';
+      radio.value = index;
+      
+      // Preserve previously selected answer when using the Back button
+      if (userAnswers[currentIndex] === index) {
+        radio.checked = true;
+      }
+      
+      label.appendChild(radio);
+      label.appendChild(document.createTextNode(opt));
+      optionsContainer.appendChild(label);
+    });
+
+    document.getElementById('back-btn').style.visibility = (currentIndex === 0) ? 'hidden' : 'visible';
+    
+    const nextBtn = document.getElementById('next-btn');
+    if (currentIndex === currentQuestions.length - 1) {
+      nextBtn.innerText = 'Submit Examination';
+      nextBtn.style.backgroundColor = '#27ae60';
+    } else {
+      nextBtn.innerText = 'Next';
+      nextBtn.style.backgroundColor = '#3498db';
     }
 
-    function startQuiz(topic) {
-        if(topic === 'gi') {
-            currentDeck = giQuestions;
-            document.getElementById('topic-badge').innerText = "GI Disorders";
-            document.querySelector('header').style.background = "var(--secondary)";
-        } else {
-            currentDeck = psychQuestions;
-            document.getElementById('topic-badge').innerText = "Psychiatric Nursing";
-            document.querySelector('header').style.background = "var(--accent)";
-        }
-        
-        currentIdx = 0;
-        score = 0;
-        showView('quiz');
-        loadQuestion();
-    }
-
-    function loadQuestion() {
-        answered = false;
-        const qData = currentDeck[currentIdx];
-        
-        // UI Updates
-        document.getElementById('q-current').innerText = currentIdx + 1;
-        document.getElementById('q-total').innerText = currentDeck.length;
-        document.getElementById('question-text').innerText = qData.q;
-        
-        const pct = ((currentIdx) / currentDeck.length) * 100;
-        document.getElementById('progress-fill').style.width = pct + '%';
-
-        // Reset areas
-        document.getElementById('rationale-display').style.display = 'none';
-        document.getElementById('btn-next').style.display = 'none';
-        const optContainer = document.getElementById('options-container');
-        optContainer.innerHTML = '';
-
-        // Generate Buttons
-        qData.options.forEach((opt, idx) => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.innerText = opt;
-            btn.onclick = () => handleAnswer(idx, btn);
-            optContainer.appendChild(btn);
-        });
-    }
-
-    function handleAnswer(selectedIdx, btn) {
-        if(answered) return;
-        answered = true;
-
-        const correctIdx = currentDeck[currentIdx].answer;
-        const buttons = document.getElementById('options-container').children;
-
-        if(selectedIdx === correctIdx) {
-            btn.classList.add('correct');
-            score++;
-        } else {
-            btn.classList.add('wrong');
-            buttons[correctIdx].classList.add('correct');
-        }
-
-        document.getElementById('rationale-text').innerText = currentDeck[currentIdx].rationale;
-        document.getElementById('rationale-display').style.display = 'block';
-        document.getElementById('btn-next').style.display = 'block';
-
-        // Lock buttons
-        for(let b of buttons) b.disabled = true;
-    }
-
-    function nextQuestion() {
-        currentIdx++;
-        if(currentIdx < currentDeck.length) {
+    if (timerEnabled) {
+      clearInterval(timerInterval);
+      timeLeft = 60; // 1 min timer reset for the current question
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          saveAnswer();
+          if (currentIndex < currentQuestions.length - 1) {
+            currentIndex++;
             loadQuestion();
-        } else {
-            finishQuiz();
+          } else {
+            showResults();
+          }
         }
+      }, 1000);
+    } else {
+      document.getElementById('timer-display').innerText = '';
     }
+  }
 
-    function finishQuiz() {
-        showView('results');
-        const finalPct = Math.round((score / currentDeck.length) * 100);
-        document.getElementById('final-score').innerText = finalPct;
-        
-        const msg = document.getElementById('score-msg');
-        if(finalPct >= 80) {
-            msg.innerText = "Excellent Job! You're ready.";
-            msg.style.color = "var(--success)";
-        } else if (finalPct >= 60) {
-            msg.innerText = "Good work. Review your rationales.";
-            msg.style.color = "#f39c12";
+  function updateTimerDisplay() {
+    const timerDisplay = document.getElementById('timer-display');
+    timerDisplay.innerText = `Time Left: ${timeLeft}s`;
+    timerDisplay.style.color = (timeLeft <= 10) ? '#c0392b' : '#e74c3c';
+  }
+
+  function saveAnswer() {
+    const selected = document.querySelector('input[name="option"]:checked');
+    if (selected) {
+      userAnswers[currentIndex] = parseInt(selected.value);
+    } else {
+      userAnswers[currentIndex] = null;
+    }
+  }
+
+  function nextQuestion() {
+    saveAnswer();
+    if (currentIndex < currentQuestions.length - 1) {
+      currentIndex++;
+      loadQuestion();
+    } else {
+      showResults();
+    }
+  }
+
+  function prevQuestion() {
+    saveAnswer();
+    if (currentIndex > 0) {
+      currentIndex--;
+      loadQuestion();
+    }
+  }
+
+  function showResults() {
+    clearInterval(timerInterval);
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.remove('hidden');
+    
+    let score = 0;
+    const reviewContainer = document.getElementById('review-container');
+    reviewContainer.innerHTML = '';
+
+    currentQuestions.forEach((q, index) => {
+      const userAnswer = userAnswers[index];
+      const isCorrect = userAnswer === q.correctAnswer;
+      if (isCorrect) score++;
+
+      const resultItem = document.createElement('div');
+      resultItem.className = 'result-item';
+      
+      let html = `<p><strong>Q${index + 1}: ${q.question}</strong></p>`;
+      
+      if (isCorrect) {
+        html += `<p class="correct-text">Correct!</p>`;
+      } else {
+        html += `<p class="incorrect-text">Incorrect.</p>`;
+        if (userAnswer !== null) {
+          html += `<p style="margin: 5px 0;">You selected: ${q.options[userAnswer]}</p>`;
         } else {
-            msg.innerText = "Keep studying!";
-            msg.style.color = "var(--error)";
+          html += `<p style="margin: 5px 0;">You selected: <em>No answer recorded</em></p>`;
         }
-    }
+      }
+      
+      html += `<p class="correct-text">The correct answer is: ${q.options[q.correctAnswer]}</p>`;
+      
+      // Injecting the rationale box
+      html += `
+        <div class="rationale-box">
+          <strong>Rationale:</strong> ${q.rationale}
+        </div>
+      `;
+      
+      resultItem.innerHTML = html;
+      reviewContainer.appendChild(resultItem);
+    });
 
+    document.getElementById('score-display').innerText = `Your Score: ${score} / ${currentQuestions.length}`;
+  }
+
+  function restartQuiz() {
+    document.getElementById('result-screen').classList.add('hidden');
+    document.getElementById('home-screen').classList.remove('hidden');
+  }
 </script>
 </body>
 </html>
