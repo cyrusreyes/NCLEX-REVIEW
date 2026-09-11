@@ -5,35 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NLE 2024 Practice Examination</title>
 <style>
-  /* Core logic for hiding and showing exam screens */
-#nle-exam-container .exam-section {
-  display: none;
-}
-
-#nle-exam-container .exam-section.active {
-  display: block;
-}
-
-#nle-exam-container .hidden {
-  display: none !important;
-}
-
-/* Paste the rest of the visual styles from index (8).html below */
-#nle-exam-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-/* Example button styling */
-#options-container button {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  cursor: pointer;
-}
   body { 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     background-color: #f4f7f6; 
@@ -105,34 +76,7 @@
   <!-- NLE Practice Exam Container -->
 <div id="nle-exam-container">
   
-  <!-- Category Selection / Home -->
-  <div id="home-screen" class="exam-section active">
-    <h2>NLE Practice Examination</h2>
-    <p>Select a category to begin.</p>
-    <!-- Add your category buttons here -->
-    <button id="start-exam-btn">Start Exam</button>
-  </div>
-
-  <!-- Active Quiz Interface -->
-  <div id="quiz-screen" class="exam-section hidden">
-    <div id="timer-display">Time: 00:00</div>
-    <h3 id="question-text">Question will load here...</h3>
-    <div id="options-container">
-      <!-- Options will be injected via JS -->
-    </div>
-    <button id="next-btn" class="hidden">Next Question</button>
-  </div>
-
-  <!-- Results and Rationales -->
-  <div id="result-screen" class="exam-section hidden">
-    <h2>Examination Complete</h2>
-    <p id="score-display"></p>
-    <div id="rationales-container"></div>
-    <button id="restart-btn">Take Another Exam</button>
-  </div>
-
-</div>
-
+  
 <!-- Home Screen -->
 <div class="container" id="home-screen">
   <h1>NLE Practice Examination</h1>
@@ -11987,39 +11931,6 @@ function restartQuiz() {
     resultScreen.classList.add('hidden');
     homeScreen.classList.remove('hidden');
   }
-  // 1. Move the massive question array here
-const allQuestions = [
-  // ... Paste the array from index (8).html here ...
-];
-
-// 2. Core UI variables
-const homeScreen = document.getElementById('home-screen');
-const quizScreen = document.getElementById('quiz-screen');
-const resultScreen = document.getElementById('result-screen');
-const startBtn = document.getElementById('start-exam-btn');
-const restartBtn = document.getElementById('restart-btn');
-
-// 3. Navigation Logic
-function showScreen(screenElement) {
-  homeScreen.classList.remove('active');
-  quizScreen.classList.remove('active');
-  resultScreen.classList.remove('active');
-  screenElement.classList.add('active');
-}
-
-// Start button listener
-startBtn.addEventListener('click', () => {
-  // Initialize your timer and load the first question here
-  showScreen(quizScreen);
-});
-
-// Restart button listener
-restartBtn.addEventListener('click', () => {
-  // Reset score variables here
-  showScreen(homeScreen);
-});
-
-// Paste the rest of the timer, scoring, and rationale generation logic from index (8).html here.
 </script>
 </body>
 </html>
