@@ -11540,8 +11540,12 @@
       rationale: "In an emergency, lives saving facts are obtained first. The name and the amount of medication ingested are of outmost important in treating this potentially life threatening situation."
     }
   ];
-let currentIdx = 0;
 let currentQuestions = [];
+  let currentQuestionIndex = 0;
+  let userAnswers = [];
+  let timerInterval = null;
+  let timeRemaining = 0;
+  let timeLimitPerQuestion = 0;
 
 function startQuiz() {
     const category = document.querySelector('select').value;
@@ -11598,12 +11602,6 @@ function restartQuiz() {
     document.getElementById('setup-screen').style.display = 'block';
 }
 
-  let currentQuestions = [];
-  let currentIndex = 0;
-  let userAnswers = [];
-  let timerInterval;
-  let timeLeft = 60;
-  let timerEnabled = false;
 
   // Question randomizer engine
   function shuffle(array) {
@@ -11780,13 +11778,7 @@ function restartQuiz() {
     document.getElementById('home-screen').classList.remove('hidden');
   }
   // Application State
-  let filteredQuestions = [];
-  let currentQuestionIndex = 0;
-  let userAnswers = {};
-  let timerInterval;
-  let timeLeft = 0;
-  let timerDuration = 0; 
-  let timerEnabled = false;
+
 
   // DOM Elements 
   const homeScreen = document.getElementById('home-screen');
