@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CA 1 Practice Examination</title>
+    <style>
+        /* Modern, clean styling for the exam interface */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .exam-container {
+            max-width: 750px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .hidden {
+            display: none !important;
+        }
+        .btn {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            background-color: #1a252f;
+        }
+        .btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        /* Option Button Styling */
+        .option-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: #fdfdfd;
+            border: 2px solid #e0e0e0;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        .option-btn:hover {
+            background: #f1f3f5;
+            border-color: #ced4da;
+        }
+        .option-btn.selected {
+            border-color: #3498db;
+            background: #ebf5fb;
+            font-weight: 500;
+        }
+        /* Rationale Styling */
+        .rationale-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-left: 5px solid #3498db;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        .rationale-box.correct-box {
+            border-left-color: #27ae60;
+            background: #e9f7ef;
+        }
+        .rationale-box.incorrect-box {
+            border-left-color: #e74c3c;
+            background: #fdedec;
+        }
+        #question-tracker {
+            color: #7f8c8d;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="exam-container">
+        
+        <!-- Start Screen -->
+        <div id="start-screen" class="exam-section">
+            <h1 style="color: #2c3e50;">CA 1 Practice Examination</h1>
+            <p>Welcome to your CA 1 module assessment. Read each question carefully and select the single best answer. Your results and rationales will be provided at the end of the exam.</p>
+            <button class="btn" id="start-btn">Begin Examination</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="exam-section hidden">
+            <div style="margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+                <span id="question-tracker">Question 1 of 3</span>
+            </div>
+            <h2 id="question-text" style="margin-bottom: 25px;">Question goes here?</h2>
+            
+            <div id="options-container">
+                <!-- Options injected via JavaScript -->
+            </div>
+            
+            <button class="btn hidden" id="next-btn">Next Question</button>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="exam-section hidden">
+            <h2 style="color: #2c3e50;">Examination Complete</h2>
+            <h3 id="score-text" style="font-size: 1.5em; margin-bottom: 30px;">You scored X out of Y</h3>
+            
+            <div id="rationales-container">
+                <!-- Rationales injected via JavaScript -->
+            </div>
+            
+            <button class="btn" id="restart-btn">Retake Examination</button>
+        </div>
+
+    </div>
+
+    <script>
+        // 1. Array of Questions
+        const questions = [
+            {
+                question: "When applying the ADPIE framework, which action is explicitly performed during the Assessment phase?",
+                options: [
+                    "Formulating a SMART goal for the client's recovery",
+                    "Gathering objective and subjective data from the client",
+                    "Documenting the client's response to an intervention",
+                    "Administering prescribed intravenous medications"
+                ],
+                correctAnswer: 1, 
+                rationale: "Assessment is the foundation of the nursing process (ADPIE) and strictly involves the systematic collection, verification, and communication of objective and subjective data."
+            },
+            {
+                question: "In FDAR charting, what specific type of information belongs in the 'Data' section?",
+                options: [
+                    "The nurse's medical diagnosis of the patient's illness",
+                    "Subjective and objective findings that support the identified focus",
+                    "The specific nursing interventions performed during the shift",
+                    "The patient's evaluation of the care provided"
+                ],
+                correctAnswer: 1, 
+                rationale: "In FDAR (Focus, Data, Action, Response) charting, 'Data' contains the subjective and objective observations that support the focus. Interventions go in 'Action', and evaluations go in 'Response'."
+            },
+            {
+                question: "Which of the following best describes a descriptive-correlational research design?",
+                options: [
+                    "It determines the direct cause-and-effect relationship between a clinical intervention and an outcome.",
+                    "It explores the lived experiences of individuals facing a specific health phenomenon.",
+                    "It describes variables and examines the statistical relationships between them without manipulating the independent variable.",
+                    "It synthesizes findings from multiple previous randomized controlled trials into a single report."
+                ],
+                correctAnswer: 2, 
+                rationale: "Descriptive-correlational research observes, describes, and documents variables while determining the extent to which they are related, explicitly without experimental manipulation."
+            }
+        ];
+
+        // 2. Variables
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = [];
+
+        // 3. DOM Elements
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const questionTracker = document.getElementById('question-tracker');
+        const nextBtn = document.getElementById('next-btn');
+        
+        const scoreText = document.getElementById('score-text');
+        const rationalesContainer = document.getElementById('rationales-container');
+
+        // 4. Core Functions
+        function hideAllScreens() {
+            startScreen.classList.add('hidden');
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.add('hidden');
+        }
+
+        function loadQuestion() {
+            const currentQ = questions[currentQuestionIndex];
+            questionText.innerText = currentQ.question;
+            questionTracker.innerText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            
+            // Clear previous options
+            optionsContainer.innerHTML = '';
+            nextBtn.classList.add('hidden'); // Hide next button until an option is picked
+
+            // Create buttons for each option
+            currentQ.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = option;
+                
+                btn.onclick = () => selectOption(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedIndex, selectedBtn) {
+            // Remove 'selected' class from all options
+            const allOptions = optionsContainer.querySelectorAll('.option-btn');
+            allOptions.forEach(btn => btn.classList.remove('selected'));
+            
+            // Add 'selected' class to the clicked one
+            selectedBtn.classList.add('selected');
+            
+            // Save answer and show Next button
+            userAnswers[currentQuestionIndex] = selectedIndex;
+            nextBtn.classList.remove('hidden');
+        }
+
+        function showResults() {
+            hideAllScreens();
+            resultScreen.classList.remove('hidden');
+            
+            // Calculate score and build rationales HTML
+            score = 0;
+            let rationalesHTML = '';
+
+            questions.forEach((q, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === q.correctAnswer;
+                if (isCorrect) score++;
+
+                const boxClass = isCorrect ? 'correct-box' : 'incorrect-box';
+                const statusText = isCorrect ? 'Correct' : 'Incorrect';
+                
+                rationalesHTML += `
+                    <div class="rationale-box ${boxClass}">
+                        <h4>Question ${index + 1}: ${statusText}</h4>
+                        <p><strong>Q:</strong> ${q.question}</p>
+                        <p><strong>Your Answer:</strong> ${q.options[userAnswer]}</p>
+                        ${!isCorrect ? `<p><strong>Correct Answer:</strong> ${q.options[q.correctAnswer]}</p>` : ''}
+                        <hr style="border: 0; border-top: 1px solid #ccc; margin: 15px 0;">
+                        <p><strong>Rationale:</strong> ${q.rationale}</p>
+                    </div>
+                `;
+            });
+
+            scoreText.innerText = `You scored ${score} out of ${questions.length}`;
+            rationalesContainer.innerHTML = rationalesHTML;
+        }
+
+        // 5. Event Listeners
+        document.getElementById('start-btn').addEventListener('click', () => {
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            hideAllScreens();
+            quizScreen.classList.remove('hidden');
+            loadQuestion();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        });
+
+        document.getElementById('restart-btn').addEventListener('click', () => {
+            hideAllScreens();
+            startScreen.classList.remove('hidden');
+        });
+
+    </script>
+</body>
+</html>
