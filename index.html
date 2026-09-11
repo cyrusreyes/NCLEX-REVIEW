@@ -86,6 +86,20 @@
       <option value="Medical and Surgical Nursing">Medical and Surgical Nursing</option>
       <option value="Psychiatric Nursing">Psychiatric Nursing</option>
       <option value="Community Health Nursing and Care of the Mother and Child">Community Health Nursing and Care of the Mother and Child</option>
+  <option value="Foundation of Professional Nursing Practice">Foundation of Professional Nursing Practice</option>
+  <option value="Medical and Surgical Nursing">Medical and Surgical Nursing</option>
+  <option value="Psychiatric Nursing">Psychiatric Nursing</option>
+  <option value="Community Health Nursing and Care of the Mother and Child">Community Health Nursing and Care of the Mother and Child</option>
+  <option value="Leadership and Management">Leadership and Management</option>
+  <option value="PNLE II Nursing Practice">PNLE II Nursing Practice</option>
+  <option value="PNLE III Nursing Practice">PNLE III Nursing Practice</option>
+  <option value="PNLE IV Nursing Practice">PNLE IV Nursing Practice</option>
+  <option value="PNLE V Nursing Practice">PNLE V Nursing Practice</option>
+  <option value="PNLE I Foundation of Nursing">PNLE I Foundation of Nursing</option>
+  <option value="PNLE II Maternal and Child Health">PNLE II Maternal and Child Health</option>
+  <option value="PNLE III Medical Surgical Nursing">PNLE III Medical Surgical Nursing</option>
+  <option value="PNLE IV Psychiatric Nursing">PNLE IV Psychiatric Nursing</option>
+</select>
     </select>
   </div>
   
@@ -11529,9 +11543,65 @@
       ],
       correctAnswer: 1, 
       rationale: "In an emergency, lives saving facts are obtained first. The name and the amount of medication ingested are of outmost important in treating this potentially life threatening situation."
-    },
+    }
   ];
+let currentIdx = 0;
+let currentQuestions = [];
 
+function startQuiz() {
+    const category = document.querySelector('select').value;
+    
+    // Filter the array to match the selected subject
+    currentQuestions = allQuestions.filter(q => q.category === category);
+    
+    if (currentQuestions.length === 0) {
+        alert("No questions available for this subject yet.");
+        return;
+    }
+
+    // Hide selection screen, show quiz screen
+    document.getElementById('setup-screen').style.display = 'none';
+    document.getElementById('quiz-screen').style.display = 'block';
+    showQuestion();
+}
+
+function showQuestion() {
+    const q = currentQuestions[currentIdx];
+    const container = document.getElementById('question-container');
+    
+    // Render question and options. Ensure radio buttons share the same 'name' 
+    // so only one option can be selected at a time.
+    let html = `<h3>${q.question}</h3>`;
+    q.options.forEach((opt, i) => {
+        html += `<label>
+                   <input type="radio" name="answer" value="${opt}"> ${opt}
+                 </label><br>`;
+    });
+    
+    container.innerHTML = html;
+}
+
+function nextQuestion() {
+    if (currentIdx < currentQuestions.length - 1) {
+        currentIdx++;
+        showQuestion();
+    } else {
+        alert("End of examination.");
+    }
+}
+
+function prevQuestion() {
+    if (currentIdx > 0) {
+        currentIdx--;
+        showQuestion();
+    }
+}
+
+function restartQuiz() {
+    currentIdx = 0;
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('setup-screen').style.display = 'block';
+}
 
   let currentQuestions = [];
   let currentIndex = 0;
