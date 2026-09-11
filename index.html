@@ -73,98 +73,80 @@
 </style>
 </head>
 <body>
-<!-- These are your tab buttons at the top -->
-  <div class="tab-menu">
-    <button>Home</button>
-    <button>CA 1</button>
-    <button>CA 2</button>
+
+  <!-- Navigation / Tab Menu -->
+  <div class="tab-menu" style="max-width: 800px; margin: 0 auto 20px auto; display: flex; gap: 10px;">
+    <button class="btn" style="margin: 0;">Nclex</button>
+    <button class="btn btn-back" style="margin: 0;">CA 1</button>
+    <button class="btn btn-back" style="margin: 0;">CA 2</button>
   </div>
 
- <!-- These are your tab buttons at the top -->
-  <div class="tab-menu">
-    <button>Home</button>
-    <button>CA 1</button>
-    <button>CA 2</button>
-  </div>
-
-  <!-- This is the content for the Home tab -->
-  <div id="home-content">
-    <h1>Welcome to the Reviewer</h1>
-  </div>
-
-  <!-- CA 1 Tab Content -->
-  <div id="ca1-content">
-    <h2>CA 1 Module</h2>
-    <p>Review the materials below and take the practice exam.</p>
+  <div id="nle-exam-container">
     
-    <!-- The iframe linking to your second file -->
-    <iframe src="ca1.html" width="100%" height="800px" style="border: none; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);"></iframe>
-  </div>
-<div id="nle-exam-container">
-  
-  
-<!-- Home Screen -->
-<div class="container" id="home-screen">
-  <h1>NLE Practice Examination</h1>
-  <p>Select a specific topic category to begin testing your knowledge. Questions and options will be randomized upon starting.</p>
-  
-  <div class="category-group">
-    <label for="category-select"><strong>Select Subject Category:</strong></label><br><br>
-    <select id="category-select">
-  <option value="Foundation of Professional Nursing Practice">Foundation of Professional Nursing Practice</option>
-  <option value="Medical and Surgical Nursing">Medical and Surgical Nursing</option>
-  <option value="Psychiatric Nursing">Psychiatric Nursing</option>
-  <option value="Community Health Nursing and Care of the Mother and Child">Community Health Nursing and Care of the Mother and Child</option>
-  <option value="Leadership and Management">Leadership and Management</option>
-  <option value="PNLE II Nursing Practice">PNLE II Nursing Practice</option>
-  <option value="PNLE III Nursing Practice">PNLE III Nursing Practice</option>
-  <option value="PNLE IV Nursing Practice">PNLE IV Nursing Practice</option>
-  <option value="PNLE V Nursing Practice">PNLE V Nursing Practice</option>
-  <option value="PNLE I Foundation of Nursing">PNLE I Foundation of Nursing</option>
-  <option value="PNLE II Maternal and Child Health">PNLE II Maternal and Child Health</option>
-  <option value="PNLE III Medical Surgical Nursing">PNLE III Medical Surgical Nursing</option>
-  <option value="PNLE IV Psychiatric Nursing">PNLE IV Psychiatric Nursing</option>
-    </select>
-  </div>
-  
-<div style="margin: 25px 0; padding: 15px; background: #e8f4f8; border-radius: 6px;">
-    <label for="timer-select" style="font-size: 16px;"><strong>Select Timer Duration:</strong></label><br><br>
-    <select id="timer-select" style="padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; width: 100%; max-width: 300px;">
-      <option value="0">No Timer (Untimed)</option>
-      <option value="30">30 Seconds per question</option>
-      <option value="60">1 Minute per question</option>
-    </select>
-    <p style="margin: 10px 0 0 0; font-size: 14px; color: #555;">If time runs out, the examination will automatically advance to the next item.</p>
-  </div>
-  
-  <button class="btn" style="width: 100%; padding: 15px; font-size: 18px;" onclick="startQuiz()">Begin Examination</button>
-</div>
+    <!-- Home Screen -->
+    <div class="container" id="home-screen">
+      <h1>NLE Practice Examination</h1>
+      <p>Select a specific topic category to begin testing your knowledge. Questions and options will be randomized upon starting.</p>
+      
+      <div class="category-group">
+        <label for="category-select"><strong>Select Subject Category:</strong></label><br><br>
+        <select id="category-select">
+          <option value="Foundation of Professional Nursing Practice">Foundation of Professional Nursing Practice</option>
+          <option value="Medical and Surgical Nursing">Medical and Surgical Nursing</option>
+          <option value="Psychiatric Nursing">Psychiatric Nursing</option>
+          <option value="Community Health Nursing and Care of the Mother and Child">Community Health Nursing and Care of the Mother and Child</option>
+          <option value="Leadership and Management">Leadership and Management</option>
+          <option value="PNLE II Nursing Practice">PNLE II Nursing Practice</option>
+          <option value="PNLE III Nursing Practice">PNLE III Nursing Practice</option>
+          <option value="PNLE IV Nursing Practice">PNLE IV Nursing Practice</option>
+          <option value="PNLE V Nursing Practice">PNLE V Nursing Practice</option>
+          <option value="PNLE I Foundation of Nursing">PNLE I Foundation of Nursing</option>
+          <option value="PNLE II Maternal and Child Health">PNLE II Maternal and Child Health</option>
+          <option value="PNLE III Medical Surgical Nursing">PNLE III Medical Surgical Nursing</option>
+          <option value="PNLE IV Psychiatric Nursing">PNLE IV Psychiatric Nursing</option>
+        </select>
+      </div>
+      
+      <div style="margin: 25px 0; padding: 15px; background: #e8f4f8; border-radius: 6px;">
+        <label for="timer-select" style="font-size: 16px;"><strong>Select Timer Duration:</strong></label><br><br>
+        <select id="timer-select" style="padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; width: 100%; max-width: 300px;">
+          <option value="0">No Timer (Untimed)</option>
+          <option value="30">30 Seconds per question</option>
+          <option value="60">1 Minute per question</option>
+        </select>
+        <p style="margin: 10px 0 0 0; font-size: 14px; color: #555;">If time runs out, the examination will automatically advance to the next item.</p>
+      </div>
+      
+      <button class="btn" style="width: 100%; padding: 15px; font-size: 18px;" onclick="startQuiz()">Begin Examination</button>
+    </div>
 
-<!-- Quiz Screen -->
-<div class="container hidden" id="quiz-screen">
-  <div class="header-info">
-    <div class="progress-tracker" id="progress-tracker">Question 1 of X</div>
-    <div class="timer" id="timer-display"></div>
-  </div>
-  
-  <h2 id="question-text" style="font-size: 20px; line-height: 1.5;">Question goes here?</h2>
-  <div class="options" id="options-container">
-    <!-- Options generated dynamically -->
-  </div>
-  
-  <div style="margin-top: 30px; display: flex; justify-content: space-between;">
-    <button class="btn btn-back" id="back-btn" onclick="prevQuestion()">Back</button>
-    <button class="btn" id="next-btn" onclick="nextQuestion()">Next</button>
-  </div>
-</div>
+    <!-- Quiz Screen -->
+    <div class="container hidden" id="quiz-screen">
+      <div class="header-info">
+        <div class="progress-tracker" id="progress-tracker">Question 1 of X</div>
+        <div class="timer" id="timer-display"></div>
+      </div>
+      
+      <h2 id="question-text" style="font-size: 20px; line-height: 1.5;">Question goes here?</h2>
+      <div class="options" id="options-container">
+        <!-- Options generated dynamically -->
+      </div>
+      
+      <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+        <button class="btn btn-back" id="back-btn" onclick="prevQuestion()">Back</button>
+        <button class="btn" id="next-btn" onclick="nextQuestion()">Next</button>
+      </div>
+    </div>
 
-<!-- Result Screen -->
-<div class="container hidden" id="result-screen">
-  <h1>Examination Results</h1>
-  <h2 id="score-display" style="color: #2980b9;">Your Score: 0/0</h2>
-  <div id="review-container" style="margin-top: 20px;"></div>
-  <button class="btn" style="width: 100%; margin-top: 20px;" onclick="restartQuiz()">Return to Category Selection</button>
-</div>
+    <!-- Result Screen -->
+    <div class="container hidden" id="result-screen">
+      <h1>Examination Results</h1>
+      <h2 id="score-display" style="color: #2980b9;">Your Score: 0/0</h2>
+      <div id="review-container" style="margin-top: 20px;"></div>
+      <button class="btn" style="width: 100%; margin-top: 20px;" onclick="restartQuiz()">Return to Category Selection</button>
+    </div>
+
+  </div>
 
 <script>
   // Questions and rationales extracted directly from the provided reviewer document.
