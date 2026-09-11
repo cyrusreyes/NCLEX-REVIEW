@@ -11941,7 +11941,7 @@ function restartQuiz() {
   }
   // Simple tab-switching logic
   const buttons = document.querySelectorAll('.tab-menu button');
-  const homeContent = document.getElementById('home-content');
+  const nclexContent = document.getElementById('home-content');
   const ca1Content = document.getElementById('ca1-content');
   
   // Optional: If you haven't made a ca2 div yet, this prevents errors
@@ -11954,7 +11954,7 @@ function restartQuiz() {
   buttons.forEach((btn, index) => {
     btn.addEventListener('click', () => {
       // Hide all contents first
-      homeContent.style.display = 'none';
+      nclexContent.style.display = 'none';
       ca1Content.style.display = 'none';
 
       // Show content based on which button was clicked
@@ -11964,6 +11964,7 @@ function restartQuiz() {
         ca1Content.style.display = 'block'; // CA 1 tab
       }
       // Add more index checks if you add CA 2 later
+    });
     });
 </script>
 </body>
