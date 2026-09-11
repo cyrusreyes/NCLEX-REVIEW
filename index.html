@@ -11957,6 +11957,32 @@ function restartQuiz() {
     resultScreen.classList.add('hidden');
     homeScreen.classList.remove('hidden');
   }
+  // Simple tab-switching logic
+  const buttons = document.querySelectorAll('.tab-menu button');
+  const homeContent = document.getElementById('home-content');
+  const ca1Content = document.getElementById('ca1-content');
+  
+  // Optional: If you haven't made a ca2 div yet, this prevents errors
+  // (Assuming you have a home and ca1 tab for now)
+  
+  // Hide everything except home by default
+  ca1Content.style.display = 'none';
+
+  // Add click events to your buttons
+  buttons.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      // Hide all contents first
+      homeContent.style.display = 'none';
+      ca1Content.style.display = 'none';
+
+      // Show content based on which button was clicked
+      if (index === 0) {
+        homeContent.style.display = 'block'; // Home tab
+      } else if (index === 1) {
+        ca1Content.style.display = 'block'; // CA 1 tab
+      }
+      // Add more index checks if you add CA 2 later
+    });
 </script>
 </body>
 </html>
