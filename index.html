@@ -89,11 +89,14 @@
     </select>
   </div>
   
-  <div style="margin: 25px 0; padding: 15px; background: #e8f4f8; border-radius: 6px;">
-    <label style="cursor: pointer; font-size: 16px;">
-      <input type="checkbox" id="timer-toggle"> <strong>Enable 1-minute timer per question</strong>
-    </label>
-    <p style="margin: 5px 0 0 25px; font-size: 14px; color: #555;">If time runs out, the examination will automatically advance to the next item.</p>
+<div style="margin: 25px 0; padding: 15px; background: #e8f4f8; border-radius: 6px;">
+    <label for="timer-select" style="font-size: 16px;"><strong>Select Timer Duration:</strong></label><br><br>
+    <select id="timer-select" style="padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; width: 100%; max-width: 300px;">
+      <option value="0">No Timer (Untimed)</option>
+      <option value="30">30 Seconds per question</option>
+      <option value="60">1 Minute per question</option>
+    </select>
+    <p style="margin: 10px 0 0 0; font-size: 14px; color: #555;">If time runs out, the examination will automatically advance to the next item.</p>
   </div>
   
   <button class="btn" style="width: 100%; padding: 15px; font-size: 18px;" onclick="startQuiz()">Begin Examination</button>
@@ -11710,6 +11713,163 @@
   function restartQuiz() {
     document.getElementById('result-screen').classList.add('hidden');
     document.getElementById('home-screen').classList.remove('hidden');
+  }
+  // Application State
+  let filteredQuestions = [];
+  let currentQuestionIndex = 0;
+  let userAnswers = {};
+  let timerInterval;
+  let timeLeft = 0;
+  let timerDuration = 0; 
+  let timerEnabled = false;
+
+  // DOM Elements 
+  const homeScreen = document.getElementById('home-screen');
+  const quizScreen = document.getElementById('quiz-screen');
+  const resultScreen = document.getElementById('result-screen');
+  const categorySelect = document.getElementById('category-select');
+  const timerSelect = document.getElementById('timer-select'); // This points to your new dropdown
+  const progressTracker = document.getElementById('progress-tracker');
+  const timerDisplay = document.getElementById('timer-display');
+  const questionText = document.getElementById('question-text');
+  const optionsContainer = document.getElementById('options-container');
+  const reviewContainer = document.getElementById('review-container');
+  const scoreDisplay = document.getElementById('score-display');
+  const backBtn = document.getElementById('back-btn');
+
+  function startQuiz() {
+    const selectedCategory = categorySelect.value;
+    
+    // Read the selected timer value (0, 30, or 60)
+    timerDuration = parseInt(timerSelect.value);
+    timerEnabled = timerDuration > 0;
+    
+    // Filter and shuffle questions
+    filteredQuestions = allQuestions.filter(q => q.category === selectedCategory);
+    
+    // Shuffle array function 
+    for (let i = filteredQuestions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [filteredQuestions[i], filteredQuestions[j]] = [filteredQuestions[j], filteredQuestions[i]];
+    }
+    
+    if (filteredQuestions.length === 0) {
+      alert("No questions found for this category.");
+      return;
+    }
+
+    currentQuestionIndex = 0;
+    userAnswers = {};
+    
+    homeScreen.classList.add('hidden');
+    quizScreen.classList.remove('hidden');
+    
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    clearInterval(timerInterval);
+    const currentQ = filteredQuestions[currentQuestionIndex];
+    
+    // Update Header
+    progressTracker.textContent = `Question ${currentQuestionIndex + 1} of ${filteredQuestions.length}`;
+    questionText.textContent = currentQ.question;
+    
+    // Manage Back Button
+    backBtn.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+    
+    // Generate Single-Choice Options
+    optionsContainer.innerHTML = '';
+    currentQ.options.forEach((opt, index) => {
+      const isChecked = userAnswers[currentQuestionIndex] === index ? 'checked' : '';
+      optionsContainer.innerHTML += `
+        <label>
+          <input type="radio" name="nclex-answer" value="${index}" ${isChecked}>
+          ${opt}
+        </label>
+      `;
+    });
+
+    // Handle Dynamic Timer
+    if (timerEnabled) {
+      timeLeft = timerDuration; // Applies either 30 or 60 based on selection
+      timerDisplay.textContent = `Time: ${timeLeft}s`;
+      
+      // Timer color warning logic
+      timerDisplay.style.color = '#e74c3c'; // Reset to red
+      
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `Time: ${timeLeft}s`;
+        
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          nextQuestion();
+        }
+      }, 1000);
+    } else {
+      timerDisplay.textContent = ''; // Hides timer text if untimed
+    }
+  }
+
+  function saveAnswer() {
+    const selected = document.querySelector('input[name="nclex-answer"]:checked');
+    if (selected) {
+      userAnswers[currentQuestionIndex] = parseInt(selected.value);
+    }
+  }
+
+  function nextQuestion() {
+    saveAnswer();
+    currentQuestionIndex++;
+    
+    if (currentQuestionIndex >= filteredQuestions.length) {
+      showResults();
+    } else {
+      loadQuestion();
+    }
+  }
+
+  function prevQuestion() {
+    saveAnswer();
+    currentQuestionIndex--;
+    loadQuestion();
+  }
+
+  function showResults() {
+    clearInterval(timerInterval);
+    quizScreen.classList.add('hidden');
+    resultScreen.classList.remove('hidden');
+    
+    let score = 0;
+    reviewContainer.innerHTML = '';
+
+    filteredQuestions.forEach((q, index) => {
+      const userAnswer = userAnswers[index];
+      const isCorrect = userAnswer === q.correctAnswer;
+      if (isCorrect) score++;
+
+      const resultHTML = `
+        <div class="result-item">
+          <p><strong>${q.question}</strong></p>
+          <p class="${isCorrect ? 'correct-text' : 'incorrect-text'}">
+            Your Answer: ${userAnswer !== undefined ? q.options[userAnswer] : 'Skipped'}<br>
+            Correct Answer: ${q.options[q.correctAnswer]}
+          </p>
+          <div class="rationale-box">
+            <strong>Rationale:</strong> ${q.rationale}
+          </div>
+        </div>
+      `;
+      reviewContainer.innerHTML += resultHTML;
+    });
+
+    scoreDisplay.textContent = `Your Score: ${score} / ${filteredQuestions.length}`;
+  }
+
+  function restartQuiz() {
+    resultScreen.classList.add('hidden');
+    homeScreen.classList.remove('hidden');
   }
 </script>
 </body>
