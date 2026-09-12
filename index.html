@@ -3,8 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NLE 2024 Practice Examination</title>
+<title>PRACTICE EXAM</title>
 <style>
+  /* --- NEW STYLES --- */
+  /* Dark Mode */
+  body.dark-mode { background-color: #121212; color: #e0e0e0; }
+  body.dark-mode .container { background: #1e1e1e; box-shadow: 0 4px 6px rgba(255,255,255,0.05); }
+  body.dark-mode h1, body.dark-mode h2, body.dark-mode .progress-tracker { color: #ecf0f1; }
+  body.dark-mode .options label { background: #2c2c2c; color: #e0e0e0; }
+  body.dark-mode .options label:hover { background: #3d3d3d; }
+  body.dark-mode .rationale-box { background-color: #3e3b27; border-left-color: #f1c40f; color: #e0e0e0; }
+  body.dark-mode select { background: #2c2c2c; color: #fff; border-color: #555; }
+  body.dark-mode .result-item { border-color: #444; }
+  body.dark-mode .score-history { background: #2c3e50; color: #e0e0e0; }
+
+  /* Visual Progress Bar */
+  .progress-bar-container { width: 100%; background-color: #ecf0f1; border-radius: 8px; height: 10px; margin: 15px 0; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background-color: #27ae60; width: 0%; transition: width 0.4s ease; }
+  body.dark-mode .progress-bar-container { background-color: #444; }
+
+  /* Score History Dashboard */
+  .score-history { background: #e8f4f8; padding: 15px; border-radius: 6px; margin-bottom: 25px; }
+  .score-history ul { list-style-type: none; padding-left: 0; }
+  .score-history li { padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
   body { 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     background-color: #f4f7f6; 
@@ -73,13 +94,22 @@
 </style>
 </head>
 <body>
+  
+  <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+        <button class="btn btn-back" id="back-btn" onclick="prevQuestion()">Back</button>
+        <!-- Add this Quit button right here in the middle -->
+        <button class="btn btn-back" style="background-color: #e74c3c;" onclick="quitQuiz()">Quit Exam</button>
+        <button class="btn" id="next-btn" onclick="nextQuestion()">Next</button>
+      </div>
 <!-- Navigation / Tab Menu -->
 <div class="tab-menu" style="max-width: 800px; margin: 0 auto 20px auto; display: flex; gap: 10px;">
   <button class="btn" onclick="switchTab('home')">  Nclex</button>
   <button class="btn btn-back" onclick="switchTab('ca1')">CA 1</button>
   <button class="btn btn-back" onclick="switchTab('ca2')">CA 2</button>
 </div>
-
+<!-- DARK MODE BUTTON -->
+  <button class="btn" style="background-color: #34495e;" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+</div>
 <!-- CA 1 Screen Container (Hidden by default) -->
 <div class="container hidden" id="ca1-screen">
   <h1>CA 1 Examination</h1>
@@ -99,6 +129,13 @@
     <div class="container" id="home-screen">
       <h1>NLE Practice Examination</h1>
       <p>Select a specific topic category to begin testing your knowledge. Questions and options will be randomized upon starting.</p>
+      <!-- SCORE HISTORY -->
+      <div class="score-history" id="score-history-container">
+        <h3 style="margin-top: 0;">📊 Your Past Scores</h3>
+        <ul id="score-history-list">
+          <li>No past exams yet. Take a quiz to see your history!</li>
+        </ul>
+      </div>
       
       <div class="category-group">
         <label for="category-select"><strong>Select Subject Category:</strong></label><br><br>
@@ -145,8 +182,19 @@
     <!-- Quiz Screen -->
     <div class="container hidden" id="quiz-screen">
       <div class="header-info">
+        <!-- VISUAL PROGRESS BAR -->
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progress-bar"></div>
+      </div>
+        
         <div class="progress-tracker" id="progress-tracker">Question 1 of X</div>
         <div class="timer" id="timer-display"></div>
+      </div>
+      <!-- 🚩 FLAG CHECKBOX GOES HERE 🚩 -->
+      <div style="margin-bottom: 15px; text-align: right;">
+        <label style="cursor: pointer; font-weight: bold; color: #e67e22;">
+          <input type="checkbox" id="flag-checkbox" onchange="toggleFlag()"> 🚩 Flag for review
+        </label>
       </div>
       
       <h2 id="question-text" style="font-size: 20px; line-height: 1.5;">Question goes here?</h2>
@@ -11578,19 +11626,96 @@
   let currentQuestionIndex = 0;
   let score = 0;
   let isAnswered = false;
+  let userAnswers = []; 
+  let flaggedQuestions = []; 
+  
+  // Timer variables
+  let timerInterval;
+  let timerDuration = 0;
+  let timeLeft = 0;
+
+  // --- INITIALIZE APP ON LOAD ---
+  window.onload = function() {
+    loadScoreHistory();
+    // Check if user previously set dark mode
+    if(localStorage.getItem('nle_darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+  };
+
+  // --- PREVENT ACCIDENTAL RELOADS ---
+  window.onbeforeunload = function() {
+    const quizScreen = document.getElementById('quiz-screen');
+    // Only warn them if the quiz screen is currently active
+    if (!quizScreen.classList.contains('hidden')) {
+      return "You have an active exam. Are you sure you want to leave? Your progress will be lost.";
+    }
+  };
+
+  // --- DARK MODE TOGGLE ---
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    localStorage.setItem('nle_darkMode', isDark);
+  }
+
+  // --- TAB NAVIGATION ---
+  function switchTab(tabId) {
+    document.getElementById('ca1-screen').classList.add('hidden');
+    document.getElementById('ca2-screen').classList.add('hidden');
+    document.getElementById('nle-exam-container').classList.add('hidden');
+
+    if (tabId === 'ca1') {
+      document.getElementById('ca1-screen').classList.remove('hidden');
+    } else if (tabId === 'ca2') {
+      document.getElementById('ca2-screen').classList.remove('hidden');
+    } else if (tabId === 'home') {
+      document.getElementById('nle-exam-container').classList.remove('hidden');
+    }
+  }
+
+  // --- SCORE HISTORY LOGIC ---
+  function saveScore(category, finalScore, totalItems) {
+    let history = JSON.parse(localStorage.getItem('nle_score_history')) || [];
+    const date = new Date().toLocaleDateString();
+    
+    // Add new score to the beginning of the array
+    history.unshift({ category: category, score: finalScore, total: totalItems, date: date }); 
+    
+    // Keep only the last 5 exams to prevent clutter
+    if (history.length > 5) history.pop(); 
+    
+    localStorage.setItem('nle_score_history', JSON.stringify(history));
+    loadScoreHistory();
+  }
+
+  function loadScoreHistory() {
+    let history = JSON.parse(localStorage.getItem('nle_score_history')) || [];
+    const list = document.getElementById('score-history-list');
+    if(!list) return;
+    
+    list.innerHTML = '';
+    if(history.length === 0) {
+      list.innerHTML = '<li>No past exams yet. Take a quiz to see your history!</li>';
+      return;
+    }
+    
+    history.forEach(item => {
+      let percentage = Math.round((item.score / item.total) * 100);
+      list.innerHTML += `<li><strong>${item.date}</strong> | ${item.category} | <strong>${item.score}/${item.total} (${percentage}%)</strong></li>`;
+    });
+  }
 
   // --- START THE QUIZ ---
   function startQuiz() {
     const category = document.getElementById('category-select').value;
     const limit = document.getElementById('item-limit-select').value;
+    
+    timerDuration = parseInt(document.getElementById('timer-select').value);
 
-    // 1. Filter questions by selected category
     let filtered = allQuestions.filter(q => q.category === category);
-
-    // 2. Shuffle the questions
     filtered.sort(() => Math.random() - 0.5);
 
-    // 3. Apply the selected item limit
     if (limit !== 'all') {
       currentQuizQuestions = filtered.slice(0, parseInt(limit));
     } else {
@@ -11602,84 +11727,155 @@
       return;
     }
 
-    // 4. Reset variables and switch screens
     currentQuestionIndex = 0;
     score = 0;
+    userAnswers = []; 
+    flaggedQuestions = []; 
+
     document.getElementById('home-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
 
     loadQuestion();
   }
 
-  // --- LOAD A QUESTION ---
+  // --- LOAD A QUESTION (WITH SHUFFLER & PROGRESS BAR) ---
   function loadQuestion() {
-    isAnswered = false; // Reset answer status for the new question
+    isAnswered = false; 
     const q = currentQuizQuestions[currentQuestionIndex];
     
-    // Update progress text
+    // Update text tracker and visual progress bar
     document.getElementById('progress-tracker').innerText = `Question ${currentQuestionIndex + 1} of ${currentQuizQuestions.length}`;
+    const progressPercent = ((currentQuestionIndex) / currentQuizQuestions.length) * 100;
+    document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+    // Update Question text and flag status
     document.getElementById('question-text').innerText = q.question;
+    document.getElementById('flag-checkbox').checked = !!flaggedQuestions[currentQuestionIndex];
     
     const optionsContainer = document.getElementById('options-container');
-    optionsContainer.innerHTML = ''; // Clear previous options
+    optionsContainer.innerHTML = ''; 
     
-    // Generate Radio Buttons
-    q.options.forEach((opt, index) => {
+    // Clean prefixes and prepare options for shuffling
+    let optionsWithIndex = q.options.map((opt, index) => {
+      let cleanText = opt.replace(/^[A-Z]\.\s*/, '');
+      return { text: cleanText, originalIndex: index };
+    });
+
+    // Shuffle the options
+    optionsWithIndex.sort(() => Math.random() - 0.5);
+
+    // Generate Radio Buttons using the shuffled array
+    optionsWithIndex.forEach((optionObj) => {
       const label = document.createElement('label');
-      label.id = `label-${index}`;
+      label.id = `label-${optionObj.originalIndex}`; 
       
       const radio = document.createElement('input');
       radio.type = 'radio';
       radio.name = 'option';
-      radio.value = index;
+      radio.value = optionObj.originalIndex;
       
-      // Trigger instant check when they click an option
-      radio.onclick = () => checkAnswer(index); 
+      radio.onclick = () => checkAnswer(optionObj.originalIndex); 
       
       label.appendChild(radio);
-      label.appendChild(document.createTextNode(opt));
+      label.appendChild(document.createTextNode(optionObj.text));
       optionsContainer.appendChild(label);
     });
     
-    // Create the rationale box (hidden initially)
     const rationaleBox = document.createElement('div');
     rationaleBox.id = 'rationale-container';
     rationaleBox.className = 'rationale-box hidden';
     optionsContainer.appendChild(rationaleBox);
 
-    // Button management
     document.getElementById('back-btn').style.display = currentQuestionIndex === 0 ? 'none' : 'inline-block';
     document.getElementById('next-btn').innerText = currentQuestionIndex === currentQuizQuestions.length - 1 ? 'Finish Exam' : 'Next';
-    document.getElementById('next-btn').style.display = 'none'; // Hide next button until they answer
+    document.getElementById('next-btn').style.display = 'none'; 
+
+    startTimer();
   }
 
-  // --- INSTANT FEEDBACK LOGIC ---
-  function checkAnswer(selectedIndex) {
-    if (isAnswered) return; // Prevent changing answer once clicked
-    isAnswered = true;
+  // --- FLAG LOGIC ---
+  function toggleFlag() {
+    flaggedQuestions[currentQuestionIndex] = document.getElementById('flag-checkbox').checked;
+  }
+
+  // --- TIMER LOGIC ---
+  function startTimer() {
+    clearInterval(timerInterval); 
     
+    if (timerDuration === 0) {
+      document.getElementById('timer-display').innerText = 'Untimed';
+      return;
+    }
+
+    timeLeft = timerDuration;
+    document.getElementById('timer-display').innerText = `Time: ${timeLeft}s`;
+
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      document.getElementById('timer-display').innerText = `Time: ${timeLeft}s`;
+
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        timeRanOut();
+      }
+    }, 1000);
+  }
+
+  function timeRanOut() {
+    if (isAnswered) return;
+    isAnswered = true;
+    userAnswers[currentQuestionIndex] = null; 
+
     const q = currentQuizQuestions[currentQuestionIndex];
     const options = document.getElementsByName('option');
     const rationaleBox = document.getElementById('rationale-container');
     
-    // Disable all radio buttons so the user can't change their mind
     options.forEach(opt => opt.disabled = true);
     
-    // Reveal the rationale box
+    rationaleBox.classList.remove('hidden');
+    document.getElementById(`label-${q.correctAnswer}`).style.backgroundColor = '#d4edda'; 
+    rationaleBox.innerHTML = `<div class="incorrect-text" style="color: #c0392b;">Time is up!</div>${q.rationale}`;
+    
+    // Ensure the text reads easily in dark mode
+    if(document.body.classList.contains('dark-mode')){
+        document.getElementById(`label-${q.correctAnswer}`).style.color = '#121212';
+    }
+
+    document.getElementById('next-btn').style.display = 'inline-block';
+  }
+
+  // --- INSTANT FEEDBACK LOGIC ---
+  function checkAnswer(selectedIndex) {
+    if (isAnswered) return; 
+    isAnswered = true;
+    clearInterval(timerInterval); 
+    
+    userAnswers[currentQuestionIndex] = selectedIndex; 
+
+    const q = currentQuizQuestions[currentQuestionIndex];
+    const options = document.getElementsByName('option');
+    const rationaleBox = document.getElementById('rationale-container');
+    
+    options.forEach(opt => opt.disabled = true);
     rationaleBox.classList.remove('hidden');
     
-    // Check if correct or incorrect and style accordingly
+    const isDark = document.body.classList.contains('dark-mode');
+
     if (selectedIndex === q.correctAnswer) {
       score++;
-      document.getElementById(`label-${selectedIndex}`).style.backgroundColor = '#d4edda'; // Light green highlight
+      document.getElementById(`label-${selectedIndex}`).style.backgroundColor = '#d4edda'; 
+      if(isDark) document.getElementById(`label-${selectedIndex}`).style.color = '#121212';
       rationaleBox.innerHTML = `<div class="correct-text">Correct!</div>${q.rationale}`;
     } else {
-      document.getElementById(`label-${selectedIndex}`).style.backgroundColor = '#f8d7da'; // Light red highlight
-      document.getElementById(`label-${q.correctAnswer}`).style.backgroundColor = '#d4edda'; // Highlight the correct answer in green
+      document.getElementById(`label-${selectedIndex}`).style.backgroundColor = '#f8d7da'; 
+      document.getElementById(`label-${q.correctAnswer}`).style.backgroundColor = '#d4edda'; 
+      if(isDark) {
+          document.getElementById(`label-${selectedIndex}`).style.color = '#121212';
+          document.getElementById(`label-${q.correctAnswer}`).style.color = '#121212';
+      }
       rationaleBox.innerHTML = `<div class="incorrect-text">Incorrect.</div>${q.rationale}`;
     }
     
-    // Reveal the "Next" button now that they have answered
     document.getElementById('next-btn').style.display = 'inline-block';
   }
 
@@ -11700,16 +11896,73 @@
     }
   }
 
+  function quitQuiz() {
+    const confirmQuit = confirm("Are you sure you want to quit the exam early?");
+    if (confirmQuit) {
+      clearInterval(timerInterval);
+      showResults(); 
+    }
+  }
+
   // --- RESULTS AND RESTART ---
   function showResults() {
+    clearInterval(timerInterval);
+    
+    // Push the progress bar to 100% at the end
+    document.getElementById('progress-bar').style.width = `100%`;
+
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
-    document.getElementById('score-display').innerText = `Your Score: ${score}/${currentQuizQuestions.length}`;
+    
+    let questionsReached = currentQuestionIndex + 1;
+    if (currentQuestionIndex === currentQuizQuestions.length - 1 && isAnswered) {
+        questionsReached = currentQuizQuestions.length;
+    }
+    
+    document.getElementById('score-display').innerText = `Your Score: ${score}/${questionsReached}`;
+
+    // Save the score to the dashboard history
+    const category = document.getElementById('category-select').value;
+    saveScore(category, score, questionsReached);
+
+    const reviewContainer = document.getElementById('review-container');
+    reviewContainer.innerHTML = ''; 
+
+    for (let index = 0; index < questionsReached; index++) {
+      const q = currentQuizQuestions[index];
+      const userAnswer = userAnswers[index];
+      const isCorrect = userAnswer === q.correctAnswer;
+      const isFlagged = flaggedQuestions[index]; 
+      
+      const cleanUserAnswer = userAnswer !== undefined && userAnswer !== null ? q.options[userAnswer].replace(/^[A-Z]\.\s*/, '') : 'Time ran out / Skipped';
+      const cleanCorrectAnswer = q.options[q.correctAnswer].replace(/^[A-Z]\.\s*/, '');
+      const flagStyle = isFlagged ? (document.body.classList.contains('dark-mode') ? 'background-color: #524722;' : 'background-color: #fff8e1;') : '';
+
+      let reviewHTML = `
+        <div class="result-item" style="border-left: 5px solid ${isCorrect ? '#27ae60' : '#c0392b'}; ${flagStyle}">
+          <h3 style="margin-top: 0;">
+            Question ${index + 1} 
+            ${isFlagged ? '<span style="color: #e67e22; font-size: 16px;">🚩 (Flagged for Review)</span>' : ''}
+          </h3>
+          <p><strong>${q.question}</strong></p>
+          <p style="color: ${isCorrect ? '#27ae60' : '#e74c3c'};">
+            <strong>Your Answer:</strong> ${cleanUserAnswer}
+          </p>
+          ${!isCorrect ? `<p style="color: #27ae60;"><strong>Correct Answer:</strong> ${cleanCorrectAnswer}</p>` : ''}
+          <div class="rationale-box" style="display: block;">
+            <strong>Rationale:</strong> ${q.rationale}
+          </div>
+        </div>
+      `;
+      reviewContainer.innerHTML += reviewHTML;
+    }
   }
 
   function restartQuiz() {
     document.getElementById('result-screen').classList.add('hidden');
     document.getElementById('home-screen').classList.remove('hidden');
+    // Reset progress bar visually
+    document.getElementById('progress-bar').style.width = `0%`;
   }
 
 </script>
