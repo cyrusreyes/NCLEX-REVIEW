@@ -73,7 +73,24 @@
 </style>
 </head>
 <body>
+<!-- Navigation / Tab Menu -->
+<div class="tab-menu" style="max-width: 800px; margin: 0 auto 20px auto; display: flex; gap: 10px;">
+  <button class="btn" onclick="switchTab('home')">Home / Nclex</button>
+  <button class="btn btn-back" onclick="switchTab('ca1')">CA 1</button>
+  <button class="btn btn-back" onclick="switchTab('ca2')">CA 2</button>
+</div>
 
+<!-- CA 1 Screen Container (Hidden by default) -->
+<div class="container hidden" id="ca1-screen">
+  <h1>CA 1 Examination</h1>
+  <p>Content or questions specific to CA 1 go here.</p>
+</div>
+
+<!-- CA 2 Screen Container (Hidden by default) -->
+<div class="container hidden" id="ca2-screen">
+  <h1>CA 2 Examination</h1>
+  <p>Content or questions specific to CA 2 go here.</p>
+</div>
   <!-- Navigation / Tab Menu -->
   <div class="tab-menu" style="max-width: 800px; margin: 0 auto 20px auto; display: flex; gap: 10px;">
     <button class="btn" style="margin: 0;">Nclex</button>
@@ -11551,7 +11568,24 @@
       rationale: "In an emergency, lives saving facts are obtained first. The name and the amount of medication ingested are of outmost important in treating this potentially life threatening situation."
     }
   ];
-let currentQuestions = [];
+function switchTab(tabName) {
+  // Hide all screens
+  document.getElementById('home-screen').classList.add('hidden');
+  document.getElementById('quiz-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.add('hidden');
+  document.getElementById('ca1-screen').classList.add('hidden');
+  document.getElementById('ca2-screen').classList.add('hidden');
+
+  // Show the requested screen
+  if (tabName === 'home') {
+    document.getElementById('home-screen').classList.remove('hidden');
+  } else if (tabName === 'ca1') {
+    document.getElementById('ca1-screen').classList.remove('hidden');
+  } else if (tabName === 'ca2') {
+    document.getElementById('ca2-screen').classList.remove('hidden');
+  }
+}
+  let currentQuestions = [];
   let currentQuestionIndex = 0;
   let userAnswers = [];
   let timerInterval = null;
