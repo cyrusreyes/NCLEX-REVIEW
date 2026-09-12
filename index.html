@@ -11573,6 +11573,87 @@
       rationale: "In an emergency, lives saving facts are obtained first. The name and the amount of medication ingested are of outmost important in treating this potentially life threatening situation."
     }
   ];
+// --- QUIZ STATE VARIABLES ---
+  let currentQuizQuestions = [];
+  let currentQuestionIndex = 0;
+  let score = 0;
+  let isAnswered = false;
+
+  // --- START THE QUIZ ---
+  function startQuiz() {
+    const category = document.getElementById('category-select').value;
+    const limit = document.getElementById('item-limit-select').value;
+
+    // 1. Filter questions by selected category
+    let filtered = allQuestions.filter(q => q.category === category);
+
+    // 2. Shuffle the questions
+    filtered.sort(() => Math.random() - 0.5);
+
+    // 3. Apply the selected item limit
+    if (limit !== 'all') {
+      currentQuizQuestions = filtered.slice(0, parseInt(limit));
+    } else {
+      currentQuizQuestions = filtered;
+    }
+
+    if (currentQuizQuestions.length === 0) {
+      alert("No questions found for this category.");
+      return;
+    }
+
+    // 4. Reset variables and switch screens
+    currentQuestionIndex = 0;
+    score = 0;
+    document.getElementById('home-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+
+    loadQuestion();
+  }
+
+  // --- LOAD A QUESTION ---
+  function loadQuestion() {
+    isAnswered = false; // Reset answer status for the new question
+    const q = currentQuizQuestions[currentQuestionIndex];
+    
+    // Update progress text
+    document.getElementById('progress-tracker').innerText = `Question ${currentQuestionIndex + 1} of ${currentQuizQuestions.length}`;
+    document.getElementById('question-text').innerText = q.question;
+    
+    const optionsContainer = document.getElementById('options-container');
+    optionsContainer.innerHTML = ''; // Clear previous options
+    
+    // Generate Radio Buttons
+    q.options.forEach((opt, index) => {
+      const label = document.createElement('label');
+      label.id = `label-${index}`;
+      
+      const radio = document.createElement('input');
+      radio.type = 'radio';
+      radio.name = 'option';
+      radio.value = index;
+      
+      // Trigger instant check when they click an option
+      radio.onclick = () => checkAnswer(index); 
+      
+      label.appendChild(radio);
+      label.appendChild(document.createTextNode(opt));
+      optionsContainer.appendChild(label);
+    });
+    
+    // Create the rationale box (hidden initially)
+    const rationaleBox = document.createElement('div');
+    rationaleBox.id = 'rationale-container';
+    rationaleBox.className = 'rationale-box hidden';
+    optionsContainer.appendChild(rationaleBox);
+
+    // Button management
+    document.getElementById('back-btn').style.display = currentQuestionIndex === 0 ? 'none' : 'inline-block';
+    document.getElementById('next-btn').innerText = currentQuestionIndex === currentQuizQuestions.length - 1 ? 'Finish Exam' : 'Next';
+    document.getElementById('next-btn').style.display = 'none'; // Hide next button until they answer
+  }
+
+  // --- INSTANT FEEDBACK LOGIC ---
   function checkAnswer(selectedIndex) {
     if (isAnswered) return; // Prevent changing answer once clicked
     isAnswered = true;
@@ -11601,257 +11682,35 @@
     // Reveal the "Next" button now that they have answered
     document.getElementById('next-btn').style.display = 'inline-block';
   }
-  // Quiz state
-  let currentQuestions = [];
-  let currentQuestionIndex = 0;
-  let score = 0;
-  let timerInterval = null;
-  let timeLeft = 0;
-  let userAnswers = [];
 
-  // Tab navigation
-  function switchTab(tabId) {
-    const ca1 = document.getElementById('ca1-screen');
-    const ca2 = document.getElementById('ca2-screen');
-    const nle = document.getElementById('nle-exam-container');
-
-    ca1.classList.add('hidden');
-    ca2.classList.add('hidden');
-    nle.classList.add('hidden');
-
-    if (tabId === 'ca1') {
-      ca1.classList.remove('hidden');
-    } else if (tabId === 'ca2') {
-      ca2.classList.remove('hidden');
-    } else {
-      nle.classList.remove('hidden');
-      document.getElementById('home-screen').classList.remove('hidden');
-      document.getElementById('quiz-screen').classList.add('hidden');
-      document.getElementById('result-screen').classList.add('hidden');
-    }
-  }
-
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
-
-  function startQuiz() {
-    const category = document.getElementById('category-select').value;
-    const timerValue = Number(document.getElementById('timer-select').value);
-    const itemLimitValue = document.getElementById('item-limit-select').value;
-
-    let filteredQuestions = allQuestions.filter(q => q.category === category);
-
-    if (filteredQuestions.length === 0) {
-      alert("No questions available for this category yet.");
-      return;
-    }
-
-    // Make a new array so the master question bank is never modified.
-    filteredQuestions = shuffleArray([...filteredQuestions]);
-
-    if (itemLimitValue !== 'all') {
-      filteredQuestions = filteredQuestions.slice(0, Number(itemLimitValue));
-    }
-
-    // Reset any previous shuffled option state for this run.
-    filteredQuestions.forEach(q => delete q.shuffledState);
-
-    currentQuestions = filteredQuestions;
-    currentQuestionIndex = 0;
-    userAnswers = new Array(currentQuestions.length).fill(null);
-    score = 0;
-
-    document.getElementById('home-screen').classList.add('hidden');
-    document.getElementById('result-screen').classList.add('hidden');
-    document.getElementById('quiz-screen').classList.remove('hidden');
-
-    loadQuestion(timerValue);
-  }
-
-  function loadQuestion(timerValue) {
-    clearInterval(timerInterval);
-
-    const questionData = currentQuestions[currentQuestionIndex];
-    if (!questionData) {
-      endQuiz();
-      return;
-    }
-
-    document.getElementById('progress-tracker').innerText =
-      `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
-    document.getElementById('question-text').innerText = questionData.question;
-
-    // Shuffle options only once per question so Back/Next does not change
-    // the meaning of the saved answer index.
-    if (!questionData.shuffledState) {
-      const optionsWithIndex = questionData.options.map((text, originalIndex) => ({
-        text,
-        originalIndex,
-        isCorrect: originalIndex === questionData.correctAnswer
-      }));
-      questionData.shuffledState = shuffleArray(optionsWithIndex);
-    }
-
-    const optionsContainer = document.getElementById('options-container');
-    optionsContainer.innerHTML = '';
-
-    questionData.shuffledState.forEach((opt, index) => {
-      const label = document.createElement('label');
-      const radio = document.createElement('input');
-
-      radio.type = 'radio';
-      radio.name = 'option';
-      radio.value = String(index);
-      radio.checked = userAnswers[currentQuestionIndex] === index;
-
-      label.appendChild(radio);
-      label.appendChild(document.createTextNode(opt.text));
-      optionsContainer.appendChild(label);
-    });
-
-    document.getElementById('back-btn').style.visibility =
-      currentQuestionIndex === 0 ? 'hidden' : 'visible';
-
-    document.getElementById('next-btn').innerText =
-      currentQuestionIndex === currentQuestions.length - 1 ? 'Finish' : 'Next';
-
-    if (timerValue > 0) {
-      timeLeft = timerValue;
-      updateTimerDisplay();
-
-      timerInterval = setInterval(() => {
-        timeLeft -= 1;
-        updateTimerDisplay();
-
-        if (timeLeft <= 0) {
-          clearInterval(timerInterval);
-          saveAnswerAndNext(timerValue);
-        }
-      }, 1000);
-    } else {
-      document.getElementById('timer-display').innerText = '';
-    }
-  }
-
-  function updateTimerDisplay() {
-    document.getElementById('timer-display').innerText = `Time Left: ${timeLeft}s`;
-  }
-
-  function saveAnswer() {
-    const selected = document.querySelector('input[name="option"]:checked');
-
-    if (selected) {
-      userAnswers[currentQuestionIndex] = Number(selected.value);
-    }
-  }
-
+  // --- NAVIGATION CONTROLS ---
   function nextQuestion() {
-    const timerValue = Number(document.getElementById('timer-select').value);
-    saveAnswer();
-    saveAnswerAndNext(timerValue);
-  }
-
-  function saveAnswerAndNext(timerValue) {
-    if (currentQuestionIndex < currentQuestions.length - 1) {
-      currentQuestionIndex += 1;
-      loadQuestion(timerValue);
+    if (currentQuestionIndex < currentQuizQuestions.length - 1) {
+      currentQuestionIndex++;
+      loadQuestion();
     } else {
-      endQuiz();
+      showResults();
     }
   }
 
   function prevQuestion() {
-    const timerValue = Number(document.getElementById('timer-select').value);
-    saveAnswer();
-
     if (currentQuestionIndex > 0) {
-      currentQuestionIndex -= 1;
-      loadQuestion(timerValue);
+      currentQuestionIndex--;
+      loadQuestion();
     }
   }
 
-  function endQuiz() {
-    clearInterval(timerInterval);
-    score = 0;
-
-    let reviewHTML = '';
-
-    currentQuestions.forEach((q, index) => {
-      const userAnswerIndex = userAnswers[index];
-      const answered =
-        userAnswerIndex !== null &&
-        userAnswerIndex !== undefined &&
-        q.shuffledState &&
-        q.shuffledState[userAnswerIndex];
-
-      let isCorrect = false;
-      let selectedText = 'No answer provided';
-
-      if (answered) {
-        const selectedOption = q.shuffledState[userAnswerIndex];
-        isCorrect = selectedOption.isCorrect;
-        selectedText = selectedOption.text;
-        if (isCorrect) score += 1;
-      }
-
-      const correctOption = q.shuffledState.find(opt => opt.isCorrect);
-      const correctOptionText = correctOption ? correctOption.text : 'Unavailable';
-
-      reviewHTML += `
-        <div class="result-item">
-          <p><strong>${escapeHTML(q.question)}</strong></p>
-          <p>Your Answer: ${escapeHTML(selectedText)}
-            - <span class="${isCorrect ? 'correct-text' : 'incorrect-text'}">
-              ${isCorrect ? 'Correct' : 'Incorrect'}
-            </span>
-          </p>
-          ${!isCorrect ? `<p>Correct Answer: <strong>${escapeHTML(correctOptionText)}</strong></p>` : ''}
-          <div class="rationale-box">
-            <strong>Rationale:</strong> ${escapeHTML(q.rationale || 'No rationale provided.')}
-          </div>
-        </div>`;
-    });
-
+  // --- RESULTS AND RESTART ---
+  function showResults() {
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
-    document.getElementById('score-display').innerText =
-      `Your Score: ${score}/${currentQuestions.length}`;
-    document.getElementById('review-container').innerHTML = reviewHTML;
+    document.getElementById('score-display').innerText = `Your Score: ${score}/${currentQuizQuestions.length}`;
   }
 
   function restartQuiz() {
-    clearInterval(timerInterval);
-    timerInterval = null;
-    currentQuestions = [];
-    currentQuestionIndex = 0;
-    userAnswers = [];
-    score = 0;
-
     document.getElementById('result-screen').classList.add('hidden');
-    document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('home-screen').classList.remove('hidden');
-    document.getElementById('timer-display').innerText = '';
   }
-
-  // Prevent question/rationale text from being interpreted as HTML.
-  function escapeHTML(value) {
-    return String(value)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  }
-
-  // Ensure the correct screen is visible when the page first loads.
-  document.addEventListener('DOMContentLoaded', () => {
-    switchTab('home');
-  });
 
 </script>
 </body>
