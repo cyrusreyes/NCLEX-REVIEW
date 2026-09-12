@@ -81,8 +81,10 @@
 </div>
 
 <!-- CA 1 Screen Container (Hidden by default) -->
-<div class="container hidden" id="ca1-screen" style="padding: 0; height: 80vh;">
-  <iframe src="ca1.html" width="100%" height="100%" style="border: none; border-radius: 8px;"></iframe>
+<div class="container hidden" id="ca1-screen">
+  <h1>CA 1 Examination</h1>
+  <!-- This iframe embeds your ca1.html file directly into this container -->
+  <iframe src="ca1.html" width="100%" height="800px" style="border: none; overflow: hidden;"></iframe>
 </div>
 
 <!-- CA 2 Screen Container (Hidden by default) -->
@@ -11561,6 +11563,31 @@
       rationale: "In an emergency, lives saving facts are obtained first. The name and the amount of medication ingested are of outmost important in treating this potentially life threatening situation."
     }
   ];
+  function switchTab(tabName) {
+  // 1. Grab all the main section containers
+  const ca1Screen = document.getElementById('ca1-screen');
+  const ca2Screen = document.getElementById('ca2-screen');
+  const nleExamContainer = document.getElementById('nle-exam-container');
+
+  // 2. Hide everything by adding the 'hidden' class
+  ca1Screen.classList.add('hidden');
+  ca2Screen.classList.add('hidden');
+  nleExamContainer.classList.add('hidden');
+
+  // 3. Show only the requested tab by removing the 'hidden' class
+  if (tabName === 'ca1') {
+    ca1Screen.classList.remove('hidden');
+  } else if (tabName === 'ca2') {
+    ca2Screen.classList.remove('hidden');
+  } else if (tabName === 'home') {
+    nleExamContainer.classList.remove('hidden');
+    
+    // Optional: Reset the Nclex view back to the category selection screen
+    document.getElementById('home-screen').classList.remove('hidden');
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.add('hidden');
+  }
+}
 function switchTab(tabName) {
   // Hide all screens
   document.getElementById('home-screen').classList.add('hidden');
