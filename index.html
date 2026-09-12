@@ -11573,36 +11573,36 @@
       rationale: "In an emergency, lives saving facts are obtained first. The name and the amount of medication ingested are of outmost important in treating this potentially life threatening situation."
     }
   ];
-  // --- PASTE THIS DIRECTLY AFTER YOUR allQuestions ARRAY ---
-
+  // Quiz state
   let currentQuestions = [];
   let currentQuestionIndex = 0;
   let score = 0;
-  let timerInterval;
+  let timerInterval = null;
   let timeLeft = 0;
   let userAnswers = [];
 
-  // 1. Tab Navigation Logic
+  // Tab navigation
   function switchTab(tabId) {
-    // Hide all containers first
-    document.getElementById('ca1-screen').classList.add('hidden');
-    document.getElementById('ca2-screen').classList.add('hidden');
-    document.getElementById('nle-exam-container').classList.add('hidden');
+    const ca1 = document.getElementById('ca1-screen');
+    const ca2 = document.getElementById('ca2-screen');
+    const nle = document.getElementById('nle-exam-container');
 
-    // Reveal only the selected tab
+    ca1.classList.add('hidden');
+    ca2.classList.add('hidden');
+    nle.classList.add('hidden');
+
     if (tabId === 'ca1') {
-      document.getElementById('ca1-screen').classList.remove('hidden');
+      ca1.classList.remove('hidden');
     } else if (tabId === 'ca2') {
-      document.getElementById('ca2-screen').classList.remove('hidden');
-    } else if (tabId === 'home') {
-      document.getElementById('nle-exam-container').classList.remove('hidden');
+      ca2.classList.remove('hidden');
+    } else {
+      nle.classList.remove('hidden');
       document.getElementById('home-screen').classList.remove('hidden');
       document.getElementById('quiz-screen').classList.add('hidden');
       document.getElementById('result-screen').classList.add('hidden');
     }
   }
 
-  // 2. Randomizer Utility
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -11611,507 +11611,98 @@
     return array;
   }
 
-  // 3. Quiz Initialization
   function startQuiz() {
     const category = document.getElementById('category-select').value;
-    const timerValue = parseInt(document.getElementById('timer-select').value);
+    const timerValue = Number(document.getElementById('timer-select').value);
     const itemLimitValue = document.getElementById('item-limit-select').value;
 
-    // Filter questions based on selected category
     let filteredQuestions = allQuestions.filter(q => q.category === category);
-    
+
     if (filteredQuestions.length === 0) {
       alert("No questions available for this category yet.");
       return;
     }
 
-    // Randomize questions
-    shuffleArray(filteredQuestions);
+    // Make a new array so the master question bank is never modified.
+    filteredQuestions = shuffleArray([...filteredQuestions]);
 
-    // Slice array if a specific item limit is chosen
     if (itemLimitValue !== 'all') {
-      filteredQuestions = filteredQuestions.slice(0, parseInt(itemLimitValue));
+      filteredQuestions = filteredQuestions.slice(0, Number(itemLimitValue));
     }
 
-    // Initialize state
+    // Reset any previous shuffled option state for this run.
+    filteredQuestions.forEach(q => delete q.shuffledState);
+
     currentQuestions = filteredQuestions;
     currentQuestionIndex = 0;
     userAnswers = new Array(currentQuestions.length).fill(null);
     score = 0;
 
-    // Switch UI screens
     document.getElementById('home-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
 
     loadQuestion(timerValue);
   }
 
-  // 4. Load Question & Render Shuffled Options
   function loadQuestion(timerValue) {
+    clearInterval(timerInterval);
+
     const questionData = currentQuestions[currentQuestionIndex];
-    document.getElementById('progress-tracker').innerText = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
+    if (!questionData) {
+      endQuiz();
+      return;
+    }
+
+    document.getElementById('progress-tracker').innerText =
+      `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
     document.getElementById('question-text').innerText = questionData.question;
 
-    // Map options to objects to retain the correct answer index when shuffled
-    let optionsWithIndex = questionData.options.map((opt, index) => {
-        return { text: opt, originalIndex: index, isCorrect: index === questionData.correctAnswer };
-    });
-    
-    // Randomize the options 
-    shuffleArray(optionsWithIndex);
-    
-    // Save the shuffled state so we can reference it accurately during scoring
-    questionData.shuffledState = optionsWithIndex;
+    // Shuffle options only once per question so Back/Next does not change
+    // the meaning of the saved answer index.
+    if (!questionData.shuffledState) {
+      const optionsWithIndex = questionData.options.map((text, originalIndex) => ({
+        text,
+        originalIndex,
+        isCorrect: originalIndex === questionData.correctAnswer
+      }));
+      questionData.shuffledState = shuffleArray(optionsWithIndex);
+    }
 
     const optionsContainer = document.getElementById('options-container');
     optionsContainer.innerHTML = '';
 
-    optionsWithIndex.forEach((opt, index) => {
+    questionData.shuffledState.forEach((opt, index) => {
       const label = document.createElement('label');
       const radio = document.createElement('input');
+
       radio.type = 'radio';
       radio.name = 'option';
-      radio.value = index;
-
-      // Keep radio button checked if the user is using the "Back" button
-      if (userAnswers[currentQuestionIndex] === index) {
-          radio.checked = true;
-      }
+      radio.value = String(index);
+      radio.checked = userAnswers[currentQuestionIndex] === index;
 
       label.appendChild(radio);
       label.appendChild(document.createTextNode(opt.text));
       optionsContainer.appendChild(label);
     });
 
-    // Toggle button states
-    document.getElementById('back-btn').style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
-    document.getElementById('next-btn').innerText = currentQuestionIndex === currentQuestions.length - 1 ? 'Finish' : 'Next';
+    document.getElementById('back-btn').style.visibility =
+      currentQuestionIndex === 0 ? 'hidden' : 'visible';
 
-    // Timer Logic
-    clearInterval(timerInterval);
+    document.getElementById('next-btn').innerText =
+      currentQuestionIndex === currentQuestions.length - 1 ? 'Finish' : 'Next';
+
     if (timerValue > 0) {
       timeLeft = timerValue;
       updateTimerDisplay();
+
       timerInterval = setInterval(() => {
-        timeLeft--;
+        timeLeft -= 1;
         updateTimerDisplay();
+
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
           saveAnswerAndNext(timerValue);
-        }
-      }, 1000);
-    } else {
-      document.getElementById('timer-display').innerText = ''; // Untimed
-    }
-  }
-
-  function updateTimerDisplay() {
-    document.getElementById('timer-display').innerText = `Time Left: ${timeLeft}s`;
-  }
-
-  // 5. Save and Navigate
-  function saveAnswer() {
-    const selected = document.querySelector('input[name="option"]:checked');
-    if (selected) {
-        userAnswers[currentQuestionIndex] = parseInt(selected.value);
-    } else if (userAnswers[currentQuestionIndex] === null) {
-        userAnswers[currentQuestionIndex] = null;
-    }
-  }
-
-  function nextQuestion() {
-    const timerValue = parseInt(document.getElementById('timer-select').value);
-    saveAnswer();
-    saveAnswerAndNext(timerValue);
-  }
-
-  function saveAnswerAndNext(timerValue) {
-    if (currentQuestionIndex < currentQuestions.length - 1) {
-      currentQuestionIndex++;
-      loadQuestion(timerValue);
-    } else {
-      endQuiz();
-    }
-  }
-
-  function prevQuestion() {
-    const timerValue = parseInt(document.getElementById('timer-select').value);
-    saveAnswer();
-    if (currentQuestionIndex > 0) {
-      currentQuestionIndex--;
-      loadQuestion(timerValue);
-    }
-  }
-
-  // 6. Result Calculation & Final Review Rendering
-  function endQuiz() {
-    clearInterval(timerInterval);
-    document.getElementById('quiz-screen').classList.add('hidden');
-    document.getElementById('result-screen').classList.remove('hidden');
-
-    score = 0;
-    let reviewHTML = '';
-
-    currentQuestions.forEach((q, i) => {
-        const userAnswerIndex = userAnswers[i];
-        const answered = userAnswerIndex !== null && userAnswerIndex !== undefined;
-        let isCorrect = false;
-        let selectedText = "No answer provided";
-
-        if (answered && q.shuffledState[userAnswerIndex]) {
-            const selectedOption = q.shuffledState[userAnswerIndex];
-            isCorrect = selectedOption.isCorrect;
-            selectedText = selectedOption.text;
-            if (isCorrect) score++;
-        }
-
-        const correctOptionText = q.shuffledState.find(opt => opt.isCorrect).text;
-
-        reviewHTML += `<div class="result-item">
-            <p><strong>${q.question}</strong></p>
-            <p>Your Answer: ${selectedText} - <span class="${isCorrect ? 'correct-text' : 'incorrect-text'}">${isCorrect ? 'Correct' : 'Incorrect'}</span></p>
-            ${!isCorrect ? `<p>Correct Answer: <strong>${correctOptionText}</strong></p>` : ''}
-            <div class="rationale-box"><strong>Rationale:</strong> ${q.rationale}</div>
-        </div>`;
-    });
-
-    document.getElementById('score-display').innerText = `Your Score: ${score}/${currentQuestions.length}`;
-    document.getElementById('review-container').innerHTML = reviewHTML;
-  }
-
-  // 7. Restart
-  function restartQuiz() {
-    document.getElementById('result-screen').classList.add('hidden');
-    document.getElementById('home-screen').classList.remove('hidden');
-  }
-
-  // --- QUIZ STATE VARIABLES ---
-  let currentQuizQuestions = [];
-  let currentQuestionIndex = 0;
-  let score = 0;
-  let isAnswered = false;
-
-  // --- START THE QUIZ ---
-  function startQuiz() {
-    const category = document.getElementById('category-select').value;
-    const limit = document.getElementById('item-limit-select').value;
-
-    // 1. Filter questions by selected category
-    let filtered = allQuestions.filter(q => q.category === category);
-
-    // 2. Shuffle the questions
-    filtered.sort(() => Math.random() - 0.5);
-
-    // 3. Apply the selected item limit
-    if (limit !== 'all') {
-      currentQuizQuestions = filtered.slice(0, parseInt(limit));
-    } else {
-      currentQuizQuestions = filtered;
-    }
-
-    if (currentQuizQuestions.length === 0) {
-      alert("No questions found for this category.");
-      return;
-    }
-
-    // 4. Reset variables and switch screens
-    currentQuestionIndex = 0;
-    score = 0;
-    document.getElementById('home-screen').classList.add('hidden');
-    document.getElementById('quiz-screen').classList.remove('hidden');
-
-    loadQuestion();
-  }
-
-  // --- LOAD A QUESTION ---
-  function loadQuestion() {
-    isAnswered = false; // Reset answer status for the new question
-    const q = currentQuizQuestions[currentQuestionIndex];
-    
-    // Update progress text
-    document.getElementById('progress-tracker').innerText = `Question ${currentQuestionIndex + 1} of ${currentQuizQuestions.length}`;
-    document.getElementById('question-text').innerText = q.question;
-    
-    const optionsContainer = document.getElementById('options-container');
-    optionsContainer.innerHTML = ''; // Clear previous options
-    
-    // Generate Radio Buttons
-    q.options.forEach((opt, index) => {
-      const label = document.createElement('label');
-      label.id = `label-${index}`;
-      
-      const radio = document.createElement('input');
-      radio.type = 'radio';
-      radio.name = 'option';
-      radio.value = index;
-      
-      // Trigger instant check when they click an option
-      radio.onclick = () => checkAnswer(index); 
-      
-      label.appendChild(radio);
-      label.appendChild(document.createTextNode(opt));
-      optionsContainer.appendChild(label);
-    });
-    
-    // Create the rationale box (hidden initially)
-    const rationaleBox = document.createElement('div');
-    rationaleBox.id = 'rationale-container';
-    rationaleBox.className = 'rationale-box hidden';
-    optionsContainer.appendChild(rationaleBox);
-
-    // Button management
-    document.getElementById('back-btn').style.display = currentQuestionIndex === 0 ? 'none' : 'inline-block';
-    document.getElementById('next-btn').innerText = currentQuestionIndex === currentQuizQuestions.length - 1 ? 'Finish Exam' : 'Next';
-    document.getElementById('next-btn').style.display = 'none'; // Hide next button until they answer
-  }
-
-  // --- INSTANT FEEDBACK LOGIC ---
-  function checkAnswer(selectedIndex) {
-    if (isAnswered) return; // Prevent changing answer once clicked
-    isAnswered = true;
-    
-    const q = currentQuizQuestions[currentQuestionIndex];
-    const options = document.getElementsByName('option');
-    const rationaleBox = document.getElementById('rationale-container');
-    
-    // Disable all radio buttons so the user can't change their mind
-    options.forEach(opt => opt.disabled = true);
-    
-    // Reveal the rationale box
-    rationaleBox.classList.remove('hidden');
-    
-    // Check if correct or incorrect and style accordingly
-    if (selectedIndex === q.correctAnswer) {
-      score++;
-      document.getElementById(`label-${selectedIndex}`).style.backgroundColor = '#d4edda'; // Light green highlight
-      rationaleBox.innerHTML = `<div class="correct-text">Correct!</div>${q.rationale}`;
-    } else {
-      document.getElementById(`label-${selectedIndex}`).style.backgroundColor = '#f8d7da'; // Light red highlight
-      document.getElementById(`label-${q.correctAnswer}`).style.backgroundColor = '#d4edda'; // Highlight the correct answer in green
-      rationaleBox.innerHTML = `<div class="incorrect-text">Incorrect.</div>${q.rationale}`;
-    }
-    
-    // Reveal the "Next" button now that they have answered
-    document.getElementById('next-btn').style.display = 'inline-block';
-  }
-
-  // --- NAVIGATION CONTROLS ---
-  function nextQuestion() {
-    if (currentQuestionIndex < currentQuizQuestions.length - 1) {
-      currentQuestionIndex++;
-      loadQuestion();
-    } else {
-      showResults();
-    }
-  }
-
-  function prevQuestion() {
-    if (currentQuestionIndex > 0) {
-      currentQuestionIndex--;
-      loadQuestion();
-    }
-  }
-
-  // --- RESULTS AND RESTART ---
-  function showResults() {
-    document.getElementById('quiz-screen').classList.add('hidden');
-    document.getElementById('result-screen').classList.remove('hidden');
-    document.getElementById('score-display').innerText = `Your Score: ${score}/${currentQuizQuestions.length}`;
-  }
-
-  function restartQuiz() {
-    document.getElementById('result-screen').classList.add('hidden');
-    document.getElementById('home-screen').classList.remove('hidden');
-  }
-  function switchTab(tabName) {
-  // 1. Grab all the main section containers
-  const ca1Screen = document.getElementById('ca1-screen');
-  const ca2Screen = document.getElementById('ca2-screen');
-  const nleExamContainer = document.getElementById('nle-exam-container');
-
-  // 2. Hide everything by adding the 'hidden' class
-  ca1Screen.classList.add('hidden');
-  ca2Screen.classList.add('hidden');
-  nleExamContainer.classList.add('hidden');
-
-  // 3. Show only the requested tab by removing the 'hidden' class
-  if (tabName === 'ca1') {
-    ca1Screen.classList.remove('hidden');
-  } else if (tabName === 'ca2') {
-    ca2Screen.classList.remove('hidden');
-  } else if (tabName === 'home') {
-    nleExamContainer.classList.remove('hidden');
-    
-    // Optional: Reset the Nclex view back to the category selection screen
-    document.getElementById('home-screen').classList.remove('hidden');
-    document.getElementById('quiz-screen').classList.add('hidden');
-    document.getElementById('result-screen').classList.add('hidden');
-  }
-}
-function switchTab(tabName) {
-  // Hide all screens
-  document.getElementById('home-screen').classList.add('hidden');
-  document.getElementById('quiz-screen').classList.add('hidden');
-  document.getElementById('result-screen').classList.add('hidden');
-  document.getElementById('ca1-screen').classList.add('hidden');
-  document.getElementById('ca2-screen').classList.add('hidden');
-
-  // Show the requested screen
-  if (tabName === 'home') {
-    document.getElementById('home-screen').classList.remove('hidden');
-  } else if (tabName === 'ca1') {
-    document.getElementById('ca1-screen').classList.remove('hidden');
-  } else if (tabName === 'ca2') {
-    document.getElementById('ca2-screen').classList.remove('hidden');
-  }
-}
-  let currentQuestions = [];
-  let currentQuestionIndex = 0;
-  let userAnswers = [];
-  let timerInterval = null;
-  let timeRemaining = 0;
-  let timeLimitPerQuestion = 0;
-
-function startQuiz() {
-    const category = document.querySelector('select').value;
-    
-    // Filter the array to match the selected subject
-    currentQuestions = allQuestions.filter(q => q.category === category);
-    
-    if (currentQuestions.length === 0) {
-        alert("No questions available for this subject yet.");
-        return;
-    }
-
-    // Hide selection screen, show quiz screen
-    document.getElementById('setup-screen').style.display = 'none';
-    document.getElementById('quiz-screen').style.display = 'block';
-    showQuestion();
-}
-
-function showQuestion() {
-    const q = currentQuestions[currentIdx];
-    const container = document.getElementById('question-container');
-    
-    // Render question and options. Ensure radio buttons share the same 'name' 
-    // so only one option can be selected at a time.
-    let html = `<h3>${q.question}</h3>`;
-    q.options.forEach((opt, i) => {
-        html += `<label>
-                   <input type="radio" name="answer" value="${opt}"> ${opt}
-                 </label><br>`;
-    });
-    
-    container.innerHTML = html;
-}
-
-function nextQuestion() {
-    if (currentIdx < currentQuestions.length - 1) {
-        currentIdx++;
-        showQuestion();
-    } else {
-        alert("End of examination.");
-    }
-}
-
-function prevQuestion() {
-    if (currentIdx > 0) {
-        currentIdx--;
-        showQuestion();
-    }
-}
-
-function restartQuiz() {
-    currentIdx = 0;
-    document.getElementById('quiz-screen').style.display = 'none';
-    document.getElementById('setup-screen').style.display = 'block';
-}
-
-
-  // Question randomizer engine
-  function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-  }
-
-  function startQuiz() {
-    const selectedCategory = document.getElementById('category-select').value;
-    timerEnabled = document.getElementById('timer-toggle').checked;
-    
-    // Filter by topic category
-    currentQuestions = allQuestions.filter(q => q.category === selectedCategory);
-    
-    if(currentQuestions.length === 0) {
-      alert("No questions available for this category yet. Please select another.");
-      return;
-    }
-
-    shuffle(currentQuestions);
-    currentIndex = 0;
-    userAnswers = new Array(currentQuestions.length).fill(null);
-    
-    document.getElementById('home-screen').classList.add('hidden');
-    document.getElementById('result-screen').classList.add('hidden');
-    document.getElementById('quiz-screen').classList.remove('hidden');
-    
-    loadQuestion();
-  }
-
-  function loadQuestion() {
-    const q = currentQuestions[currentIndex];
-    
-    document.getElementById('progress-tracker').innerText = `Question ${currentIndex + 1} of ${currentQuestions.length}`;
-    document.getElementById('question-text').innerText = q.question;
-    
-    const optionsContainer = document.getElementById('options-container');
-    optionsContainer.innerHTML = '';
-    
-    q.options.forEach((opt, index) => {
-      const label = document.createElement('label');
-      const radio = document.createElement('input');
-      radio.type = 'radio';
-      radio.name = 'option';
-      radio.value = index;
-      
-      // Preserve previously selected answer when using the Back button
-      if (userAnswers[currentIndex] === index) {
-        radio.checked = true;
-      }
-      
-      label.appendChild(radio);
-      label.appendChild(document.createTextNode(opt));
-      optionsContainer.appendChild(label);
-    });
-
-    document.getElementById('back-btn').style.visibility = (currentIndex === 0) ? 'hidden' : 'visible';
-    
-    const nextBtn = document.getElementById('next-btn');
-    if (currentIndex === currentQuestions.length - 1) {
-      nextBtn.innerText = 'Submit Examination';
-      nextBtn.style.backgroundColor = '#27ae60';
-    } else {
-      nextBtn.innerText = 'Next';
-      nextBtn.style.backgroundColor = '#3498db';
-    }
-
-    if (timerEnabled) {
-      clearInterval(timerInterval);
-      timeLeft = 60; // 1 min timer reset for the current question
-      updateTimerDisplay();
-      timerInterval = setInterval(() => {
-        timeLeft--;
-        updateTimerDisplay();
-        if (timeLeft <= 0) {
-          clearInterval(timerInterval);
-          saveAnswer();
-          if (currentIndex < currentQuestions.length - 1) {
-            currentIndex++;
-            loadQuestion();
-          } else {
-            showResults();
-          }
         }
       }, 1000);
     } else {
@@ -12120,266 +11711,120 @@ function restartQuiz() {
   }
 
   function updateTimerDisplay() {
-    const timerDisplay = document.getElementById('timer-display');
-    timerDisplay.innerText = `Time Left: ${timeLeft}s`;
-    timerDisplay.style.color = (timeLeft <= 10) ? '#c0392b' : '#e74c3c';
+    document.getElementById('timer-display').innerText = `Time Left: ${timeLeft}s`;
   }
 
   function saveAnswer() {
     const selected = document.querySelector('input[name="option"]:checked');
+
     if (selected) {
-      userAnswers[currentIndex] = parseInt(selected.value);
-    } else {
-      userAnswers[currentIndex] = null;
+      userAnswers[currentQuestionIndex] = Number(selected.value);
     }
   }
 
   function nextQuestion() {
+    const timerValue = Number(document.getElementById('timer-select').value);
     saveAnswer();
-    if (currentIndex < currentQuestions.length - 1) {
-      currentIndex++;
-      loadQuestion();
+    saveAnswerAndNext(timerValue);
+  }
+
+  function saveAnswerAndNext(timerValue) {
+    if (currentQuestionIndex < currentQuestions.length - 1) {
+      currentQuestionIndex += 1;
+      loadQuestion(timerValue);
     } else {
-      showResults();
+      endQuiz();
     }
   }
 
   function prevQuestion() {
+    const timerValue = Number(document.getElementById('timer-select').value);
     saveAnswer();
-    if (currentIndex > 0) {
-      currentIndex--;
-      loadQuestion();
+
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex -= 1;
+      loadQuestion(timerValue);
     }
   }
 
-  function showResults() {
+  function endQuiz() {
     clearInterval(timerInterval);
-    document.getElementById('quiz-screen').classList.add('hidden');
-    document.getElementById('result-screen').classList.remove('hidden');
-    
-    let score = 0;
-    const reviewContainer = document.getElementById('review-container');
-    reviewContainer.innerHTML = '';
+    score = 0;
+
+    let reviewHTML = '';
 
     currentQuestions.forEach((q, index) => {
-      const userAnswer = userAnswers[index];
-      const isCorrect = userAnswer === q.correctAnswer;
-      if (isCorrect) score++;
+      const userAnswerIndex = userAnswers[index];
+      const answered =
+        userAnswerIndex !== null &&
+        userAnswerIndex !== undefined &&
+        q.shuffledState &&
+        q.shuffledState[userAnswerIndex];
 
-      const resultItem = document.createElement('div');
-      resultItem.className = 'result-item';
-      
-      let html = `<p><strong>Q${index + 1}: ${q.question}</strong></p>`;
-      
-      if (isCorrect) {
-        html += `<p class="correct-text">Correct!</p>`;
-      } else {
-        html += `<p class="incorrect-text">Incorrect.</p>`;
-        if (userAnswer !== null) {
-          html += `<p style="margin: 5px 0;">You selected: ${q.options[userAnswer]}</p>`;
-        } else {
-          html += `<p style="margin: 5px 0;">You selected: <em>No answer recorded</em></p>`;
-        }
+      let isCorrect = false;
+      let selectedText = 'No answer provided';
+
+      if (answered) {
+        const selectedOption = q.shuffledState[userAnswerIndex];
+        isCorrect = selectedOption.isCorrect;
+        selectedText = selectedOption.text;
+        if (isCorrect) score += 1;
       }
-      
-      html += `<p class="correct-text">The correct answer is: ${q.options[q.correctAnswer]}</p>`;
-      
-      // Injecting the rationale box
-      html += `
-        <div class="rationale-box">
-          <strong>Rationale:</strong> ${q.rationale}
-        </div>
-      `;
-      
-      resultItem.innerHTML = html;
-      reviewContainer.appendChild(resultItem);
-    });
 
-    document.getElementById('score-display').innerText = `Your Score: ${score} / ${currentQuestions.length}`;
-  }
+      const correctOption = q.shuffledState.find(opt => opt.isCorrect);
+      const correctOptionText = correctOption ? correctOption.text : 'Unavailable';
 
-  function restartQuiz() {
-    document.getElementById('result-screen').classList.add('hidden');
-    document.getElementById('home-screen').classList.remove('hidden');
-  }
-  // Application State
-
-
-  // DOM Elements 
-  const homeScreen = document.getElementById('home-screen');
-  const quizScreen = document.getElementById('quiz-screen');
-  const resultScreen = document.getElementById('result-screen');
-  const categorySelect = document.getElementById('category-select');
-  const timerSelect = document.getElementById('timer-select'); // This points to your new dropdown
-  const progressTracker = document.getElementById('progress-tracker');
-  const timerDisplay = document.getElementById('timer-display');
-  const questionText = document.getElementById('question-text');
-  const optionsContainer = document.getElementById('options-container');
-  const reviewContainer = document.getElementById('review-container');
-  const scoreDisplay = document.getElementById('score-display');
-  const backBtn = document.getElementById('back-btn');
-
-  function startQuiz() {
-    const selectedCategory = categorySelect.value;
-    
-    // Read the selected timer value (0, 30, or 60)
-    timerDuration = parseInt(timerSelect.value);
-    timerEnabled = timerDuration > 0;
-    
-    // Filter and shuffle questions
-    filteredQuestions = allQuestions.filter(q => q.category === selectedCategory);
-    
-    // Shuffle array function 
-    for (let i = filteredQuestions.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [filteredQuestions[i], filteredQuestions[j]] = [filteredQuestions[j], filteredQuestions[i]];
-    }
-    
-    if (filteredQuestions.length === 0) {
-      alert("No questions found for this category.");
-      return;
-    }
-
-    currentQuestionIndex = 0;
-    userAnswers = {};
-    
-    homeScreen.classList.add('hidden');
-    quizScreen.classList.remove('hidden');
-    
-    loadQuestion();
-  }
-
-  function loadQuestion() {
-    clearInterval(timerInterval);
-    const currentQ = filteredQuestions[currentQuestionIndex];
-    
-    // Update Header
-    progressTracker.textContent = `Question ${currentQuestionIndex + 1} of ${filteredQuestions.length}`;
-    questionText.textContent = currentQ.question;
-    
-    // Manage Back Button
-    backBtn.style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
-    
-    // Generate Single-Choice Options
-    optionsContainer.innerHTML = '';
-    currentQ.options.forEach((opt, index) => {
-      const isChecked = userAnswers[currentQuestionIndex] === index ? 'checked' : '';
-      optionsContainer.innerHTML += `
-        <label>
-          <input type="radio" name="nclex-answer" value="${index}" ${isChecked}>
-          ${opt}
-        </label>
-      `;
-    });
-
-    // Handle Dynamic Timer
-    if (timerEnabled) {
-      timeLeft = timerDuration; // Applies either 30 or 60 based on selection
-      timerDisplay.textContent = `Time: ${timeLeft}s`;
-      
-      // Timer color warning logic
-      timerDisplay.style.color = '#e74c3c'; // Reset to red
-      
-      timerInterval = setInterval(() => {
-        timeLeft--;
-        timerDisplay.textContent = `Time: ${timeLeft}s`;
-        
-        if (timeLeft <= 0) {
-          clearInterval(timerInterval);
-          nextQuestion();
-        }
-      }, 1000);
-    } else {
-      timerDisplay.textContent = ''; // Hides timer text if untimed
-    }
-  }
-
-  function saveAnswer() {
-    const selected = document.querySelector('input[name="nclex-answer"]:checked');
-    if (selected) {
-      userAnswers[currentQuestionIndex] = parseInt(selected.value);
-    }
-  }
-
-  function nextQuestion() {
-    saveAnswer();
-    currentQuestionIndex++;
-    
-    if (currentQuestionIndex >= filteredQuestions.length) {
-      showResults();
-    } else {
-      loadQuestion();
-    }
-  }
-
-  function prevQuestion() {
-    saveAnswer();
-    currentQuestionIndex--;
-    loadQuestion();
-  }
-
-  function showResults() {
-    clearInterval(timerInterval);
-    quizScreen.classList.add('hidden');
-    resultScreen.classList.remove('hidden');
-    
-    let score = 0;
-    reviewContainer.innerHTML = '';
-
-    filteredQuestions.forEach((q, index) => {
-      const userAnswer = userAnswers[index];
-      const isCorrect = userAnswer === q.correctAnswer;
-      if (isCorrect) score++;
-
-      const resultHTML = `
+      reviewHTML += `
         <div class="result-item">
-          <p><strong>${q.question}</strong></p>
-          <p class="${isCorrect ? 'correct-text' : 'incorrect-text'}">
-            Your Answer: ${userAnswer !== undefined ? q.options[userAnswer] : 'Skipped'}<br>
-            Correct Answer: ${q.options[q.correctAnswer]}
+          <p><strong>${escapeHTML(q.question)}</strong></p>
+          <p>Your Answer: ${escapeHTML(selectedText)}
+            - <span class="${isCorrect ? 'correct-text' : 'incorrect-text'}">
+              ${isCorrect ? 'Correct' : 'Incorrect'}
+            </span>
           </p>
+          ${!isCorrect ? `<p>Correct Answer: <strong>${escapeHTML(correctOptionText)}</strong></p>` : ''}
           <div class="rationale-box">
-            <strong>Rationale:</strong> ${q.rationale}
+            <strong>Rationale:</strong> ${escapeHTML(q.rationale || 'No rationale provided.')}
           </div>
-        </div>
-      `;
-      reviewContainer.innerHTML += resultHTML;
+        </div>`;
     });
 
-    scoreDisplay.textContent = `Your Score: ${score} / ${filteredQuestions.length}`;
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.remove('hidden');
+    document.getElementById('score-display').innerText =
+      `Your Score: ${score}/${currentQuestions.length}`;
+    document.getElementById('review-container').innerHTML = reviewHTML;
   }
 
   function restartQuiz() {
-    resultScreen.classList.add('hidden');
-    homeScreen.classList.remove('hidden');
+    clearInterval(timerInterval);
+    timerInterval = null;
+    currentQuestions = [];
+    currentQuestionIndex = 0;
+    userAnswers = [];
+    score = 0;
+
+    document.getElementById('result-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('home-screen').classList.remove('hidden');
+    document.getElementById('timer-display').innerText = '';
   }
-  // Simple tab-switching logic
-  const buttons = document.querySelectorAll('.tab-menu button');
-  const nclexContent = document.getElementById('home-content');
-  const ca1Content = document.getElementById('ca1-content');
-  
-  // Optional: If you haven't made a ca2 div yet, this prevents errors
-  // (Assuming you have a home and ca1 tab for now)
-  
-  // Hide everything except home by default
-  ca1Content.style.display = 'none';
 
-  // Add click events to your buttons
-  buttons.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-      // Hide all contents first
-      nclexContent.style.display = 'none';
-      ca1Content.style.display = 'none';
+  // Prevent question/rationale text from being interpreted as HTML.
+  function escapeHTML(value) {
+    return String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
 
-      // Show content based on which button was clicked
-      if (index === 0) {
-        homeContent.style.display = 'block'; // Home tab
-      } else if (index === 1) {
-        ca1Content.style.display = 'block'; // CA 1 tab
-      }
-      // Add more index checks if you add CA 2 later
-    });
-    });
+  // Ensure the correct screen is visible when the page first loads.
+  document.addEventListener('DOMContentLoaded', () => {
+    switchTab('home');
+  });
+
 </script>
 </body>
 </html>
