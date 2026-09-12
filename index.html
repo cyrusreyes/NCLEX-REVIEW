@@ -11573,6 +11573,34 @@
       rationale: "In an emergency, lives saving facts are obtained first. The name and the amount of medication ingested are of outmost important in treating this potentially life threatening situation."
     }
   ];
+  function checkAnswer(selectedIndex) {
+    if (isAnswered) return; // Prevent changing answer once clicked
+    isAnswered = true;
+    
+    const q = currentQuizQuestions[currentQuestionIndex];
+    const options = document.getElementsByName('option');
+    const rationaleBox = document.getElementById('rationale-container');
+    
+    // Disable all radio buttons so the user can't change their mind
+    options.forEach(opt => opt.disabled = true);
+    
+    // Reveal the rationale box
+    rationaleBox.classList.remove('hidden');
+    
+    // Check if correct or incorrect and style accordingly
+    if (selectedIndex === q.correctAnswer) {
+      score++;
+      document.getElementById(`label-${selectedIndex}`).style.backgroundColor = '#d4edda'; // Light green highlight
+      rationaleBox.innerHTML = `<div class="correct-text">Correct!</div>${q.rationale}`;
+    } else {
+      document.getElementById(`label-${selectedIndex}`).style.backgroundColor = '#f8d7da'; // Light red highlight
+      document.getElementById(`label-${q.correctAnswer}`).style.backgroundColor = '#d4edda'; // Highlight the correct answer in green
+      rationaleBox.innerHTML = `<div class="incorrect-text">Incorrect.</div>${q.rationale}`;
+    }
+    
+    // Reveal the "Next" button now that they have answered
+    document.getElementById('next-btn').style.display = 'inline-block';
+  }
   // Quiz state
   let currentQuestions = [];
   let currentQuestionIndex = 0;
