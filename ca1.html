@@ -55,6 +55,8 @@
     padding-bottom: 10px;
   }
   .progress-tracker { font-weight: bold; color: #7f8c8d; font-size: 18px; }
+  .timer { font-size: 18px; font-weight: bold; color: #e74c3c; }
+  .result-item { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 6px; }
   .correct-text { color: #27ae60; font-weight: bold; margin-top: 8px; }
   .incorrect-text { color: #c0392b; font-weight: bold; margin-top: 8px; }
   .rationale-box {
@@ -66,51 +68,85 @@
     font-size: 14px;
     line-height: 1.5;
   }
+  .category-group { margin: 20px 0; }
+  select { padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; }
 </style>
 </head>
 <body>
+<!-- Navigation / Tab Menu -->
+<div class="tab-menu" style="max-width: 800px; margin: 0 auto 20px auto; display: flex; gap: 10px;">
+  <button class="btn" onclick="switchTab('home')">  Nclex</button>
+  <button class="btn btn-back" onclick="switchTab('ca1')">CA 1</button>
+  <button class="btn btn-back" onclick="switchTab('ca2')">CA 2</button>
+</div>
 
-  <!-- Home Screen -->
-  <div class="container" id="home-screen">
-    <h1>CA 1 Practice Examination</h1>
-    <p>Test your knowledge on CA 1 topics. Questions and options will be randomized upon starting.</p>
+  <div id="nle-exam-container">
     
-    <div style="margin: 25px 0; padding: 15px; background: #e8f4f8; border-radius: 6px;">
-      <label for="item-limit-select" style="font-size: 16px;"><strong>Select Number of Items:</strong></label><br><br>
-      <select id="item-limit-select" style="padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; width: 100%; max-width: 300px;">
-        <option value="10">10 Questions</option>
-        <option value="20">20 Questions</option>
-        <option value="50">50 Questions</option>
-        <option value="100">100 Questions</option>
-        <option value="all">All Available</option>
-      </select>
-    </div>
-    
-    <button class="btn" style="width: 100%; padding: 15px; font-size: 18px;" onclick="startQuiz()">Begin Examination</button>
-  </div>
+    <!-- Home Screen -->
+    <div class="container" id="home-screen">
+      <h1>NLE Practice Examination</h1>
+      <p>Select a specific topic category to begin testing your knowledge. Questions and options will be randomized upon starting.</p>
+      
+      <div class="category-group">
+        <label for="category-select"><strong>Select Subject Category:</strong></label><br><br>
+        <select id="category-select">
+          <option value="Foundation of Professional Nursing Practice">Foundation of Professional Nursing Practice</option>
+          <option value="Medical and Surgical Nursing">Medical and Surgical Nursing</option>
+          <option value="Psychiatric Nursing">Psychiatric Nursing</option>
+          <option value="Community Health Nursing and Care of the Mother and Child">Community Health Nursing and Care of the Mother and Child</option>
 
-  <!-- Quiz Screen -->
-  <div class="container hidden" id="quiz-screen">
-    <div class="header-info">
-      <div class="progress-tracker" id="progress-tracker">Question 1 of X</div>
+        </select>
+      </div>
+      
+      <div style="margin: 25px 0; padding: 15px; background: #e8f4f8; border-radius: 6px;">
+        <label for="timer-select" style="font-size: 16px;"><strong>Select Timer Duration:</strong></label><br><br>
+        <select id="timer-select" style="padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; width: 100%; max-width: 300px;">
+          <option value="0">No Timer (Untimed)</option>
+          <option value="30">30 Seconds per question</option>
+          <option value="60">1 Minute per question</option>
+        </select>
+        <p style="margin: 10px 0 0 0; font-size: 14px; color: #555;">If time runs out, the examination will automatically advance to the next item.</p>
+      </div>
+      <!-- Add this right above the Begin Examination button -->
+      <div style="margin: 25px 0; padding: 15px; background: #e8f4f8; border-radius: 6px;">
+        <label for="item-limit-select" style="font-size: 16px;"><strong>Select Number of Items:</strong></label><br><br>
+        <select id="item-limit-select" style="padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; width: 100%; max-width: 300px;">
+          <option value="10">10 Questions</option>
+          <option value="20">20 Questions</option>
+          <option value="50">50 Questions</option>
+          <option value="100">100 Questions</option>
+          <option value="all">All Available in Category</option>
+        </select>
+      </div>
+      <button class="btn" style="width: 100%; padding: 15px; font-size: 18px;" onclick="startQuiz()">Begin Examination</button>
     </div>
-    
-    <h2 id="question-text" style="font-size: 20px; line-height: 1.5;">Question goes here?</h2>
-    <div class="options" id="options-container">
-      <!-- Options generated dynamically -->
-    </div>
-    
-    <div style="margin-top: 30px; display: flex; justify-content: space-between;">
-      <button class="btn btn-back" id="back-btn" onclick="prevQuestion()">Back</button>
-      <button class="btn" id="next-btn" onclick="nextQuestion()">Next</button>
-    </div>
-  </div>
 
-  <!-- Result Screen -->
-  <div class="container hidden" id="result-screen">
-    <h1>Examination Results</h1>
-    <h2 id="score-display" style="color: #2980b9;">Your Score: 0/0</h2>
-    <button class="btn" style="width: 100%; margin-top: 20px;" onclick="restartQuiz()">Return to Start</button>
+    <!-- Quiz Screen -->
+    <div class="container hidden" id="quiz-screen">
+      <div class="header-info">
+        <div class="progress-tracker" id="progress-tracker">Question 1 of X</div>
+        <div class="timer" id="timer-display"></div>
+      </div>
+      
+      <h2 id="question-text" style="font-size: 20px; line-height: 1.5;">Question goes here?</h2>
+      <div class="options" id="options-container">
+        <!-- Options generated dynamically -->
+      </div>
+      
+      <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+        <button class="btn btn-back" id="back-btn" onclick="prevQuestion()">Back</button>
+        <button class="btn" id="next-btn" onclick="nextQuestion()">Next</button>
+      </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div class="container hidden" id="result-screen">
+      <h1>Examination Results</h1>
+      <h2 id="score-display" style="color: #2980b9;">Your Score: 0/0</h2>
+      <div id="review-container" style="margin-top: 20px;"></div>
+      <button class="btn" style="width: 100%; margin-top: 20px;" onclick="restartQuiz()">Return to Category Selection</button>
+    </div>
+
   </div>
 
 <script>
