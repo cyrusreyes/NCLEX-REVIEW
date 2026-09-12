@@ -128,7 +128,17 @@
         </select>
         <p style="margin: 10px 0 0 0; font-size: 14px; color: #555;">If time runs out, the examination will automatically advance to the next item.</p>
       </div>
-      
+      <!-- Add this right above the Begin Examination button -->
+      <div style="margin: 25px 0; padding: 15px; background: #e8f4f8; border-radius: 6px;">
+        <label for="item-limit-select" style="font-size: 16px;"><strong>Select Number of Items:</strong></label><br><br>
+        <select id="item-limit-select" style="padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; width: 100%; max-width: 300px;">
+          <option value="10">10 Questions</option>
+          <option value="20">20 Questions</option>
+          <option value="50">50 Questions</option>
+          <option value="100">100 Questions</option>
+          <option value="all">All Available in Category</option>
+        </select>
+      </div>
       <button class="btn" style="width: 100%; padding: 15px; font-size: 18px;" onclick="startQuiz()">Begin Examination</button>
     </div>
 
@@ -11563,6 +11573,144 @@
       rationale: "In an emergency, lives saving facts are obtained first. The name and the amount of medication ingested are of outmost important in treating this potentially life threatening situation."
     }
   ];
+  // --- QUIZ STATE VARIABLES ---
+  let currentQuizQuestions = [];
+  let currentQuestionIndex = 0;
+  let score = 0;
+  let isAnswered = false;
+
+  // --- START THE QUIZ ---
+  function startQuiz() {
+    const category = document.getElementById('category-select').value;
+    const limit = document.getElementById('item-limit-select').value;
+
+    // 1. Filter questions by selected category
+    let filtered = allQuestions.filter(q => q.category === category);
+
+    // 2. Shuffle the questions
+    filtered.sort(() => Math.random() - 0.5);
+
+    // 3. Apply the selected item limit
+    if (limit !== 'all') {
+      currentQuizQuestions = filtered.slice(0, parseInt(limit));
+    } else {
+      currentQuizQuestions = filtered;
+    }
+
+    if (currentQuizQuestions.length === 0) {
+      alert("No questions found for this category.");
+      return;
+    }
+
+    // 4. Reset variables and switch screens
+    currentQuestionIndex = 0;
+    score = 0;
+    document.getElementById('home-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+
+    loadQuestion();
+  }
+
+  // --- LOAD A QUESTION ---
+  function loadQuestion() {
+    isAnswered = false; // Reset answer status for the new question
+    const q = currentQuizQuestions[currentQuestionIndex];
+    
+    // Update progress text
+    document.getElementById('progress-tracker').innerText = `Question ${currentQuestionIndex + 1} of ${currentQuizQuestions.length}`;
+    document.getElementById('question-text').innerText = q.question;
+    
+    const optionsContainer = document.getElementById('options-container');
+    optionsContainer.innerHTML = ''; // Clear previous options
+    
+    // Generate Radio Buttons
+    q.options.forEach((opt, index) => {
+      const label = document.createElement('label');
+      label.id = `label-${index}`;
+      
+      const radio = document.createElement('input');
+      radio.type = 'radio';
+      radio.name = 'option';
+      radio.value = index;
+      
+      // Trigger instant check when they click an option
+      radio.onclick = () => checkAnswer(index); 
+      
+      label.appendChild(radio);
+      label.appendChild(document.createTextNode(opt));
+      optionsContainer.appendChild(label);
+    });
+    
+    // Create the rationale box (hidden initially)
+    const rationaleBox = document.createElement('div');
+    rationaleBox.id = 'rationale-container';
+    rationaleBox.className = 'rationale-box hidden';
+    optionsContainer.appendChild(rationaleBox);
+
+    // Button management
+    document.getElementById('back-btn').style.display = currentQuestionIndex === 0 ? 'none' : 'inline-block';
+    document.getElementById('next-btn').innerText = currentQuestionIndex === currentQuizQuestions.length - 1 ? 'Finish Exam' : 'Next';
+    document.getElementById('next-btn').style.display = 'none'; // Hide next button until they answer
+  }
+
+  // --- INSTANT FEEDBACK LOGIC ---
+  function checkAnswer(selectedIndex) {
+    if (isAnswered) return; // Prevent changing answer once clicked
+    isAnswered = true;
+    
+    const q = currentQuizQuestions[currentQuestionIndex];
+    const options = document.getElementsByName('option');
+    const rationaleBox = document.getElementById('rationale-container');
+    
+    // Disable all radio buttons so the user can't change their mind
+    options.forEach(opt => opt.disabled = true);
+    
+    // Reveal the rationale box
+    rationaleBox.classList.remove('hidden');
+    
+    // Check if correct or incorrect and style accordingly
+    if (selectedIndex === q.correctAnswer) {
+      score++;
+      document.getElementById(`label-${selectedIndex}`).style.backgroundColor = '#d4edda'; // Light green highlight
+      rationaleBox.innerHTML = `<div class="correct-text">Correct!</div>${q.rationale}`;
+    } else {
+      document.getElementById(`label-${selectedIndex}`).style.backgroundColor = '#f8d7da'; // Light red highlight
+      document.getElementById(`label-${q.correctAnswer}`).style.backgroundColor = '#d4edda'; // Highlight the correct answer in green
+      rationaleBox.innerHTML = `<div class="incorrect-text">Incorrect.</div>${q.rationale}`;
+    }
+    
+    // Reveal the "Next" button now that they have answered
+    document.getElementById('next-btn').style.display = 'inline-block';
+  }
+
+  // --- NAVIGATION CONTROLS ---
+  function nextQuestion() {
+    if (currentQuestionIndex < currentQuizQuestions.length - 1) {
+      currentQuestionIndex++;
+      loadQuestion();
+    } else {
+      showResults();
+    }
+  }
+
+  function prevQuestion() {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      loadQuestion();
+    }
+  }
+
+  // --- RESULTS AND RESTART ---
+  function showResults() {
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('result-screen').classList.remove('hidden');
+    document.getElementById('score-display').innerText = `Your Score: ${score}/${currentQuizQuestions.length}`;
+  }
+
+  function restartQuiz() {
+    document.getElementById('result-screen').classList.add('hidden');
+    document.getElementById('home-screen').classList.remove('hidden');
+  }
   function switchTab(tabName) {
   // 1. Grab all the main section containers
   const ca1Screen = document.getElementById('ca1-screen');
