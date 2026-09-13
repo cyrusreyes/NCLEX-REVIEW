@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CA 1 Examination</title>
 <style>
+  /* --- BASE STYLES & SMOOTH TRANSITIONS --- */
   body { 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     background-color: #f4f7f6; 
     color: #333; 
     margin: 0; 
     padding: 20px; 
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   .container { 
     max-width: 800px; 
@@ -18,99 +20,131 @@
     background: #fff; 
     padding: 30px; 
     border-radius: 8px; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
   }
-  h1, h2 { color: #2c3e50; }
-  .hidden { display: none; }
+  h1, h2, h3 { color: #2c3e50; transition: color 0.3s ease; }
+  .hidden { display: none !important; }
+
+  /* --- BUTTONS --- */
   .btn { 
-    padding: 10px 20px; 
-    margin: 5px 0; 
-    border: none; 
-    border-radius: 4px; 
-    cursor: pointer; 
-    background-color: #3498db; 
-    color: #fff; 
-    font-size: 16px; 
+    padding: 10px 20px; border: none; border-radius: 4px; 
+    cursor: pointer; background-color: #3498db; color: #fff; font-size: 16px; 
+    transition: background-color 0.2s, transform 0.1s;
   }
   .btn:hover { background-color: #2980b9; }
+  .btn:active { transform: scale(0.98); }
   .btn-back { background-color: #95a5a6; }
   .btn-back:hover { background-color: #7f8c8d; }
+  .btn-clear { background-color: #e74c3c; padding: 8px 15px; font-size: 14px; margin-top: 10px; width: 100%; border-radius: 6px;}
+  .btn-clear:hover { background-color: #c0392b; }
+  .btn-quit { background-color: #e74c3c; }
+  .btn-quit:hover { background-color: #c0392b; }
+
+  /* --- QUIZ ELEMENTS --- */
   .options label { 
-    display: block; 
-    padding: 12px; 
-    margin: 8px 0; 
-    background: #ecf0f1; 
-    border-radius: 4px; 
-    cursor: pointer; 
-    transition: background 0.2s;
+    display: block; padding: 12px; margin: 8px 0; background: #ecf0f1; 
+    border-radius: 6px; cursor: pointer; transition: background 0.2s, border 0.2s; border: 1px solid transparent;
   }
   .options label:hover { background: #d0d3d4; }
-  input[type="radio"] { margin-right: 10px; transform: scale(1.2); }
-  .header-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-  }
+  input[type="radio"] { margin-right: 10px; transform: scale(1.2); cursor: pointer;}
+  
+  .header-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
   .progress-tracker { font-weight: bold; color: #7f8c8d; font-size: 18px; }
   .timer { font-size: 18px; font-weight: bold; color: #e74c3c; }
+  
+  /* Visual Progress Bar */
+  .progress-bar-container { width: 100%; background-color: #ecf0f1; border-radius: 8px; height: 10px; margin: 15px 0; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background-color: #27ae60; width: 0%; transition: width 0.4s ease; }
+
+  /* --- RATIONALE & RESULTS --- */
   .result-item { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 6px; }
   .correct-text { color: #27ae60; font-weight: bold; margin-top: 8px; }
   .incorrect-text { color: #c0392b; font-weight: bold; margin-top: 8px; }
-  .rationale-box {
-    margin-top: 10px;
-    padding: 12px;
-    background-color: #fdfae6;
-    border-left: 4px solid #f1c40f;
-    border-radius: 4px;
-    font-size: 14px;
-    line-height: 1.5;
-  }
+  .rationale-box { margin-top: 10px; padding: 15px; background-color: #fdfae6; border-left: 5px solid #f1c40f; border-radius: 4px; font-size: 14px; line-height: 1.6; }
+  
+  /* --- DASHBOARDS & SETTINGS --- */
   .category-group { margin: 20px 0; }
-  select { padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; }
+  select { padding: 10px; font-size: 16px; border-radius: 6px; border: 1px solid #ccc; width: 100%; max-width: 400px; cursor: pointer; outline: none;}
+  .settings-box { margin: 20px 0; padding: 20px; background: #e8f4f8; border-radius: 8px; transition: background 0.3s; border: 1px solid #d1e8f0;}
+  
+  /* Score History */
+  .score-history { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #e9ecef; transition: background 0.3s, border 0.3s; }
+  .score-history ul { list-style-type: none; padding-left: 0; margin-bottom: 15px; }
+  .score-history li { padding: 10px 0; border-bottom: 1px solid #e9ecef; font-size: 15px; }
+  .score-history li:last-child { border-bottom: none; }
+
+  /* =========================================
+     REFINED MODERN DARK MODE (SLATE/CHARCOAL)
+     ========================================= */
+  body.dark-mode { background-color: #1a1a24; color: #d1d5db; }
+  
+  body.dark-mode .container { background: #252632; box-shadow: 0 6px 15px rgba(0,0,0,0.4); }
+  
+  body.dark-mode h1, 
+  body.dark-mode h2, 
+  body.dark-mode h3, 
+  body.dark-mode .progress-tracker { color: #f3f4f6; }
+  
+  body.dark-mode .header-info { border-bottom-color: #374151; }
+  
+  body.dark-mode .options label { background: #374151; color: #f3f4f6; border: 1px solid #4b5563; }
+  body.dark-mode .options label:hover { background: #4b5563; }
+  
+  body.dark-mode .rationale-box { background-color: #3f3f28; border-left-color: #fbbf24; color: #f3f4f6; }
+  
+  body.dark-mode select { background: #374151; color: #f3f4f6; border: 1px solid #515e70; }
+  body.dark-mode .result-item { border-color: #4b5563; }
+  
+  body.dark-mode .score-history { background: #1f2937; border-color: #374151; }
+  body.dark-mode .score-history li { border-bottom-color: #374151; }
+  
+  body.dark-mode .settings-box { background: #1f2937; border: 1px solid #374151; }
+  body.dark-mode .progress-bar-container { background-color: #374151; }
+  body.dark-mode p { color: #cbd5e1; }
 </style>
 </head>
 <body>
-<!-- Navigation / Tab Menu -->
-<div class="tab-menu" style="max-width: 800px; margin: 0 auto 20px auto; display: flex; gap: 10px;">
-  <button class="btn" onclick="switchTab('home')">  Nclex</button>
-  <button class="btn btn-back" onclick="switchTab('ca1')">CA 1</button>
-  <button class="btn btn-back" onclick="switchTab('ca2')">CA 2</button>
-</div>
 
   <div id="nle-exam-container">
     
-    <!-- Home Screen -->
+    <!-- HOME SCREEN -->
     <div class="container" id="home-screen">
-      <h1>NLE Practice Examination</h1>
+      <h1>CA 1 Examination</h1>
       <p>Select a specific topic category to begin testing your knowledge. Questions and options will be randomized upon starting.</p>
       
+      <!-- SCORE HISTORY DASHBOARD -->
+      <div class="score-history" id="score-history-container">
+        <h3 style="margin-top: 0;">📊 Your Past CA 1 Scores</h3>
+        <ul id="score-history-list">
+          <li>No past exams yet. Take a quiz to see your history!</li>
+        </ul>
+        <button class="btn btn-clear" onclick="clearHistory()">🗑️ Clear Score History</button>
+      </div>
+      
       <div class="category-group">
-        <label for="category-select"><strong>Select Subject Category:</strong></label><br><br>
+        <label for="category-select" style="font-size: 16px;"><strong>Select Subject Category:</strong></label><br><br>
         <select id="category-select">
           <option value="Foundation of Professional Nursing Practice">Foundation of Professional Nursing Practice</option>
           <option value="Medical and Surgical Nursing">Medical and Surgical Nursing</option>
           <option value="Psychiatric Nursing">Psychiatric Nursing</option>
           <option value="Community Health Nursing and Care of the Mother and Child">Community Health Nursing and Care of the Mother and Child</option>
-
         </select>
       </div>
       
-      <div style="margin: 25px 0; padding: 15px; background: #e8f4f8; border-radius: 6px;">
+      <div class="settings-box">
         <label for="timer-select" style="font-size: 16px;"><strong>Select Timer Duration:</strong></label><br><br>
-        <select id="timer-select" style="padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; width: 100%; max-width: 300px;">
+        <select id="timer-select">
           <option value="0">No Timer (Untimed)</option>
           <option value="30">30 Seconds per question</option>
           <option value="60">1 Minute per question</option>
         </select>
-        <p style="margin: 10px 0 0 0; font-size: 14px; color: #555;">If time runs out, the examination will automatically advance to the next item.</p>
+        <p style="margin: 10px 0 0 0; font-size: 14px;">If time runs out, the examination will automatically advance to the next item.</p>
       </div>
-      <!-- Add this right above the Begin Examination button -->
-      <div style="margin: 25px 0; padding: 15px; background: #e8f4f8; border-radius: 6px;">
+      
+      <div class="settings-box">
         <label for="item-limit-select" style="font-size: 16px;"><strong>Select Number of Items:</strong></label><br><br>
-        <select id="item-limit-select" style="padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; width: 100%; max-width: 300px;">
+        <select id="item-limit-select">
           <option value="10">10 Questions</option>
           <option value="20">20 Questions</option>
           <option value="50">50 Questions</option>
@@ -118,33 +152,49 @@
           <option value="all">All Available in Category</option>
         </select>
       </div>
-      <button class="btn" style="width: 100%; padding: 15px; font-size: 18px;" onclick="startQuiz()">Begin Examination</button>
+      
+      <button class="btn" style="width: 100%; padding: 15px; font-size: 18px; margin-top: 10px;" onclick="startQuiz()">Begin Examination</button>
     </div>
 
-    <!-- Quiz Screen -->
+    <!-- QUIZ SCREEN -->
     <div class="container hidden" id="quiz-screen">
       <div class="header-info">
         <div class="progress-tracker" id="progress-tracker">Question 1 of X</div>
         <div class="timer" id="timer-display"></div>
       </div>
+
+      <!-- VISUAL PROGRESS BAR -->
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progress-bar"></div>
+      </div>
+      
+      <!-- FLAG CHECKBOX -->
+      <div style="margin-bottom: 15px; text-align: right;">
+        <label style="cursor: pointer; font-weight: bold; color: #e67e22; background: none; padding: 0; border: none; display: inline-block;">
+          <input type="checkbox" id="flag-checkbox" onchange="toggleFlag()" style="margin-right: 5px;"> 🚩 Flag for review
+        </label>
+      </div>
       
       <h2 id="question-text" style="font-size: 20px; line-height: 1.5;">Question goes here?</h2>
+      
       <div class="options" id="options-container">
         <!-- Options generated dynamically -->
       </div>
       
-      <div style="margin-top: 30px; display: flex; justify-content: space-between;">
-        <button class="btn btn-back" id="back-btn" onclick="prevQuestion()">Back</button>
-        <button class="btn" id="next-btn" onclick="nextQuestion()">Next</button>
+      <!-- NAVIGATION & QUIT BUTTONS AT THE BOTTOM OF THE QUIZ -->
+      <div style="margin-top: 30px; display: flex; justify-content: space-between; align-items: center;">
+        <button class="btn btn-back" id="back-btn" onclick="prevQuestion()" style="width: 30%;">Back</button>
+        <button class="btn btn-quit" onclick="quitQuiz()" style="width: 30%;">Quit Exam</button>
+        <button class="btn" id="next-btn" onclick="nextQuestion()" style="width: 30%;">Next</button>
       </div>
     </div>
 
-    <!-- Result Screen -->
+    <!-- RESULT SCREEN -->
     <div class="container hidden" id="result-screen">
       <h1>Examination Results</h1>
       <h2 id="score-display" style="color: #2980b9;">Your Score: 0/0</h2>
       <div id="review-container" style="margin-top: 20px;"></div>
-      <button class="btn" style="width: 100%; margin-top: 20px;" onclick="restartQuiz()">Return to Category Selection</button>
+      <button class="btn" style="width: 100%; margin-top: 20px; padding: 15px; font-size: 18px;" onclick="restartQuiz()">Return to Category Selection</button>
     </div>
 
   </div>
@@ -153,6 +203,7 @@
   // --- ADD YOUR CA 1 QUESTIONS HERE ---
   const allQuestions = [
     {
+      category: "Foundation of Professional Nursing Practice",
       question: "Sample CA 1 Question: What is the correct protocol?",
       options: [
         "A. Do this",
@@ -171,16 +222,96 @@
   let currentQuestionIndex = 0;
   let score = 0;
   let isAnswered = false;
+  let userAnswers = []; 
+  let flaggedQuestions = []; 
+  
+  // Timer variables
+  let timerInterval;
+  let timerDuration = 0;
+  let timeLeft = 0;
+
+  // --- INITIALIZE APP ON LOAD ---
+  window.onload = function() {
+    loadScoreHistory();
+    // Listen for dark mode toggle from parent window
+    if(localStorage.getItem('nle_darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+    }
+  };
+
+  // Listen for dark mode changes in the main window
+  window.addEventListener('storage', function(e) {
+    if(e.key === 'nle_darkMode') {
+        if(e.newValue === 'true') {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+    }
+  });
+
+  // --- PREVENT ACCIDENTAL RELOADS ---
+  window.onbeforeunload = function() {
+    const quizScreen = document.getElementById('quiz-screen');
+    if (!quizScreen.classList.contains('hidden')) {
+      return "You have an active exam. Are you sure you want to leave? Your progress will be lost.";
+    }
+  };
+
+  // --- SCORE HISTORY LOGIC ---
+  function saveScore(category, finalScore, totalItems) {
+    let history = JSON.parse(localStorage.getItem('ca1_score_history')) || [];
+    const date = new Date().toLocaleDateString();
+    
+    history.unshift({ category: category, score: finalScore, total: totalItems, date: date }); 
+    if (history.length > 5) history.pop(); 
+    
+    localStorage.setItem('ca1_score_history', JSON.stringify(history));
+    loadScoreHistory();
+  }
+
+  function loadScoreHistory() {
+    let history = JSON.parse(localStorage.getItem('ca1_score_history')) || [];
+    const list = document.getElementById('score-history-list');
+    if(!list) return;
+    
+    list.innerHTML = '';
+    if(history.length === 0) {
+      list.innerHTML = '<li>No past exams yet. Take a quiz to see your history!</li>';
+      return;
+    }
+    
+    history.forEach(item => {
+      let percentage = Math.round((item.score / item.total) * 100);
+      list.innerHTML += `<li><strong>${item.date}</strong> | ${item.category} | <strong>${item.score}/${item.total} (${percentage}%)</strong></li>`;
+    });
+  }
+
+  function clearHistory() {
+    const confirmClear = confirm("Are you sure you want to delete all your past CA 1 scores? This cannot be undone.");
+    if (confirmClear) {
+      localStorage.removeItem('ca1_score_history');
+      loadScoreHistory(); 
+    }
+  }
 
   // --- START THE QUIZ ---
   function startQuiz() {
+    const category = document.getElementById('category-select').value;
     const limit = document.getElementById('item-limit-select').value;
-    let filtered = [...allQuestions];
+    
+    timerDuration = parseInt(document.getElementById('timer-select').value);
 
-    // Shuffle the questions
+    // Filter by category (Make sure your sample questions have a category added!)
+    let filtered = allQuestions.filter(q => q.category === category);
+    
+    // Fallback if no category is assigned yet
+    if(filtered.length === 0) {
+        filtered = [...allQuestions];
+    }
+    
     filtered.sort(() => Math.random() - 0.5);
 
-    // Apply the selected item limit
     if (limit !== 'all') {
       currentQuizQuestions = filtered.slice(0, parseInt(limit));
     } else {
@@ -188,41 +319,57 @@
     }
 
     if (currentQuizQuestions.length === 0) {
-      alert("No questions found.");
+      alert("No questions found for this category.");
       return;
     }
 
     currentQuestionIndex = 0;
     score = 0;
+    userAnswers = []; 
+    flaggedQuestions = []; 
+
     document.getElementById('home-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
 
     loadQuestion();
   }
 
-  // --- LOAD A QUESTION ---
+  // --- LOAD A QUESTION (WITH SHUFFLER & PROGRESS BAR) ---
   function loadQuestion() {
     isAnswered = false; 
     const q = currentQuizQuestions[currentQuestionIndex];
     
     document.getElementById('progress-tracker').innerText = `Question ${currentQuestionIndex + 1} of ${currentQuizQuestions.length}`;
+    const progressPercent = ((currentQuestionIndex) / currentQuizQuestions.length) * 100;
+    document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
     document.getElementById('question-text').innerText = q.question;
+    document.getElementById('flag-checkbox').checked = !!flaggedQuestions[currentQuestionIndex];
     
     const optionsContainer = document.getElementById('options-container');
     optionsContainer.innerHTML = ''; 
     
-    q.options.forEach((opt, index) => {
+    // Clean prefixes and prepare options for shuffling
+    let optionsWithIndex = q.options.map((opt, index) => {
+      let cleanText = opt.replace(/^[A-Z]\.\s*/, '');
+      return { text: cleanText, originalIndex: index };
+    });
+
+    optionsWithIndex.sort(() => Math.random() - 0.5);
+
+    optionsWithIndex.forEach((optionObj) => {
       const label = document.createElement('label');
-      label.id = `label-${index}`;
+      label.id = `label-${optionObj.originalIndex}`; 
       
       const radio = document.createElement('input');
       radio.type = 'radio';
       radio.name = 'option';
-      radio.value = index;
-      radio.onclick = () => checkAnswer(index); 
+      radio.value = optionObj.originalIndex;
+      
+      radio.onclick = () => checkAnswer(optionObj.originalIndex); 
       
       label.appendChild(radio);
-      label.appendChild(document.createTextNode(opt));
+      label.appendChild(document.createTextNode(optionObj.text));
       optionsContainer.appendChild(label);
     });
     
@@ -234,13 +381,68 @@
     document.getElementById('back-btn').style.display = currentQuestionIndex === 0 ? 'none' : 'inline-block';
     document.getElementById('next-btn').innerText = currentQuestionIndex === currentQuizQuestions.length - 1 ? 'Finish Exam' : 'Next';
     document.getElementById('next-btn').style.display = 'none'; 
+
+    startTimer();
+  }
+
+  // --- FLAG LOGIC ---
+  function toggleFlag() {
+    flaggedQuestions[currentQuestionIndex] = document.getElementById('flag-checkbox').checked;
+  }
+
+  // --- TIMER LOGIC ---
+  function startTimer() {
+    clearInterval(timerInterval); 
+    
+    if (timerDuration === 0) {
+      document.getElementById('timer-display').innerText = 'Untimed';
+      return;
+    }
+
+    timeLeft = timerDuration;
+    document.getElementById('timer-display').innerText = `Time: ${timeLeft}s`;
+
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      document.getElementById('timer-display').innerText = `Time: ${timeLeft}s`;
+
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        timeRanOut();
+      }
+    }, 1000);
+  }
+
+  function timeRanOut() {
+    if (isAnswered) return;
+    isAnswered = true;
+    userAnswers[currentQuestionIndex] = null; 
+
+    const q = currentQuizQuestions[currentQuestionIndex];
+    const options = document.getElementsByName('option');
+    const rationaleBox = document.getElementById('rationale-container');
+    
+    options.forEach(opt => opt.disabled = true);
+    
+    rationaleBox.classList.remove('hidden');
+    document.getElementById(`label-${q.correctAnswer}`).style.backgroundColor = '#d4edda'; 
+    rationaleBox.innerHTML = `<div class="incorrect-text" style="color: #c0392b;">Time is up!</div>${q.rationale}`;
+    
+    if(document.body.classList.contains('dark-mode')){
+        document.getElementById(`label-${q.correctAnswer}`).style.color = '#121212';
+    }
+
+    document.getElementById('next-btn').style.display = 'inline-block';
   }
 
   // --- INSTANT FEEDBACK LOGIC ---
   function checkAnswer(selectedIndex) {
     if (isAnswered) return; 
     isAnswered = true;
+    clearInterval(timerInterval); 
     
+    userAnswers[currentQuestionIndex] = selectedIndex; 
+
     const q = currentQuizQuestions[currentQuestionIndex];
     const options = document.getElementsByName('option');
     const rationaleBox = document.getElementById('rationale-container');
@@ -248,13 +450,20 @@
     options.forEach(opt => opt.disabled = true);
     rationaleBox.classList.remove('hidden');
     
+    const isDark = document.body.classList.contains('dark-mode');
+
     if (selectedIndex === q.correctAnswer) {
       score++;
       document.getElementById(`label-${selectedIndex}`).style.backgroundColor = '#d4edda'; 
+      if(isDark) document.getElementById(`label-${selectedIndex}`).style.color = '#121212';
       rationaleBox.innerHTML = `<div class="correct-text">Correct!</div>${q.rationale}`;
     } else {
       document.getElementById(`label-${selectedIndex}`).style.backgroundColor = '#f8d7da'; 
       document.getElementById(`label-${q.correctAnswer}`).style.backgroundColor = '#d4edda'; 
+      if(isDark) {
+          document.getElementById(`label-${selectedIndex}`).style.color = '#121212';
+          document.getElementById(`label-${q.correctAnswer}`).style.color = '#121212';
+      }
       rationaleBox.innerHTML = `<div class="incorrect-text">Incorrect.</div>${q.rationale}`;
     }
     
@@ -278,16 +487,69 @@
     }
   }
 
+  function quitQuiz() {
+    const confirmQuit = confirm("Are you sure you want to quit the exam early?");
+    if (confirmQuit) {
+      clearInterval(timerInterval);
+      showResults(); 
+    }
+  }
+
   // --- RESULTS AND RESTART ---
   function showResults() {
+    clearInterval(timerInterval);
+    document.getElementById('progress-bar').style.width = `100%`;
+
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('result-screen').classList.remove('hidden');
-    document.getElementById('score-display').innerText = `Your Score: ${score}/${currentQuizQuestions.length}`;
+    
+    let questionsReached = currentQuestionIndex + 1;
+    if (currentQuestionIndex === currentQuizQuestions.length - 1 && isAnswered) {
+        questionsReached = currentQuizQuestions.length;
+    }
+    
+    document.getElementById('score-display').innerText = `Your Score: ${score}/${questionsReached}`;
+
+    const category = document.getElementById('category-select').value;
+    saveScore(category, score, questionsReached);
+
+    const reviewContainer = document.getElementById('review-container');
+    reviewContainer.innerHTML = ''; 
+
+    for (let index = 0; index < questionsReached; index++) {
+      const q = currentQuizQuestions[index];
+      const userAnswer = userAnswers[index];
+      const isCorrect = userAnswer === q.correctAnswer;
+      const isFlagged = flaggedQuestions[index]; 
+      
+      const cleanUserAnswer = userAnswer !== undefined && userAnswer !== null ? q.options[userAnswer].replace(/^[A-Z]\.\s*/, '') : 'Time ran out / Skipped';
+      const cleanCorrectAnswer = q.options[q.correctAnswer].replace(/^[A-Z]\.\s*/, '');
+      const flagStyle = isFlagged ? (document.body.classList.contains('dark-mode') ? 'background-color: #524722;' : 'background-color: #fff8e1;') : '';
+
+      let reviewHTML = `
+        <div class="result-item" style="border-left: 5px solid ${isCorrect ? '#27ae60' : '#c0392b'}; ${flagStyle}">
+          <h3 style="margin-top: 0;">
+            Question ${index + 1} 
+            ${isFlagged ? '<span style="color: #e67e22; font-size: 16px;">🚩 (Flagged for Review)</span>' : ''}
+          </h3>
+          <p><strong>${q.question}</strong></p>
+          <p style="color: ${isCorrect ? '#27ae60' : '#e74c3c'};">
+            <strong>Your Answer:</strong> ${cleanUserAnswer}
+          </p>
+          ${!isCorrect ? `<p style="color: #27ae60;"><strong>Correct Answer:</strong> ${cleanCorrectAnswer}</p>` : ''}
+          <div class="rationale-box" style="display: block;">
+            <strong>Rationale:</strong> ${q.rationale}
+          </div>
+        </div>
+      `;
+      reviewContainer.innerHTML += reviewHTML;
+    }
   }
 
   function restartQuiz() {
     document.getElementById('result-screen').classList.add('hidden');
     document.getElementById('home-screen').classList.remove('hidden');
+    document.getElementById('progress-bar').style.width = `0%`;
   }
 </script>
 </body>
