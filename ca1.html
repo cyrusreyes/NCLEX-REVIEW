@@ -125,10 +125,10 @@
       <div class="category-group">
         <label for="category-select" style="font-size: 16px;"><strong>Select Subject Category:</strong></label><br><br>
         <select id="category-select">
-          <option value="Foundation of Professional Nursing Practice">Foundation of Professional Nursing Practice</option>
-          <option value="Medical and Surgical Nursing">Medical and Surgical Nursing</option>
-          <option value="Psychiatric Nursing">Psychiatric Nursing</option>
-          <option value="Community Health Nursing and Care of the Mother and Child">Community Health Nursing and Care of the Mother and Child</option>
+          <option value="Pharmacology">Pharmacology</option>
+          <option value="Hematologic Disorders"Hematologic Deisorders</option>
+          <option value="Maternal Care Nursing">Naternal Care Nursingg</option>
+          <option value="Fundamentals of Nursing">Fundamentals of Nursing</option>
         </select>
       </div>
       
@@ -202,20 +202,971 @@
 <script>
   // --- ADD YOUR CA 1 QUESTIONS HERE ---
   const allQuestions = [
-    {
-      category: "Foundation of Professional Nursing Practice",
-      question: "Sample CA 1 Question: What is the correct protocol?",
-      options: [
-        "A. Do this",
-        "B. Do that",
-        "C. Do nothing",
-        "D. Call for help"
-      ],
-      correctAnswer: 1, // Index of the correct option (B is 1)
-      rationale: "This is the rationale explaining why B is the correct answer."
-    },
-    // Add more CA 1 questions following the exact same format
-  ];
+[
+  {
+    category: "Hematologic Disorders",
+    question: "1. A nurse is reviewing the laboratory results of a patient with a suspected hematologic disorder. The nurse understands that which of the following blood components is primarily responsible for forming temporary plugs at sites of vascular injury?",
+    options: [
+      "A. Erythrocytes",
+      "B. Leukocytes",
+      "C. Thrombocytes",
+      "D. Reticulocytes"
+    ],
+    correctAnswer: 2,
+    rationale: "Thrombocytes, also known as platelets, are essential for hemostasis; they form temporary plugs at sites of vascular injury to stop bleeding. Erythrocytes transport oxygen, leukocytes protect against infection, and reticulocytes are slightly immature red blood cells."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "2. An older adult patient presents with leukopenia and mild anemia. The nurse understands that age-related changes in hematopoiesis include which of the following?",
+    options: [
+      "A. Increased production of T- and B-cells",
+      "B. Decreased ability of the bone marrow to respond to the body's need for blood cells",
+      "C. Enhanced response to erythropoietin growth factors",
+      "D. Increased elasticity of circulating erythrocytes"
+    ],
+    correctAnswer: 1,
+    rationale: "In older adults, the bone marrow’s ability to respond to the body’s need for blood cells may be decreased, resulting in leukopenia or anemia. This age-related decrease in immune system response is known as immunosenescence, and T- and B-cell development is decreased, not increased."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "3. A patient with severe anemia exhibits tachycardia, palpitations, and exertional dyspnea. The nurse understands that these symptoms are primarily caused by which of the following physiological compensatory mechanisms?",
+    options: [
+      "A. The heart attempting to pump faster and harder to deliver more oxygen to hypoxic tissue",
+      "B. Decreased production of erythropoietin by the kidneys",
+      "C. Increased destruction of red blood cells in the spleen",
+      "D. Vasodilation of the peripheral vasculature"
+    ],
+    correctAnswer: 0,
+    rationale: "Anemia is characterized by a lower-than-normal hemoglobin concentration, which means less oxygen reaches the body's tissues. When hemoglobin levels are low, the heart attempts to compensate by pumping faster and harder to deliver more oxygen to hypoxic tissue, which causes symptoms like tachycardia, palpitations, dizziness, and exertional dyspnea."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "4. A female patient is diagnosed with iron deficiency anemia. Which of the following is the most common cause of this condition in premenopausal women that the nurse should assess for?",
+    options: [
+      "A. Inadequate dietary intake of iron",
+      "B. Gastrointestinal bleeding from ulcers",
+      "C. Menorrhagia",
+      "D. Malabsorption due to celiac disease"
+    ],
+    correctAnswer: 2,
+    rationale: "The most common causes of iron deficiency anemia in premenopausal women are menorrhagia (excessive menstrual bleeding) and pregnancy with inadequate iron intake. Gastrointestinal bleeding is the most common cause in men and postmenopausal women."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "5. A nurse is providing discharge teaching to a patient prescribed oral ferrous sulfate. Which statement by the patient indicates a need for further education?",
+    options: [
+      "A. \"I will take my iron supplement with a glass of orange juice.\"",
+      "B. \"I should expect my stools to become dark or black.\"",
+      "C. \"I will take my iron pill right after I finish eating my breakfast to prevent stomach upset.\"",
+      "D. \"I will increase my intake of foods high in fiber.\""
+    ],
+    correctAnswer: 2,
+    rationale: "Oral iron is best absorbed on an empty stomach, making it important for patients to be instructed to take the supplement approximately 1 hour before or 2 hours after meals. Taking it with food can reduce absorption by as much as 40%. Orange juice provides vitamin C which enhances absorption, dark stools are an expected side effect, and fiber helps combat constipation."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "6. A patient is undergoing evaluation for iron deficiency anemia. Which of the following laboratory findings would the nurse expect to see?",
+    options: [
+      "A. Elevated serum iron and decreased Total Iron-Binding Capacity (TIBC)",
+      "B. Decreased Mean Corpuscular Volume (MCV) and elevated TIBC",
+      "C. Elevated serum ferritin and increased MCV",
+      "D. Normal hemoglobin and decreased reticulocyte count"
+    ],
+    correctAnswer: 1,
+    rationale: "In iron deficiency anemia, diminished iron stores cause small erythrocytes to be produced, which decreases the MCV (microcytic anemia). Typically, patients have a low serum iron level and an elevated TIBC, which measures the transport protein supplying the marrow with iron."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "7. A patient with pernicious anemia asks the nurse why they must receive vitamin B12 injections instead of an oral pill. What is the best response by the nurse?",
+    options: [
+      "A. \"Oral vitamin B12 is easily destroyed by stomach acid.\"",
+      "B. \"Your body lacks intrinsic factor, which is necessary for the absorption of vitamin B12 from the GI tract.\"",
+      "C. \"Injections work much faster to reverse the severe bone pain associated with this disease.\"",
+      "D. \"Your kidneys excrete oral vitamin B12 too quickly for it to be effective.\""
+    ],
+    correctAnswer: 1,
+    rationale: "Pernicious anemia is a type of vitamin B12 deficiency caused by an absence of intrinsic factor. Intrinsic factor is normally secreted by the gastric mucosa and binds with dietary vitamin B12 so it can be absorbed in the ileum. Without it, oral B12 cannot be adequately absorbed. To prevent recurrence, vitamin B12 supplementation (via injection or very high daily oral doses) must continue for life."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "8. A nurse is performing an assessment on a patient with severe vitamin B12 deficiency. Which of the following clinical manifestations is a priority finding associated with this condition?",
+    options: [
+      "A. Pica (craving for non-food items)",
+      "B. Difficulty maintaining balance and gait disturbances",
+      "C. Jaundice in the mucous membranes",
+      "D. Brittle, concave, ridged nails"
+    ],
+    correctAnswer: 1,
+    rationale: "Patients with pernicious anemia (B12 deficiency) develop neurologic symptoms such as paresthesias in the extremities, loss of position sense (proprioception), and difficulty maintaining balance because of damage to the spinal cord. Pica and brittle, ridged nails are classic signs of iron deficiency anemia."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "9. Which patient is at the highest risk for developing a folic acid deficiency anemia?",
+    options: [
+      "A. A 25-year-old female with a history of heavy menstrual bleeding",
+      "B. A 45-year-old male with chronic alcohol abuse disorder",
+      "C. A 60-year-old male with chronic kidney disease",
+      "D. A 30-year-old female who follows a strict vegan diet"
+    ],
+    correctAnswer: 1,
+    rationale: "Alcohol ingestion increases folic acid requirements, and it is common for those with alcohol abuse disorder to have a diet deficient in folate and other nutrients. Strict vegetarian diets lacking in B12 supplementation put patients at risk for Vitamin B12 deficiency, while heavy menstruation leads to iron deficiency."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "10. A patient diagnosed with aplastic anemia has a laboratory report showing pancytopenia. The nurse explains to the patient that this condition is most commonly caused by:",
+    options: [
+      "A. A lack of dietary iron and vitamin B12",
+      "B. An immune-mediated attack by T cells on the bone marrow stem cells",
+      "C. Excessive destruction of red blood cells in the spleen",
+      "D. Abnormal hemoglobin S molecules that sickle in low oxygen environments"
+    ],
+    correctAnswer: 1,
+    rationale: "Aplastic anemia is a life-threatening condition associated with bone marrow failure, resulting in pancytopenia. It is believed to be an immune-mediated condition in which T lymphocytes attack hematopoietic stem cells, severely reducing the production of erythrocytes, leukocytes, and platelets."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "11. A patient with aplastic anemia is admitted to the medical-surgical unit. Based on the patient's condition, which of the following nursing interventions is the highest priority?",
+    options: [
+      "A. Encouraging frequent ambulation in the hallway",
+      "B. Administering iron supplements with every meal",
+      "C. Implementing strict infection control and bleeding precautions",
+      "D. Applying warm compresses to painful joints"
+    ],
+    correctAnswer: 2,
+    rationale: "Patients with aplastic anemia have significant neutropenia (low white blood cells) and thrombocytopenia (low platelets). Because of these deficiencies, aggressive treatment and prevention of bacterial or fungal infections and bleeding are necessary, as these are the most common causes of death associated with the disease."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "12. A nurse is educating a patient with sickle cell disease (SCD) about the pathophysiology of a vaso-occlusive crisis. The nurse should explain that the pain is primarily caused by:",
+    options: [
+      "A. Accumulation of rigid, sickled erythrocytes in the microcirculation causing tissue hypoxia and ischemia",
+      "B. Massive pooling of blood in the liver and spleen",
+      "C. Depletion of bone marrow iron stores",
+      "D. An autoimmune attack on the circulating red blood cells"
+    ],
+    correctAnswer: 0,
+    rationale: "Acute vaso-occlusive crisis is a very painful condition resulting from the accumulation of rigid, sickle-shaped erythrocytes and leukocytes in the microcirculation. This sickling process restricts blood flow to the tissue, causing severe hypoxia, inflammation, and necrosis (ischemia)."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "13. A young adult patient with sickle cell disease is admitted with a fever, tachypnea, a new cough, and wheezing. A chest x-ray reveals new pulmonary infiltrates. The nurse suspects the patient is experiencing which life-threatening complication?",
+    options: [
+      "A. Aplastic crisis",
+      "B. Acute chest syndrome",
+      "C. Pulmonary embolism",
+      "D. Sequestration crisis"
+    ],
+    correctAnswer: 1,
+    rationale: "Acute chest syndrome is a frequent complication in those hospitalized with SCD and is associated with significant morbidity and mortality. It is most frequently manifested by fever, respiratory distress (tachypnea, cough, and wheezing), and new infiltrates on the chest x-ray."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "14. A patient with sickle cell disease is prescribed hydroxyurea. The nurse should educate the patient that the primary purpose of this medication is to:",
+    options: [
+      "A. Cure the genetic defect causing the disease",
+      "B. Increase the levels of fetal hemoglobin (HbF) to decrease the formation of sickled cells",
+      "C. Prevent the absorption of excess iron from frequent blood transfusions",
+      "D. Act as a rapid-acting analgesic during an acute pain crisis"
+    ],
+    correctAnswer: 1,
+    rationale: "Hydroxyurea is a chemotherapeutic agent that is effective in increasing levels of fetal hemoglobin (hemoglobin F). This increase in hemoglobin F decreases the formation of sickled cells, which reduces the incidence of painful crises and acute chest syndrome."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "15. Which of the following non-pharmacologic interventions is contraindicated for a patient experiencing a severe vaso-occlusive sickle cell crisis?",
+    options: [
+      "A. Application of cold packs to the affected painful joints",
+      "B. Encouraging high oral fluid intake",
+      "C. Supporting and elevating swollen joints",
+      "D. Use of relaxation techniques and guided imagery"
+    ],
+    correctAnswer: 0,
+    rationale: "Cold packs and ice should be avoided because cold promotes vasoconstriction, which slows blood flow and can precipitate or worsen the sickling process. Hydration, joint support, and relaxation techniques are all indicated during a crisis."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "16. A patient with severe beta-thalassemia (thalassemia major) is receiving regular transfusions of packed red blood cells (PRBCs). The nurse anticipates that the patient will also require which of the following treatments to prevent organ damage?",
+    options: [
+      "A. Immunosuppressive therapy with antithymocyte globulin (ATG)",
+      "B. Iron chelation therapy",
+      "C. High-dose corticosteroid therapy",
+      "D. Therapeutic phlebotomy"
+    ],
+    correctAnswer: 1,
+    rationale: "Patients with thalassemia major require early and regular PRBC transfusions to support growth and development. However, multiple transfusions lead to iron overload that can cause organ dysfunction. Regular chelation therapy can reduce complications associated with iron overload and prolong life."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "17. A patient is diagnosed with secondary polycythemia. The nurse understands that this condition is a compensatory response to excessive production of erythropoietin, most likely caused by which of the following underlying conditions?",
+    options: [
+      "A. Chronic blood loss from a gastrointestinal bleed",
+      "B. Chronic obstructive pulmonary disease (COPD) or heavy smoking",
+      "C. A genetic mutation of the JAK2 gene",
+      "D. Exposure to radiation and industrial chemicals"
+    ],
+    correctAnswer: 1,
+    rationale: "Secondary polycythemia is caused by excessive production of erythropoietin, often in response to a reduced amount of oxygen (tissue hypoxia). Heavy smoking, obstructive sleep apnea, COPD, severe heart disease, or living at high altitudes are common causes. A JAK2 mutation is associated with primary polycythemia vera."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "18. A patient with polycythemia vera reports experiencing severe pruritus, especially after bathing. Which intervention should the nurse recommend?",
+    options: [
+      "A. Use vigorous toweling off after bathing to stimulate circulation",
+      "B. Take hot showers to open the pores and release histamines",
+      "C. Bathe in tepid water and apply cocoa butter or oatmeal-based lotions",
+      "D. Take a daily iron supplement to improve skin health"
+    ],
+    correctAnswer: 2,
+    rationale: "Pruritus in polycythemia vera can be triggered by contact with water of any temperature. The nurse should recommend bathing in tepid water, avoiding vigorous toweling off after bathing, and using cocoa butter or oatmeal-based lotions to soothe the skin. Iron supplements are contraindicated because iron can further stimulate RBC production."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "19. A patient with chronic kidney disease (CKD) has a glomerular filtration rate (GFR) of 20 mL/min and presents with severe fatigue and a hemoglobin of 8.5 g/dL. What is the primary pathophysiologic reason for anemia in this patient?",
+    options: [
+      "A. Chronic loss of blood through the gastrointestinal tract",
+      "B. Decreased production of erythropoietin by the kidneys",
+      "C. Inadequate dietary intake of folic acid",
+      "D. Immune-mediated destruction of red blood cells"
+    ],
+    correctAnswer: 1,
+    rationale: "Patients with CKD generally do not become severely anemic until the GFR is less than 30 mL/min. The anemia is primarily caused by decreased erythropoietin production by the kidneys, which is normally required to stimulate red blood cell production."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "20. Which laboratory finding would the nurse expect to see in a patient diagnosed with megaloblastic anemia due to a folate deficiency?",
+    options: [
+      "A. Decreased Mean Corpuscular Volume (MCV)",
+      "B. Microcytic, hypochromic red blood cells",
+      "C. Elevated reticulocyte count",
+      "D. Elevated Mean Corpuscular Volume (MCV) greater than 110 fL"
+    ],
+    correctAnswer: 3,
+    rationale: "Megaloblastic anemias (caused by vitamin B12 or folate deficiency) are characterized by the production of abnormally large, nucleated red blood cells. Because these erythrocytes are very large, the MCV is very high, often exceeding 110 fL."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "21. A 65-year-old male patient is diagnosed with iron deficiency anemia. The nurse anticipates that the healthcare provider will order which of the following diagnostic procedures to investigate the most common cause of this condition in this patient demographic?",
+    options: [
+      "A. Bone marrow aspiration",
+      "B. Hemoglobin electrophoresis",
+      "C. Colonoscopy or upper endoscopy",
+      "D. Serum folate level"
+    ],
+    correctAnswer: 2,
+    rationale: "Blood loss should always be considered the cause of iron deficiency anemia until proven otherwise. The most common cause of iron deficiency anemia in men and postmenopausal women is gastrointestinal bleeding from ulcers, gastritis, tumors, or inflammatory bowel disease. Therefore, endoscopic evaluations are crucial to identify lesions, polyps, or tumors in the GI tract."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "22. Which statement by a patient with sickle cell disease indicates successful teaching regarding the prevention of vaso-occlusive crises?",
+    options: [
+      "A. \"I will limit my daily fluid intake to 1 liter to prevent fluid overload.\"",
+      "B. \"I should dress warmly in cold weather and avoid becoming chilled.\"",
+      "C. \"I will engage in high-intensity workouts every day to build endurance.\"",
+      "D. \"I will take an iron supplement every morning on an empty stomach.\""
+    ],
+    correctAnswer: 1,
+    rationale: "Patients with sickle cell disease benefit greatly from understanding circumstances that precipitate a crisis; keeping warm, reducing risks for infection, and maintaining adequate hydration can be effective in reducing the occurrence and severity of crises. Cold can promote vasoconstriction and precipitate sickling, while dehydration increases blood viscosity. Iron supplements are not routinely recommended as these patients are at risk for iron overload from chronic transfusions."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "23. A patient is undergoing diagnostic testing for anemia. The nurse notes an elevated reticulocyte count on the laboratory report. The nurse recognizes that this finding is most indicative of which of the following pathophysiological processes?",
+    options: [
+      "A. A hypoproliferative anemia where the bone marrow cannot produce red blood cells",
+      "B. A hemolytic anemia where the bone marrow is compensating for red blood cell destruction",
+      "C. Bone marrow suppression caused by chemotherapy",
+      "D. Anemia of inflammation (chronic disease)"
+    ],
+    correctAnswer: 1,
+    rationale: "Reticulocytes are slightly immature red blood cells. In hemolytic anemias, red blood cells are destroyed prematurely; if the bone marrow is functioning normally, it attempts to compensate by increasing red blood cell production, leading to an elevated reticulocyte count. Hypoproliferative anemias (like iron deficiency or aplastic anemia) are characterized by a low or inappropriately normal reticulocyte count."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "24. A patient with polycythemia vera reports experiencing severe headaches, dizziness, and visual changes. The nurse understands that these symptoms are primarily related to which pathophysiological mechanism?",
+    options: [
+      "A. Decreased oxygen-carrying capacity of the red blood cells",
+      "B. Increased blood cell mass causing increased blood viscosity",
+      "C. Excessive destruction of red blood cells in an enlarged spleen",
+      "D. Autoimmune destruction of the central nervous system myelin"
+    ],
+    correctAnswer: 1,
+    rationale: "Polycythemia vera is characterized by an excessive production of red blood cells (erythrocytosis). This increase in blood cell mass increases blood viscosity, which leads to neurologic symptoms such as headache, dizziness, vision changes, and transient ischemic attacks (TIAs)."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "25. The nurse is caring for a patient with polycythemia vera who is scheduled for a therapeutic phlebotomy. The primary goal of this procedure is to:",
+    options: [
+      "A. Increase the production of erythropoietin by the kidneys.",
+      "B. Remove defective platelets to prevent life-threatening bleeding.",
+      "C. Deplete iron stores and reduce blood viscosity by keeping the hematocrit below 45%.",
+      "D. Filter out circulating antibodies that are destroying red blood cells."
+    ],
+    correctAnswer: 2,
+    rationale: "Phlebotomy is considered the mainstay of therapy for polycythemia vera and is used to maintain the hematocrit level at less than 45%. The procedure involves removing whole blood to reduce blood viscosity and to deplete iron stores, which renders the patient iron deficient and unable to continue manufacturing excessive red blood cells."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "26. A patient is admitted with a severe megaloblastic anemia. Which assessment finding strongly suggests a vitamin B12 deficiency (pernicious anemia) rather than a folic acid deficiency?",
+    options: [
+      "A. A sore, beefy red tongue",
+      "B. An elevated mean corpuscular volume (MCV)",
+      "C. Peripheral numbness, paresthesia, and ataxia",
+      "D. Extreme fatigue and pallor"
+    ],
+    correctAnswer: 2,
+    rationale: "Both vitamin B12 and folate deficiencies cause megaloblastic anemia, which can present with a beefy red tongue, fatigue, and an elevated MCV. However, a neurological examination is important because pernicious anemia (vitamin B12 deficiency) uniquely affects the central and peripheral nervous systems, leading to numbness, paresthesia, ataxia, impaired coordination, and confusion."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "27. A nurse is educating a patient about a new prescription for oral ferrous sulfate. Which instruction should the nurse include to promote maximum efficacy of the medication?",
+    options: [
+      "A. \"Take the medication with a glass of milk to prevent stomach upset.\"",
+      "B. \"Stop taking the medication immediately if your stools turn black.\"",
+      "C. \"Take the medication with orange juice to enhance absorption.\"",
+      "D. \"Take the pill along with your prescribed antacid.\""
+    ],
+    correctAnswer: 2,
+    rationale: "Eating iron-rich foods or taking iron supplements with a source of vitamin C (like orange juice) enhances iron absorption. The medication should be taken on an empty stomach because dairy products and antacids can greatly diminish absorption. Dark or black stools are a normal, expected side effect of oral iron replacement."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "28. A child with thalassemia major receives regular transfusions of packed red blood cells. The nurse understands that this patient will likely require chelation therapy to prevent damage to which of the following organs?",
+    options: [
+      "A. The lungs and respiratory tract",
+      "B. The central and peripheral nervous systems",
+      "C. The liver, heart, and pancreas",
+      "D. The spleen and lymph nodes"
+    ],
+    correctAnswer: 2,
+    rationale: "Patients with thalassemia major require multiple transfusions, which leads to iron overload. The excess iron deposits in body tissues can cause organ damage, particularly in the liver, heart, testes, and pancreas. Regular iron chelation therapy can reduce complications associated with iron toxicity and prolong life."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "29. A patient with sickle cell disease presents to the emergency department with a fever, a new cough, tachypnea, and chest pain. Which of the following complications does the nurse suspect?",
+    options: [
+      "A. Aplastic crisis",
+      "B. Splenic sequestration crisis",
+      "C. Acute chest syndrome",
+      "D. Pulmonary hypertension"
+    ],
+    correctAnswer: 2,
+    rationale: "Acute chest syndrome is a frequent, potentially life-threatening complication in patients with sickle cell disease. It is most frequently manifested by fever, respiratory distress (tachypnea, cough, and wheezing), and new infiltrates on a chest x-ray. Prompt recognition and aggressive treatment are required."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "30. A patient is diagnosed with severe aplastic anemia and exhibits pancytopenia. Which of the following nursing interventions is of the highest priority?",
+    options: [
+      "A. Encouraging a diet high in iron and vitamin C",
+      "B. Implementing strict neutropenic and bleeding precautions",
+      "C. Preparing the patient for a routine therapeutic phlebotomy",
+      "D. Administering a daily aspirin to prevent thrombosis"
+    ],
+    correctAnswer: 1,
+    rationale: "Aplastic anemia involves bone marrow failure resulting in pancytopenia (a decrease in all blood cell types: erythrocytes, leukocytes, and platelets). Patients are at a very high risk for life-threatening complications related to deficiencies in these cells, making thorough assessment and prevention of infection (neutropenia) and bleeding (thrombocytopenia) critical nursing priorities."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "31. A patient with severe rheumatoid arthritis is found to have a mild, normochromic, normocytic anemia with a hemoglobin of 10.2 g/dL. The nurse recognizes this as anemia of inflammation. What is the primary recommended treatment approach for this specific type of anemia?",
+    options: [
+      "A. High-dose oral iron supplementation",
+      "B. Treating the underlying inflammatory disorder",
+      "C. Lifelong vitamin B12 injections",
+      "D. Weekly therapeutic phlebotomy"
+    ],
+    correctAnswer: 1,
+    rationale: "Anemia of inflammation (formerly anemia of chronic disease) is associated with chronic diseases like rheumatoid arthritis. It is usually mild to moderate and does not require iron supplementation because iron use is blocked by the inflammatory process, not absent. Treatment of the underlying disorder allows the iron stored in the bone marrow to be utilized, facilitating the rise of hemoglobin levels."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "32. A patient with chronic kidney disease (CKD) has developed severe anemia. The nurse understands that this anemia is primarily caused by:",
+    options: [
+      "A. Excessive destruction of red blood cells during hemodialysis",
+      "B. Inadequate production of erythropoietin by the kidneys",
+      "C. Chronic, unrecognized gastrointestinal bleeding",
+      "D. A lack of intrinsic factor leading to vitamin B12 malabsorption"
+    ],
+    correctAnswer: 1,
+    rationale: "The anemia associated with chronic kidney disease is primarily caused by diminished levels of erythropoietin. Erythropoietin is normally produced by the kidneys and stimulates the bone marrow to produce red blood cells; its deficiency leads to hypoproliferative anemia."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "33. A primary healthcare provider prescribes hydroxyurea for an adult patient with sickle cell disease. The nurse explains to the patient that the primary mechanism of this medication is to:",
+    options: [
+      "A. Cure the underlying genetic mutation of the HBB gene.",
+      "B. Increase the levels of fetal hemoglobin (HbF) to prevent sickling.",
+      "C. Dilate the peripheral blood vessels to increase tissue oxygenation.",
+      "D. Bind with excess iron to allow for excretion in the urine."
+    ],
+    correctAnswer: 1,
+    rationale: "Hydroxyurea is a chemotherapeutic agent that is effective in increasing levels of fetal hemoglobin (hemoglobin F). This increase in fetal hemoglobin decreases the formation of sickled cells, which reduces the incidence of painful crises, acute chest syndrome, and the need for frequent transfusions."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "34. The nurse is providing dietary teaching to a patient with iron deficiency anemia. Which of the following meal choices indicates that the patient understands the instructions?",
+    options: [
+      "A. A bowl of oatmeal with a glass of milk",
+      "B. Chicken liver with a side of black beans and spinach",
+      "C. A grilled cheese sandwich with a side salad",
+      "D. Pasta with a cream-based sauce and broccoli"
+    ],
+    correctAnswer: 1,
+    rationale: "Food sources rich in iron include organ meats (such as beef or chicken liver), other meats, beans (black, pinto, garbanzo), leafy green vegetables (spinach), raisins, and molasses. Dairy products (milk, cheese) can actually reduce the absorption of iron."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "35. A nurse is caring for a patient recently diagnosed with polycythemia vera. Which of the following lifestyle modifications should the nurse emphasize to reduce the risk of the most common cause of death in this condition?",
+    options: [
+      "A. Avoid crossing the legs and remain active to prevent blood clots.",
+      "B. Increase intake of iron-rich foods to support red blood cell health.",
+      "C. Take high doses of vitamin C to enhance systemic immunity.",
+      "D. Limit daily fluid intake to prevent fluid volume overload."
+    ],
+    correctAnswer: 0,
+    rationale: "Patients with polycythemia vera are at an increased risk for thromboses (venous and arterial), which is the most common cause of death. To reduce the likelihood of deep vein thrombosis (DVT), sedentary behavior, crossing the legs, and wearing tight or restrictive clothing should be strictly discouraged. Iron supplements should be avoided as they can further stimulate RBC production."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "36. A peripheral blood smear of a patient with suspected megaloblastic anemia is examined. Which of the following cellular abnormalities is a hallmark finding of this condition?",
+    options: [
+      "A. Microcytic, hypochromic erythrocytes",
+      "B. Abnormally large erythrocytes and hypersegmented neutrophils",
+      "C. Sickle-shaped erythrocytes and elevated white blood cells",
+      "D. Small, spherically shaped erythrocytes (spherocytes)"
+    ],
+    correctAnswer: 1,
+    rationale: "Megaloblastic anemias (caused by B12 or folate deficiency) are characterized by the production of abnormally large, irregularly shaped erythrocytes (poikilocytosis) and hypersegmented neutrophils. Microcytic cells are seen in iron deficiency, sickle cells in sickle cell disease, and spherocytes in autoimmune hemolytic anemias."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "37. A patient is admitted to the medical unit experiencing an acute vaso-occlusive sickle cell crisis. Which intervention is a priority for the nurse to include in the plan of care?",
+    options: [
+      "A. Administering intravenous fluids to prevent dehydration and reduce sickling",
+      "B. Applying cold compresses to painful joints to reduce severe inflammation",
+      "C. Administering a loop diuretic to prevent transfusion-associated fluid overload",
+      "D. Encouraging rigorous, frequent ambulation to promote peripheral circulation"
+    ],
+    correctAnswer: 0,
+    rationale: "Hydration is critical during a painful vaso-occlusive crisis. Intravenous hydration is often needed (2 to 3 L of fluid) to reduce blood viscosity and help clear sickled cells from the microcirculation. Cold compresses are contraindicated as cold promotes vasoconstriction and worsens sickling."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "38. A patient with severe anemia is receiving a transfusion of packed red blood cells (PRBCs). Fifteen minutes into the infusion, the patient reports severe lower back pain, chills, and shortness of breath. What is the nurse's immediate first action?",
+    options: [
+      "A. Administer a prescribed antihistamine and slow the transfusion rate.",
+      "B. Stop the blood transfusion immediately.",
+      "C. Obtain a urine sample to check for the presence of hemoglobinuria.",
+      "D. Notify the healthcare provider and the blood bank."
+    ],
+    correctAnswer: 1,
+    rationale: "The patient is exhibiting classic signs of an acute hemolytic transfusion reaction (fever, chills, low back pain, chest tightness, dyspnea). If a transfusion reaction is suspected, the absolute first priority is to stop the transfusion immediately. Afterwards, the nurse will maintain the IV line with normal saline, assess the patient, notify the provider, and send the blood container back to the bank."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "39. A patient with a hematologic disorder undergoes a splenectomy. The nurse provides discharge teaching regarding long-term complications. Which statement by the patient indicates an understanding of the education?",
+    options: [
+      "A. \"I will need to have monthly phlebotomies to reduce my red blood cell count.\"",
+      "B. \"I am at a permanently increased risk for infection and need to stay up to date on vaccines.\"",
+      "C. \"I will need to take a daily iron supplement for the rest of my life.\"",
+      "D. \"My body will no longer be able to produce white blood cells.\""
+    ],
+    correctAnswer: 1,
+    rationale: "The spleen plays a major role in the immune system. Patients who have had a splenectomy are permanently at an increased risk for infection. They must receive the pneumococcal pneumonia vaccine and an annual influenza vaccine, and they must be taught to seek immediate medical attention for any signs of infection."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "40. A patient is diagnosed with hereditary hemochromatosis. The nurse anticipates that the primary medical management for this patient to prevent organ damage will involve:",
+    options: [
+      "A. Administration of high-dose oral vitamin C.",
+      "B. Lifelong immunosuppressive therapy.",
+      "C. Routine therapeutic phlebotomy.",
+      "D. Daily infusions of packed red blood cells."
+    ],
+    correctAnswer: 2,
+    rationale: "Hemochromatosis is a genetic condition resulting in severe iron overload. The primary therapy involves the removal of excess iron via therapeutic phlebotomy (removal of whole blood). Aggressive removal of excess iron can prevent organ dysfunction. Vitamin C should be limited because it enhances iron absorption."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "41. The nurse is caring for a patient admitted with severe iron deficiency anemia. When performing a health history, the nurse should specifically assess for which of the following unique clinical manifestations?",
+    options: [
+      "A. Pica (craving for non-nutritional substances like ice, starch, or dirt)",
+      "B. Premature graying of the hair and vitiligo",
+      "C. Severe joint pain and swelling",
+      "D. A sore, beefy red tongue"
+    ],
+    correctAnswer: 0,
+    rationale: "Patients with iron deficiency anemia often experience pica, a craving for ice, starch, or dirt, as well as restless leg syndrome. A beefy red tongue, vitiligo, and premature graying are associated with pernicious anemia (vitamin B12 deficiency), while joint pain is a hallmark of sickle cell disease."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "42. A nurse is reviewing the lab results of a patient diagnosed with a hemolytic anemia. Which of the following combinations of laboratory findings is characteristic of this condition?",
+    options: [
+      "A. Low reticulocyte count, low indirect bilirubin, and elevated haptoglobin",
+      "B. Elevated reticulocyte count, increased indirect bilirubin, and decreased haptoglobin",
+      "C. Low mean corpuscular volume (MCV), low ferritin, and elevated total iron-binding capacity (TIBC)",
+      "D. Elevated mean corpuscular volume (MCV), elevated haptoglobin, and low reticulocytes"
+    ],
+    correctAnswer: 1,
+    rationale: "In hemolytic anemia, red blood cells are destroyed prematurely. As hemoglobin is released from the destroyed cells, the haptoglobin (a binding protein for free hemoglobin) is depleted, causing its level to decrease. The heme is converted to bilirubin, causing an increased fraction of indirect (unconjugated) bilirubin. The bone marrow attempts to compensate by releasing immature red blood cells, resulting in an elevated reticulocyte count."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "43. An older adult patient is diagnosed with mild anemia. The nurse understands that even mild anemia in this population can lead to significant clinical consequences, including an increased risk for:",
+    options: [
+      "A. Stroke and deep vein thrombosis",
+      "B. Decreased physical performance, increased frailty, and delirium",
+      "C. Aplastic crisis and pancytopenia",
+      "D. Primary polycythemia and splenomegaly"
+    ],
+    correctAnswer: 1,
+    rationale: "Anemia is the most common hematologic condition affecting older adults. Even mild anemia in older adults is associated with decreased physical performance, decreased mobility, increased frailty, increased depression, increased risk of falls, and delirium."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "44. A patient with severe aplastic anemia is receiving antithymocyte globulin (ATG). The nurse should closely monitor the patient for which of the following adverse effects of this therapy?",
+    options: [
+      "A. Iron overload and heart failure",
+      "B. Acute vaso-occlusive pain crisis",
+      "C. Anaphylaxis, bronchospasm, and serum sickness",
+      "D. Sudden elevation in platelet count leading to thrombosis"
+    ],
+    correctAnswer: 2,
+    rationale: "ATG is a purified gamma-globulin solution obtained from rabbits or horses immunized with human T lymphocytes, used to treat aplastic anemia. Side effects include fever, chills, and a risk for anaphylaxis with associated bronchospasm and hypotension requiring emergency treatment. Serum sickness, associated with rash, fever, and arthralgias, may also occur."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "45. The nurse is caring for a patient with secondary polycythemia. The nurse recognizes that this condition is most commonly a physiological response to which of the following?",
+    options: [
+      "A. Inadequate dietary intake of iron",
+      "B. A genetic mutation in the myeloid stem cells",
+      "C. Tissue hypoxia leading to excessive production of erythropoietin",
+      "D. Chronic kidney disease"
+    ],
+    correctAnswer: 2,
+    rationale: "Secondary polycythemia is caused by excessive production of erythropoietin, which acts as a stimulus for red blood cell production. This typically occurs in response to a reduced amount of oxygen (tissue hypoxia). Common causes include heavy smoking, obstructive sleep apnea, chronic obstructive pulmonary disease (COPD), and living at high altitudes."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "46. A patient is prescribed a transfusion of packed red blood cells (PRBCs). The nurse recognizes that a febrile nonhemolytic transfusion reaction is the most common type of reaction and is caused by:",
+    options: [
+      "A. ABO incompatibility between the donor and recipient blood",
+      "B. Antibodies to donor leukocytes that remain in the unit of blood",
+      "C. Bacterial contamination of the blood product during storage",
+      "D. An excessive rate of infusion leading to fluid volume overload"
+    ],
+    correctAnswer: 1,
+    rationale: "A febrile nonhemolytic reaction is caused by antibodies to donor leukocytes that remain in the unit of blood or blood component, making it the most common type of transfusion reaction. It occurs more frequently in patients who have had previous transfusions or in Rh-negative women who have borne Rh-positive children."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "47. A 30-year-old patient with sickle cell disease presents to the clinic with an acute drop in hemoglobin and an absence of reticulocytes on their CBC. The nurse suspects the patient is experiencing which of the following complications?",
+    options: [
+      "A. Splenic sequestration crisis",
+      "B. Vaso-occlusive crisis",
+      "C. Aplastic crisis",
+      "D. Acute chest syndrome"
+    ],
+    correctAnswer: 2,
+    rationale: "Aplastic crisis results from an infection with the human parvovirus. During this crisis, the hemoglobin level falls rapidly, and the bone marrow cannot compensate, which is evidenced by an absence of reticulocytes (immature red blood cells) in the blood."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "48. A patient is undergoing a bone marrow biopsy for suspected aplastic anemia. The nurse anticipates that the biopsy results for this disease will typically reveal:",
+    options: [
+      "A. Hyperplasia with abnormally large, nucleated red blood cells",
+      "B. Extremely hypoplastic or aplastic marrow, often replaced with fat",
+      "C. An overproduction of myeloid stem cells and megakaryocytes",
+      "D. The presence of sickled erythrocytes and microthrombi"
+    ],
+    correctAnswer: 1,
+    rationale: "Aplastic anemia is a condition associated with bone marrow failure. A bone marrow biopsy in a patient with aplastic anemia typically reveals an extremely hypoplastic or aplastic bone marrow (with few or no cells), which is often replaced with fat."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "49. A nurse is reviewing the physiology of blood. Which of the following components makes up approximately 55% of the total blood volume and contains proteins such as albumin and fibrinogen?",
+    options: [
+      "A. Erythrocytes",
+      "B. Leukocytes",
+      "C. Plasma",
+      "D. Thrombocytes"
+    ],
+    correctAnswer: 2,
+    rationale: "Plasma is the fluid portion of blood and accounts for about 55% of the whole blood volume. It contains various proteins, such as albumin, globulin, fibrinogen, and other factors necessary for clotting, as well as electrolytes, waste products, and nutrients."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "50. A patient with rheumatoid arthritis is found to have mild anemia. The CBC reveals that the erythrocytes are of normal color and size (normochromic, normocytic). The nurse identifies this as:",
+    options: [
+      "A. Anemia of inflammation (chronic disease)",
+      "B. Iron deficiency anemia",
+      "C. Pernicious anemia",
+      "D. Aplastic anemia"
+    ],
+    correctAnswer: 0,
+    rationale: "Anemia of inflammation describes anemia associated with chronic diseases including inflammation, infection, and malignancy. Many chronic inflammatory diseases, such as rheumatoid arthritis, are associated with normochromic, normocytic anemia (where RBCs are of normal color and size). Iron deficiency anemia is microcytic, and pernicious anemia is macrocytic."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "51. A nurse is assessing a patient with a known diagnosis of megaloblastic anemia due to severe vitamin B12 deficiency. The nurse should be highly alert for which of the following complications?",
+    options: [
+      "A. Acute kidney injury",
+      "B. Bony deformities of the face and skull",
+      "C. Mental status changes, including confusion and delirium",
+      "D. Recurrent leg ulcers"
+    ],
+    correctAnswer: 2,
+    rationale: "In megaloblastic anemias associated with vitamin B12 deficiency, there is a significant potential for neurologic complications. Position and vibration sense may be diminished, and mental status changes, beginning with confusion and progressing to more severe memory changes and delirium, can occur."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "52. A patient with sickle cell disease frequently develops leg ulcers. The nurse understands that this complication is primarily a result of:",
+    options: [
+      "A. An autoimmune attack on the epidermal tissues",
+      "B. Decreased white blood cell production leading to chronic skin infections",
+      "C. Increased blood viscosity and stasis causing infarction and skin tissue necrosis",
+      "D. Iron overload from frequent blood transfusions depositing in the skin"
+    ],
+    correctAnswer: 2,
+    rationale: "In sickle cell disease, increased blood viscosity and stasis due to sickled cells restrict blood flow (infarction), which can lead to skin ulcers. Leg ulcers are common, occur in as many as 75% of adults with SCD, and may become infected and slow to heal due to the poor tissue perfusion."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "53. The nurse is caring for a patient diagnosed with polycythemia vera who requires therapeutic phlebotomy. The nurse understands that the goal of this treatment is to maintain the hematocrit level at:",
+    options: [
+      "A. Less than 30%",
+      "B. Less than 45%",
+      "C. Between 50% and 55%",
+      "D. Greater than 60%"
+    ],
+    correctAnswer: 1,
+    rationale: "Phlebotomy is considered the mainstay of therapy for polycythemia vera. It is used to maintain the hematocrit level at less than 45% by periodically removing whole blood to reduce blood viscosity and volume, which also eventually depletes iron stores to slow red blood cell production."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "54. A patient is admitted with idiopathic autoimmune hemolytic anemia. The nurse anticipates that the initial medical management for this condition will most likely include:",
+    options: [
+      "A. Immediate surgical splenectomy",
+      "B. High doses of corticosteroids",
+      "C. Lifelong vitamin B12 injections",
+      "D. Administration of erythropoietin stimulating agents"
+    ],
+    correctAnswer: 1,
+    rationale: "For autoimmune hemolytic anemia, treatment most often consists of high doses of corticosteroids until hemolysis decreases. Corticosteroids suppress antibody production and reduce the destruction of erythrocytes by macrophages in the spleen."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "55. A nurse is educating a patient newly diagnosed with polycythemia vera. Which of the following symptoms is most commonly reported by patients with this condition, severely impacting their quality of life, and is often triggered by contact with water?",
+    options: [
+      "A. Severe bone pain",
+      "B. Pruritus (itching)",
+      "C. Nausea and vomiting",
+      "D. Restless leg syndrome"
+    ],
+    correctAnswer: 1,
+    rationale: "Pruritus (itching) is a common symptom in patients with polycythemia vera and can be described as strong itching, stinging, or burning. It can be uniquely triggered by contact with water of any temperature. The nurse should recommend bathing in tepid water and using oatmeal-based lotions."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "56. A patient is receiving a blood transfusion. Thirty minutes into the infusion, the patient develops dyspnea, orthopnea, a sudden increase in blood pressure, and a cough producing pink, frothy sputum. The nurse suspects:",
+    options: [
+      "A. Acute hemolytic reaction",
+      "B. Allergic transfusion reaction",
+      "C. Transfusion-associated circulatory overload (TACO)",
+      "D. Bacterial sepsis"
+    ],
+    correctAnswer: 2,
+    rationale: "Signs of circulatory overload include dyspnea, orthopnea, tachycardia, an increase in blood pressure, and sudden anxiety. Pulmonary edema can quickly develop, as manifested by severe dyspnea and coughing of pink, frothy sputum. If severe, the transfusion is discontinued, the patient is placed upright, and diuretics/oxygen may be required."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "57. A nurse is reviewing hematopoiesis. The nurse knows that the differentiation of the primitive myeloid stem cell into an erythroblast is heavily dependent on a specific hormone. Where is this hormone primarily produced?",
+    options: [
+      "A. The liver",
+      "B. The spleen",
+      "C. The bone marrow",
+      "D. The kidneys"
+    ],
+    correctAnswer: 3,
+    rationale: "Differentiation of the primitive myeloid stem cell into an erythroblast is stimulated by erythropoietin. Erythropoietin is a hormone produced primarily by the kidney in response to low levels of oxygen."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "58. A patient is newly diagnosed with megaloblastic anemia. The patient asks the nurse why they didn't notice any symptoms until recently, despite having a poor diet for a long time. The nurse's best response is based on the knowledge that:",
+    options: [
+      "A. \"Megaloblastic anemias usually develop over months, allowing the body to compensate until the anemia is severe.\"",
+      "B. \"Vitamin B12 is produced by your own body, so dietary deficiency takes decades to show effects.\"",
+      "C. \"Your spleen stores large amounts of red blood cells and releases them when you have a poor diet.\"",
+      "D. \"Symptoms only occur if you also develop a concurrent viral infection.\""
+    ],
+    correctAnswer: 0,
+    rationale: "Megaloblastic anemias usually develop slowly over months, allowing the body to adapt and compensate for the lower oxygen-carrying capacity. Thus, symptoms do not often occur until the anemia is quite severe."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "59. The nurse is caring for an adult patient with iron deficiency anemia. The nurse understands that lack of dietary iron is rarely the sole cause of this condition in adults, and the healthcare provider will likely investigate for:",
+    options: [
+      "A. A genetic defect in the bone marrow stem cells",
+      "B. Chronic exposure to industrial chemicals",
+      "C. A source of chronic blood loss, such as a gastrointestinal bleed",
+      "D. An autoimmune attack on the mature red blood cells"
+    ],
+    correctAnswer: 2,
+    rationale: "Lack of dietary iron is rarely the sole cause of iron deficiency anemia in adults. The source of iron deficiency should be investigated promptly, because iron deficiency in an adult may be a sign of bleeding in the GI tract or colon cancer."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "60. A patient with severe anemia tells the nurse, \"I am so tired all the time, I can barely get out of bed to brush my teeth.\" Which of the following is the most appropriate nursing intervention?",
+    options: [
+      "A. Encourage the patient to engage in vigorous aerobic exercise to build endurance.",
+      "B. Assist the patient to prioritize daily activities and establish a balance between activity and rest.",
+      "C. Withhold all pain medications as they can further contribute to the patient's fatigue.",
+      "D. Restrict oral fluid intake to prevent fluid volume overload during periods of inactivity."
+    ],
+    correctAnswer: 1,
+    rationale: "Fatigue is the most common symptom of anemia and can be overwhelming. Nursing interventions should focus on assisting the patient to prioritize activities to establish a balance between activity and rest that is acceptable to the patient. Vigorous exercise is contraindicated, and pain management should be addressed, not withheld."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "61. A patient with chronic kidney disease (CKD) asks the nurse why they are developing anemia when their kidneys are the problem, not their blood. Which explanation by the nurse is most accurate?",
+    options: [
+      "A. \"Your kidneys are filtering out too many red blood cells into your urine.\"",
+      "B. \"Your kidneys produce a hormone called erythropoietin that stimulates the bone marrow to make red blood cells; when kidneys fail, this hormone drops.\"",
+      "C. \"The dialysis treatments you receive destroy your red blood cells.\"",
+      "D. \"Chronic kidney disease causes severe inflammation that destroys mature red blood cells.\""
+    ],
+    correctAnswer: 1,
+    rationale: "Hypoproliferative anemias occur when the bone marrow produces an inadequate number of erythrocytes. A primary cause of this in chronic kidney disease is the lack of erythropoietin, an important factor normally produced by the kidneys that promotes erythrocyte production."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "62. A nurse is reviewing the dietary choices of a patient diagnosed with iron deficiency anemia. Which food choice indicates that the patient understands how to maximize iron absorption?",
+    options: [
+      "A. Eating spinach with a glass of milk",
+      "B. Taking their iron supplement with a cup of hot tea",
+      "C. Eating chicken liver with a side of citrus fruit",
+      "D. Taking an antacid 30 minutes before eating an iron-fortified cereal"
+    ],
+    correctAnswer: 2,
+    rationale: "Dietary education should address specific needs for patients with iron deficiency. Vitamin C (found in citrus fruits) significantly enhances the absorption of dietary iron and iron supplements. Dairy products, antacids, and tannins found in tea can block or decrease iron absorption."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "63. The nurse is assessing a patient with a confirmed vitamin B12 deficiency (pernicious anemia). Which of the following safety interventions should the nurse prioritize in the patient's care plan?",
+    options: [
+      "A. Instituting strict bleeding precautions",
+      "B. Assisting the patient with ambulation and providing a walker if needed",
+      "C. Placing the patient in a negative pressure isolation room",
+      "D. Keeping the head of the bed elevated at exactly 45 degrees"
+    ],
+    correctAnswer: 1,
+    rationale: "Pernicious anemia with vitamin B12 deficiency affects the function of the central and peripheral nervous systems. Assessment often reveals peripheral numbness, paresthesia, ataxia, and impaired coordination. Because gait, coordination, and position sense are affected, safety is a major concern, and the nurse should assist with ambulation and obtaining assistive devices."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "64. A patient diagnosed with polycythemia vera has a hematocrit of 62%. The nurse should closely monitor this patient for which of the following life-threatening complications?",
+    options: [
+      "A. Spontaneous bone fractures",
+      "B. Severe systemic infection",
+      "C. Deep vein thrombosis (DVT) or stroke",
+      "D. Acute respiratory distress syndrome (ARDS)"
+    ],
+    correctAnswer: 2,
+    rationale: "Polycythemia vera causes an increase in blood cell mass, which significantly increases blood viscosity. This hyperviscosity slows blood flow and puts the patient at a very high risk for vascular occlusions, including cerebrovascular accidents (stroke), deep vein thrombosis, and myocardial infarctions."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "65. A patient with sickle cell disease is admitted to the medical unit experiencing an acute vaso-occlusive crisis. The patient is rating their pain as a 9/10. Which of the following is the most appropriate initial nursing intervention?",
+    options: [
+      "A. Apply ice packs to the patient's swollen, painful joints.",
+      "B. Administer high-flow oxygen via a non-rebreather mask.",
+      "C. Initiate intravenous (IV) hydration as prescribed.",
+      "D. Withhold opioid analgesics until the physician completes a full assessment."
+    ],
+    correctAnswer: 2,
+    rationale: "Hydration is critical during a painful sickle cell crisis, as IV hydration (often 2 to 3 L) reduces blood viscosity and helps reverse the sickling process. Ice packs should be avoided because cold causes vasoconstriction and worsens sickling. Oxygen is only indicated if the patient is hypoxic, and severe pain should be treated promptly to improve patient outcomes and trust."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "66. The nurse is caring for a patient with severe aplastic anemia. Based on the pathophysiology of this condition, the nurse should ensure that the patient's daily care includes which of the following?",
+    options: [
+      "A. Aggressive physical therapy and weightlifting",
+      "B. Meticulous hand hygiene and a diet consisting only of cooked foods",
+      "C. Daily administration of vitamin B12 intramuscular injections",
+      "D. Frequent therapeutic phlebotomy to remove excess iron"
+    ],
+    correctAnswer: 1,
+    rationale: "Aplastic anemia involves bone marrow failure leading to severe pancytopenia, which includes significant neutropenia (low white blood cells) and thrombocytopenia (low platelets). Because these patients are highly susceptible to infection, strict infection control measures, such as meticulous hand hygiene and avoiding raw or uncooked foods that harbor bacteria (like unwashed produce), are essential."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "67. During a blood transfusion, a patient suddenly reports severe chest tightness, lower back pain, and anxiety. The nurse notes that the patient's urine in the Foley catheter tubing has suddenly turned dark red. The nurse suspects which type of transfusion reaction?",
+    options: [
+      "A. Transfusion-associated circulatory overload (TACO)",
+      "B. Allergic reaction",
+      "C. Acute hemolytic reaction",
+      "D. Febrile nonhemolytic reaction"
+    ],
+    correctAnswer: 2,
+    rationale: "An acute hemolytic reaction occurs when donor blood is incompatible with the recipient. As erythrocytes are destroyed intravascularly, hemoglobin is released and excreted by the kidneys, causing hemoglobinuria (red or dark urine). Other classic signs include fever, low back pain, chest tightness, dyspnea, and anxiety."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "68. A pediatric patient with thalassemia major (Cooley's anemia) receives frequent packed red blood cell (PRBC) transfusions. The nurse explains to the parents that the child will also need regular chelation therapy to prevent which complication?",
+    options: [
+      "A. Heart failure and liver cirrhosis from iron overload",
+      "B. Anaphylactic reactions to donor plasma",
+      "C. The development of sickle-shaped erythrocytes",
+      "D. Severe bone marrow suppression"
+    ],
+    correctAnswer: 0,
+    rationale: "Patients with thalassemia major require regular PRBC transfusions to support growth and development, but this leads to iron overload. The excess iron deposits in vital organs (liver, heart, pancreas), which can cause fatal organ dysfunction if not removed. Regular chelation therapy binds to the excess iron so it can be excreted, reducing complications and prolonging life."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "69. The nurse is reviewing the laboratory results of a patient diagnosed with idiopathic immune thrombocytopenic purpura (ITP). Which of the following findings would the nurse expect?",
+    options: [
+      "A. Elevated white blood cell count",
+      "B. Low platelet count with a normal hemoglobin and hematocrit",
+      "C. Decreased reticulocyte count",
+      "D. Elevated mean corpuscular volume (MCV)"
+    ],
+    correctAnswer: 1,
+    rationale: "ITP is characterized primarily by the autoimmune destruction of platelets, resulting in thrombocytopenia (a lower-than-normal platelet count). Unless the patient has experienced significant bleeding as a result of the low platelets, the red blood cell count, hemoglobin, hematocrit, and white blood cell count typically remain normal."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "70. A nurse is collecting a health history from a patient with a newly diagnosed folic acid deficiency. Which of the following lifestyle factors in the patient's history most likely contributed to this condition?",
+    options: [
+      "A. A strict vegan diet",
+      "B. Chronic, excessive alcohol ingestion",
+      "C. Smoking one pack of cigarettes per day",
+      "D. A sedentary lifestyle"
+    ],
+    correctAnswer: 1,
+    rationale: "Alcohol ingestion significantly increases folic acid requirements, and it is very common for individuals with alcohol abuse disorders to consume a diet deficient in folate and other vital nutrients. A strict vegan diet is more commonly associated with a vitamin B12 deficiency."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "71. A young adult patient with sickle cell disease presents to the emergency department with a fever, tachypnea, a new cough, and wheezing. A chest x-ray reveals new infiltrates. The nurse recognizes these findings as hallmark signs of:",
+    options: [
+      "A. Splenic sequestration",
+      "B. Acute chest syndrome",
+      "C. Aplastic crisis",
+      "D. Right-sided heart failure"
+    ],
+    correctAnswer: 1,
+    rationale: "Acute chest syndrome is a frequent, life-threatening complication of sickle cell disease. It is most frequently manifested by fever, respiratory distress (tachypnea, cough, wheezing), and new infiltrates on a chest x-ray. Prompt recognition and aggressive medical management are required to prevent respiratory failure."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "72. A patient with polycythemia vera is undergoing therapeutic phlebotomy. The nurse explains to the patient that the primary goal of this treatment is to:",
+    options: [
+      "A. Stimulate the bone marrow to produce healthier red blood cells.",
+      "B. Remove excess white blood cells to prevent leukemia.",
+      "C. Deplete iron stores and maintain the hematocrit level at less than 45%.",
+      "D. Remove circulating autoantibodies."
+    ],
+    correctAnswer: 2,
+    rationale: "Phlebotomy is the mainstay of therapy for polycythemia vera. It is used to maintain the hematocrit level at less than 45% by periodically removing whole blood. This process reduces blood volume and viscosity, and eventually depletes iron stores, rendering the patient unable to continue manufacturing excessive red blood cells."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "73. A nurse is evaluating a patient's complete blood count (CBC) and iron panel. Which set of laboratory values is most indicative of iron deficiency anemia?",
+    options: [
+      "A. Elevated serum iron, elevated ferritin, low TIBC",
+      "B. Low serum iron, low ferritin, elevated TIBC, low MCV",
+      "C. Normal serum iron, low B12, elevated MCV",
+      "D. Low serum iron, elevated haptoglobin, high reticulocyte count"
+    ],
+    correctAnswer: 1,
+    rationale: "In iron deficiency anemia, diminished iron stores cause the bone marrow to produce small erythrocytes (microcytosis), resulting in a low Mean Corpuscular Volume (MCV). Patients typically present with low serum iron levels, low serum ferritin (which measures stored iron), and an elevated Total Iron-Binding Capacity (TIBC)."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "74. A patient diagnosed with pernicious anemia asks why they cannot just increase the amount of meat and dairy in their diet to get more vitamin B12. What is the nurse's best response?",
+    options: [
+      "A. \"Dietary B12 is not as potent as the injectable form.\"",
+      "B. \"Your body produces antibodies that destroy the intrinsic factor in your stomach, which is required to absorb B12 from food.\"",
+      "C. \"Meat and dairy products do not contain enough vitamin B12 to reverse a severe deficiency.\"",
+      "D. \"Your liver is unable to store dietary vitamin B12 properly.\""
+    ],
+    correctAnswer: 1,
+    rationale: "Pernicious anemia is an autoimmune condition where the body produces antibodies that interfere with the binding of the intrinsic factor–vitamin B12 complex in the GI tract. Because intrinsic factor is necessary for the absorption of dietary B12, increasing dietary intake will not correct the deficiency; lifelong B12 supplementation (via injection or very high daily oral doses) is required."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "75. A patient with severe anemia exhibits a heart rate of 115 bpm and reports feeling dizzy when standing. The nurse understands that tachycardia in an anemic patient is a result of:",
+    options: [
+      "A. The heart attempting to compensate for low hemoglobin by pumping faster to deliver adequate oxygen to the tissues.",
+      "B. Excessive fluid volume overloading the cardiac muscle.",
+      "C. A direct toxic effect of free hemoglobin on the sinoatrial node.",
+      "D. An autoimmune response targeting the myocardium."
+    ],
+    correctAnswer: 0,
+    rationale: "Anemia reduces the oxygen-carrying capacity of the blood. When hemoglobin levels are low, the heart attempts to compensate by pumping faster (tachycardia) and harder to deliver more oxygen to hypoxic tissues. This increased cardiac workload causes palpitations, dizziness, and exertional dyspnea."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "76. The nurse is reviewing the normal physiology of blood. When mature red blood cells reach the end of their 120-day lifespan, they are primarily removed from circulation and broken down by which organ?",
+    options: [
+      "A. The kidneys",
+      "B. The lungs",
+      "C. The reticuloendothelial system, primarily the spleen and liver",
+      "D. The bone marrow"
+    ],
+    correctAnswer: 2,
+    rationale: "Erythrocytes normally circulate for about 120 days. As they age, they become less flexible and are removed from circulation by the reticuloendothelial system, primarily located in the spleen and the liver, where the hemoglobin is broken down into bilirubin and recycled."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "77. A patient is scheduled for a bone marrow biopsy to confirm a suspected diagnosis of aplastic anemia. The nurse anticipates that the biopsy results for this specific condition will show:",
+    options: [
+      "A. Hyperplasia with abnormally large, nucleated red blood cells.",
+      "B. An overproduction of myeloid stem cells.",
+      "C. An extremely hypoplastic marrow, with cells largely replaced by fat.",
+      "D. The presence of sickled erythrocytes and microthrombi."
+    ],
+    correctAnswer: 2,
+    rationale: "Aplastic anemia is a condition associated with severe bone marrow failure. A bone marrow biopsy in a patient with this condition typically reveals an extremely hypoplastic or aplastic bone marrow (containing very few or no active blood-forming cells), which is often replaced with fat."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "78. A nurse is providing discharge teaching to a patient with sickle cell disease. Which statement by the patient indicates a need for further education?",
+    options: [
+      "A. \"I will make sure I drink at least 2 to 3 liters of water a day.\"",
+      "B. \"I will get my flu shot every year to prevent respiratory infections.\"",
+      "C. \"I will use ice packs on my joints when they start to ache.\"",
+      "D. \"I will avoid traveling to locations with very high altitudes.\""
+    ],
+    correctAnswer: 2,
+    rationale: "The patient requires further education regarding ice packs. Cold temperatures promote vasoconstriction, which slows blood flow and can precipitate or worsen the sickling process. The patient correctly understands the importance of adequate hydration, preventing infections (which trigger crises), and avoiding high altitudes (where oxygen tension is lower)."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "79. A patient with polycythemia vera complains of severe, burning itching (pruritus) that worsens after taking a shower. Which nursing intervention is most appropriate to suggest?",
+    options: [
+      "A. Take very hot showers to open the pores and release built-up histamines.",
+      "B. Bathe in tepid water and avoid vigorous toweling off afterward.",
+      "C. Vigorously scrub the skin with a loofah to remove dead skin cells.",
+      "D. Stop bathing entirely and only use dry shampoo and body wipes."
+    ],
+    correctAnswer: 1,
+    rationale: "Pruritus is a common and distressing symptom in polycythemia vera and can be uniquely triggered by contact with water of any temperature. The nurse should recommend bathing in tepid water, avoiding vigorous toweling off after bathing, and using cocoa butter or oatmeal-based lotions to soothe the skin."
+  },
+  {
+    category: "Hematologic Disorders",
+    question: "80. A patient newly diagnosed with hereditary hemochromatosis asks the nurse what lifestyle changes they need to make. The nurse should instruct the patient to avoid which of the following?",
+    options: [
+      "A. Dietary protein and green leafy vegetables",
+      "B. Excessive alcohol ingestion and vitamin C supplements",
+      "C. High-impact exercises and weightlifting",
+      "D. Over-the-counter antihistamines and decongestants"
+    ],
+    correctAnswer: 1,
+    rationale: "Hereditary hemochromatosis involves excess iron absorption. Patients must be careful to avoid substances that enhance iron absorption, such as Vitamin C supplements. They must also avoid substances that might further impair liver function, such as excessive alcohol ingestion, because the liver is a primary site of iron deposition and damage in this disease."
+  }
+  
+]
+
+  
 
   // --- QUIZ STATE VARIABLES ---
   let currentQuizQuestions = [];
