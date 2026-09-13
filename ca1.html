@@ -93,7 +93,17 @@
   
   body.dark-mode .rationale-box { background-color: #3f3f28; border-left-color: #fbbf24; color: #f3f4f6; }
   
-  body.dark-mode select { background: #374151; color: #f3f4f6; border: 1px solid #515e70; }
+body.dark-mode select {
+    background-color: #374151;
+    color: #f3f4f6;
+    border: 1px solid #515e70;
+    color-scheme: dark;
+}
+
+body.dark-mode select option {
+    background-color: #374151;
+    color: #f3f4f6;
+}
   body.dark-mode .result-item { border-color: #4b5563; }
   
   body.dark-mode .score-history { background: #1f2937; border-color: #374151; }
@@ -124,12 +134,12 @@
       
       <div class="category-group">
         <label for="category-select" style="font-size: 16px;"><strong>Select Subject Category:</strong></label><br><br>
-        <select id="category-select">
-          <option value="Pharmacology">Pharmacology</option>
-          <option value="Hematologic Disorders">Hematologic Disorders</option>
-          <option value="Maternal Care Nursing">Maternal Care Nursingg</option>
-          <option value="Fundamentals of Nursing">Fundamentals of Nursing</option>
-        </select>
+<select id="category-select">
+    <option value="Pharmacology">Pharmacology</option>
+    <option value="Hematologic Disorders">Hematologic Disorders</option>
+    <option value="Maternal Care Nursing">Maternal Care Nursing</option>
+    <option value="Fundamentals of Nursing">Fundamentals of Nursing</option>
+</select>
       </div>
       
       <div class="settings-box">
@@ -202,7 +212,6 @@
 <script>
   // --- ADD YOUR CA 1 QUESTIONS HERE ---
   const allQuestions = [
-[
   {
     category: "Hematologic Disorders",
     question: "1. A nurse is reviewing the laboratory results of a patient with a suspected hematologic disorder. The nurse understands that which of the following blood components is primarily responsible for forming temporary plugs at sites of vascular injury?",
