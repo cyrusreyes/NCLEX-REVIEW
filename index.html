@@ -3,35 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PRACTICE EXAM</title>
+<title>NLE Practice Examination</title>
 <style>
-  /* --- NEW STYLES --- */
-  /* Dark Mode */
-  body.dark-mode { background-color: #121212; color: #e0e0e0; }
-  body.dark-mode .container { background: #1e1e1e; box-shadow: 0 4px 6px rgba(255,255,255,0.05); }
-  body.dark-mode h1, body.dark-mode h2, body.dark-mode .progress-tracker { color: #ecf0f1; }
-  body.dark-mode .options label { background: #2c2c2c; color: #e0e0e0; }
-  body.dark-mode .options label:hover { background: #3d3d3d; }
-  body.dark-mode .rationale-box { background-color: #3e3b27; border-left-color: #f1c40f; color: #e0e0e0; }
-  body.dark-mode select { background: #2c2c2c; color: #fff; border-color: #555; }
-  body.dark-mode .result-item { border-color: #444; }
-  body.dark-mode .score-history { background: #2c3e50; color: #e0e0e0; }
-
-  /* Visual Progress Bar */
-  .progress-bar-container { width: 100%; background-color: #ecf0f1; border-radius: 8px; height: 10px; margin: 15px 0; overflow: hidden; }
-  .progress-bar-fill { height: 100%; background-color: #27ae60; width: 0%; transition: width 0.4s ease; }
-  body.dark-mode .progress-bar-container { background-color: #444; }
-
-  /* Score History Dashboard */
-  .score-history { background: #e8f4f8; padding: 15px; border-radius: 6px; margin-bottom: 25px; }
-  .score-history ul { list-style-type: none; padding-left: 0; }
-  .score-history li { padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.1); }
+  /* --- BASE STYLES & SMOOTH TRANSITIONS --- */
   body { 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
     background-color: #f4f7f6; 
     color: #333; 
     margin: 0; 
     padding: 20px; 
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   .container { 
     max-width: 800px; 
@@ -39,82 +20,123 @@
     background: #fff; 
     padding: 30px; 
     border-radius: 8px; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
   }
-  h1, h2 { color: #2c3e50; }
-  .hidden { display: none; }
+  h1, h2, h3 { color: #2c3e50; transition: color 0.3s ease; }
+  .hidden { display: none !important; }
+
+  /* --- NEAT TOP NAVIGATION MENU --- */
+  .tab-menu {
+    max-width: 800px; 
+    margin: 0 auto 20px auto; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: background-color 0.3s ease;
+  }
+  .tab-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* --- BUTTONS --- */
   .btn { 
-    padding: 10px 20px; 
-    margin: 5px 0; 
-    border: none; 
-    border-radius: 4px; 
-    cursor: pointer; 
-    background-color: #3498db; 
-    color: #fff; 
-    font-size: 16px; 
+    padding: 10px 20px; border: none; border-radius: 4px; 
+    cursor: pointer; background-color: #3498db; color: #fff; font-size: 16px; 
+    transition: background-color 0.2s, transform 0.1s;
   }
   .btn:hover { background-color: #2980b9; }
+  .btn:active { transform: scale(0.98); }
   .btn-back { background-color: #95a5a6; }
   .btn-back:hover { background-color: #7f8c8d; }
+  .btn-clear { background-color: #e74c3c; padding: 8px 15px; font-size: 14px; margin-top: 10px; width: 100%; border-radius: 6px;}
+  .btn-clear:hover { background-color: #c0392b; }
+  .btn-quit { background-color: #e74c3c; }
+  .btn-quit:hover { background-color: #c0392b; }
+
+  /* --- QUIZ ELEMENTS --- */
   .options label { 
-    display: block; 
-    padding: 12px; 
-    margin: 8px 0; 
-    background: #ecf0f1; 
-    border-radius: 4px; 
-    cursor: pointer; 
-    transition: background 0.2s;
+    display: block; padding: 12px; margin: 8px 0; background: #ecf0f1; 
+    border-radius: 6px; cursor: pointer; transition: background 0.2s, border 0.2s; border: 1px solid transparent;
   }
   .options label:hover { background: #d0d3d4; }
-  input[type="radio"] { margin-right: 10px; transform: scale(1.2); }
-  .header-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-  }
+  input[type="radio"] { margin-right: 10px; transform: scale(1.2); cursor: pointer;}
+  
+  .header-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
   .progress-tracker { font-weight: bold; color: #7f8c8d; font-size: 18px; }
   .timer { font-size: 18px; font-weight: bold; color: #e74c3c; }
+  
+  /* Visual Progress Bar */
+  .progress-bar-container { width: 100%; background-color: #ecf0f1; border-radius: 8px; height: 10px; margin: 15px 0; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background-color: #27ae60; width: 0%; transition: width 0.4s ease; }
+
+  /* --- RATIONALE & RESULTS --- */
   .result-item { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 6px; }
   .correct-text { color: #27ae60; font-weight: bold; margin-top: 8px; }
   .incorrect-text { color: #c0392b; font-weight: bold; margin-top: 8px; }
-  .rationale-box {
-    margin-top: 10px;
-    padding: 12px;
-    background-color: #fdfae6;
-    border-left: 4px solid #f1c40f;
-    border-radius: 4px;
-    font-size: 14px;
-    line-height: 1.5;
-  }
+  .rationale-box { margin-top: 10px; padding: 15px; background-color: #fdfae6; border-left: 5px solid #f1c40f; border-radius: 4px; font-size: 14px; line-height: 1.6; }
+  
+  /* --- DASHBOARDS & SETTINGS --- */
   .category-group { margin: 20px 0; }
-  select { padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; }
+  select { padding: 10px; font-size: 16px; border-radius: 6px; border: 1px solid #ccc; width: 100%; max-width: 400px; cursor: pointer; outline: none;}
+  .settings-box { margin: 20px 0; padding: 20px; background: #e8f4f8; border-radius: 8px; transition: background 0.3s; border: 1px solid #d1e8f0;}
+  
+  /* Score History */
+  .score-history { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #e9ecef; transition: background 0.3s, border 0.3s; }
+  .score-history ul { list-style-type: none; padding-left: 0; margin-bottom: 15px; }
+  .score-history li { padding: 10px 0; border-bottom: 1px solid #e9ecef; font-size: 15px; }
+  .score-history li:last-child { border-bottom: none; }
+
+  /* =========================================
+     REFINED MODERN DARK MODE (SLATE/CHARCOAL)
+     ========================================= */
+  body.dark-mode { background-color: #1a1a24; color: #d1d5db; }
+  
+  body.dark-mode .container, 
+  body.dark-mode .tab-menu { background: #252632; box-shadow: 0 6px 15px rgba(0,0,0,0.4); }
+  
+  body.dark-mode h1, 
+  body.dark-mode h2, 
+  body.dark-mode h3, 
+  body.dark-mode .progress-tracker { color: #f3f4f6; }
+  
+  body.dark-mode .header-info { border-bottom-color: #374151; }
+  
+  body.dark-mode .options label { background: #374151; color: #f3f4f6; border: 1px solid #4b5563; }
+  body.dark-mode .options label:hover { background: #4b5563; }
+  
+  body.dark-mode .rationale-box { background-color: #3f3f28; border-left-color: #fbbf24; color: #f3f4f6; }
+  
+  body.dark-mode select { background: #374151; color: #f3f4f6; border: 1px solid #515e70; }
+  body.dark-mode .result-item { border-color: #4b5563; }
+  
+  body.dark-mode .score-history { background: #1f2937; border-color: #374151; }
+  body.dark-mode .score-history li { border-bottom-color: #374151; }
+  
+  body.dark-mode .settings-box { background: #1f2937; border: 1px solid #374151; }
+  body.dark-mode .progress-bar-container { background-color: #374151; }
+  body.dark-mode p { color: #cbd5e1; }
 </style>
 </head>
 <body>
-  
-  <div style="margin-top: 30px; display: flex; justify-content: space-between;">
-        <button class="btn btn-back" id="back-btn" onclick="prevQuestion()">Back</button>
-        <!-- Add this Quit button right here in the middle -->
-        <button class="btn btn-back" style="background-color: #e74c3c;" onclick="quitQuiz()">Quit Exam</button>
-        <button class="btn" id="next-btn" onclick="nextQuestion()">Next</button>
-      </div>
-<!-- Navigation / Tab Menu -->
-<div class="tab-menu" style="max-width: 800px; margin: 0 auto 20px auto; display: flex; gap: 10px;">
-  <button class="btn" onclick="switchTab('home')">  Nclex</button>
-  <button class="btn btn-back" onclick="switchTab('ca1')">CA 1</button>
-  <button class="btn btn-back" onclick="switchTab('ca2')">CA 2</button>
+
+<!-- CLEANED UP TOP NAVIGATION BAR -->
+<div class="tab-menu">
+  <div class="tab-buttons">
+    <button class="btn" onclick="switchTab('home')">NCLEX</button>
+    <button class="btn btn-back" onclick="switchTab('ca1')">CA 1</button>
+    <button class="btn btn-back" onclick="switchTab('ca2')">CA 2</button>
+  </div>
+  <!-- DARK MODE BUTTON -->
+  <button class="btn" style="background-color: #4b5563;" onclick="toggleDarkMode()">🌙 Dark Mode</button>
 </div>
-<!-- DARK MODE BUTTON -->
-  <button class="btn" style="background-color: #34495e;" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
-</div>
+
 <!-- CA 1 Screen Container (Hidden by default) -->
 <div class="container hidden" id="ca1-screen">
   <h1>CA 1 Examination</h1>
-  <!-- This iframe embeds your ca1.html file directly into this container -->
-  <iframe src="ca1.html" width="100%" height="800px" style="border: none; overflow: hidden;"></iframe>
+  <iframe src="ca1.html" width="100%" height="800px" style="border: none; overflow: hidden; border-radius: 8px;"></iframe>
 </div>
 
 <!-- CA 2 Screen Container (Hidden by default) -->
@@ -123,100 +145,109 @@
   <p>Content or questions specific to CA 2 go here.</p>
 </div>
  
-  <div id="nle-exam-container">
+<div id="nle-exam-container">
+  
+  <!-- HOME SCREEN -->
+  <div class="container" id="home-screen">
+    <h1>NLE Practice Examination</h1>
+    <p>Select a specific topic category to begin testing your knowledge. Questions and options will be randomized upon starting.</p>
     
-    <!-- Home Screen -->
-    <div class="container" id="home-screen">
-      <h1>NLE Practice Examination</h1>
-      <p>Select a specific topic category to begin testing your knowledge. Questions and options will be randomized upon starting.</p>
-      <!-- SCORE HISTORY -->
-      <div class="score-history" id="score-history-container">
-        <h3 style="margin-top: 0;">📊 Your Past Scores</h3>
-        <ul id="score-history-list">
-          <li>No past exams yet. Take a quiz to see your history!</li>
-        </ul>
-      </div>
-      
-      <div class="category-group">
-        <label for="category-select"><strong>Select Subject Category:</strong></label><br><br>
-        <select id="category-select">
-          <option value="Foundation of Professional Nursing Practice">Foundation of Professional Nursing Practice</option>
-          <option value="Medical and Surgical Nursing">Medical and Surgical Nursing</option>
-          <option value="Psychiatric Nursing">Psychiatric Nursing</option>
-          <option value="Community Health Nursing and Care of the Mother and Child">Community Health Nursing and Care of the Mother and Child</option>
-          <option value="Leadership and Management">Leadership and Management</option>
-          <option value="PNLE II Nursing Practice">PNLE II Nursing Practice</option>
-          <option value="PNLE III Nursing Practice">PNLE III Nursing Practice</option>
-          <option value="PNLE IV Nursing Practice">PNLE IV Nursing Practice</option>
-          <option value="PNLE V Nursing Practice">PNLE V Nursing Practice</option>
-          <option value="PNLE I Foundation of Nursing">PNLE I Foundation of Nursing</option>
-          <option value="PNLE II Maternal and Child Health">PNLE II Maternal and Child Health</option>
-          <option value="PNLE III Medical Surgical Nursing">PNLE III Medical Surgical Nursing</option>
-          <option value="PNLE IV Psychiatric Nursing">PNLE IV Psychiatric Nursing</option>
-        </select>
-      </div>
-      
-      <div style="margin: 25px 0; padding: 15px; background: #e8f4f8; border-radius: 6px;">
-        <label for="timer-select" style="font-size: 16px;"><strong>Select Timer Duration:</strong></label><br><br>
-        <select id="timer-select" style="padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; width: 100%; max-width: 300px;">
-          <option value="0">No Timer (Untimed)</option>
-          <option value="30">30 Seconds per question</option>
-          <option value="60">1 Minute per question</option>
-        </select>
-        <p style="margin: 10px 0 0 0; font-size: 14px; color: #555;">If time runs out, the examination will automatically advance to the next item.</p>
-      </div>
-      <!-- Add this right above the Begin Examination button -->
-      <div style="margin: 25px 0; padding: 15px; background: #e8f4f8; border-radius: 6px;">
-        <label for="item-limit-select" style="font-size: 16px;"><strong>Select Number of Items:</strong></label><br><br>
-        <select id="item-limit-select" style="padding: 8px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; width: 100%; max-width: 300px;">
-          <option value="10">10 Questions</option>
-          <option value="20">20 Questions</option>
-          <option value="50">50 Questions</option>
-          <option value="100">100 Questions</option>
-          <option value="all">All Available in Category</option>
-        </select>
-      </div>
-      <button class="btn" style="width: 100%; padding: 15px; font-size: 18px;" onclick="startQuiz()">Begin Examination</button>
+    <!-- SCORE HISTORY DASHBOARD -->
+    <div class="score-history" id="score-history-container">
+      <h3 style="margin-top: 0;">📊 Your Past Scores</h3>
+      <ul id="score-history-list">
+        <li>No past exams yet. Take a quiz to see your history!</li>
+      </ul>
+      <!-- NEW CLEAR HISTORY BUTTON BELOW LIST -->
+      <button class="btn btn-clear" onclick="clearHistory()">🗑️ Clear Score History</button>
     </div>
-
-    <!-- Quiz Screen -->
-    <div class="container hidden" id="quiz-screen">
-      <div class="header-info">
-        <!-- VISUAL PROGRESS BAR -->
-      <div class="progress-bar-container">
-        <div class="progress-bar-fill" id="progress-bar"></div>
-      </div>
-        
-        <div class="progress-tracker" id="progress-tracker">Question 1 of X</div>
-        <div class="timer" id="timer-display"></div>
-      </div>
-      <!-- 🚩 FLAG CHECKBOX GOES HERE 🚩 -->
-      <div style="margin-bottom: 15px; text-align: right;">
-        <label style="cursor: pointer; font-weight: bold; color: #e67e22;">
-          <input type="checkbox" id="flag-checkbox" onchange="toggleFlag()"> 🚩 Flag for review
-        </label>
-      </div>
-      
-      <h2 id="question-text" style="font-size: 20px; line-height: 1.5;">Question goes here?</h2>
-      <div class="options" id="options-container">
-        <!-- Options generated dynamically -->
-      </div>
-      
-      <div style="margin-top: 30px; display: flex; justify-content: space-between;">
-        <button class="btn btn-back" id="back-btn" onclick="prevQuestion()">Back</button>
-        <button class="btn" id="next-btn" onclick="nextQuestion()">Next</button>
-      </div>
+    
+    <div class="category-group">
+      <label for="category-select" style="font-size: 16px;"><strong>Select Subject Category:</strong></label><br><br>
+      <select id="category-select">
+        <option value="Foundation of Professional Nursing Practice">Foundation of Professional Nursing Practice</option>
+        <option value="Medical and Surgical Nursing">Medical and Surgical Nursing</option>
+        <option value="Psychiatric Nursing">Psychiatric Nursing</option>
+        <option value="Community Health Nursing and Care of the Mother and Child">Community Health Nursing and Care of the Mother and Child</option>
+        <option value="Leadership and Management">Leadership and Management</option>
+        <option value="PNLE II Nursing Practice">PNLE II Nursing Practice</option>
+        <option value="PNLE III Nursing Practice">PNLE III Nursing Practice</option>
+        <option value="PNLE IV Nursing Practice">PNLE IV Nursing Practice</option>
+        <option value="PNLE V Nursing Practice">PNLE V Nursing Practice</option>
+        <option value="PNLE I Foundation of Nursing">PNLE I Foundation of Nursing</option>
+        <option value="PNLE II Maternal and Child Health">PNLE II Maternal and Child Health</option>
+        <option value="PNLE III Medical Surgical Nursing">PNLE III Medical Surgical Nursing</option>
+        <option value="PNLE IV Psychiatric Nursing">PNLE IV Psychiatric Nursing</option>
+      </select>
     </div>
-
-    <!-- Result Screen -->
-    <div class="container hidden" id="result-screen">
-      <h1>Examination Results</h1>
-      <h2 id="score-display" style="color: #2980b9;">Your Score: 0/0</h2>
-      <div id="review-container" style="margin-top: 20px;"></div>
-      <button class="btn" style="width: 100%; margin-top: 20px;" onclick="restartQuiz()">Return to Category Selection</button>
+    
+    <div class="settings-box">
+      <label for="timer-select" style="font-size: 16px;"><strong>Select Timer Duration:</strong></label><br><br>
+      <select id="timer-select">
+        <option value="0">No Timer (Untimed)</option>
+        <option value="30">30 Seconds per question</option>
+        <option value="60">1 Minute per question</option>
+      </select>
+      <p style="margin: 10px 0 0 0; font-size: 14px;">If time runs out, the examination will automatically advance to the next item.</p>
     </div>
-
+    
+    <div class="settings-box">
+      <label for="item-limit-select" style="font-size: 16px;"><strong>Select Number of Items:</strong></label><br><br>
+      <select id="item-limit-select">
+        <option value="10">10 Questions</option>
+        <option value="20">20 Questions</option>
+        <option value="50">50 Questions</option>
+        <option value="100">100 Questions</option>
+        <option value="all">All Available in Category</option>
+      </select>
+    </div>
+    
+    <button class="btn" style="width: 100%; padding: 15px; font-size: 18px; margin-top: 10px;" onclick="startQuiz()">Begin Examination</button>
   </div>
+
+  <!-- QUIZ SCREEN -->
+  <div class="container hidden" id="quiz-screen">
+    <div class="header-info">
+      <div class="progress-tracker" id="progress-tracker">Question 1 of X</div>
+      <div class="timer" id="timer-display"></div>
+    </div>
+
+    <!-- VISUAL PROGRESS BAR -->
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" id="progress-bar"></div>
+    </div>
+    
+    <!-- FLAG CHECKBOX -->
+    <div style="margin-bottom: 15px; text-align: right;">
+      <label style="cursor: pointer; font-weight: bold; color: #e67e22; background: none; padding: 0; border: none; display: inline-block;">
+        <input type="checkbox" id="flag-checkbox" onchange="toggleFlag()" style="margin-right: 5px;"> 🚩 Flag for review
+      </label>
+    </div>
+    
+    <h2 id="question-text" style="font-size: 20px; line-height: 1.5;">Question goes here?</h2>
+    
+    <div class="options" id="options-container">
+      <!-- Options generated dynamically -->
+    </div>
+    
+    <!-- NAVIGATION & QUIT BUTTONS AT THE BOTTOM OF THE QUIZ -->
+    <div style="margin-top: 30px; display: flex; justify-content: space-between; align-items: center;">
+      <button class="btn btn-back" id="back-btn" onclick="prevQuestion()" style="width: 30%;">Back</button>
+      <button class="btn btn-quit" onclick="quitQuiz()" style="width: 30%;">Quit Exam</button>
+      <button class="btn" id="next-btn" onclick="nextQuestion()" style="width: 30%;">Next</button>
+    </div>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div class="container hidden" id="result-screen">
+    <h1>Examination Results</h1>
+    <h2 id="score-display" style="color: #2980b9;">Your Score: 0/0</h2>
+    <div id="review-container" style="margin-top: 20px;"></div>
+    <button class="btn" style="width: 100%; margin-top: 20px; padding: 15px; font-size: 18px;" onclick="restartQuiz()">Return to Category Selection</button>
+  </div>
+
+</div>
+
 
 <script>
   // Questions and rationales extracted directly from the provided reviewer document.
@@ -11688,7 +11719,14 @@
     localStorage.setItem('nle_score_history', JSON.stringify(history));
     loadScoreHistory();
   }
-
+// --- CLEAR SCORE HISTORY LOGIC ---
+  function clearHistory() {
+    const confirmClear = confirm("Are you sure you want to delete all your past scores? This cannot be undone.");
+    if (confirmClear) {
+      localStorage.removeItem('nle_score_history');
+      loadScoreHistory(); // Refreshes the display immediately
+    }
+  }
   function loadScoreHistory() {
     let history = JSON.parse(localStorage.getItem('nle_score_history')) || [];
     const list = document.getElementById('score-history-list');
